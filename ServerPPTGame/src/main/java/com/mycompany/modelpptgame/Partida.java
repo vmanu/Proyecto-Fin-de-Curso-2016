@@ -5,6 +5,7 @@
  */
 package com.mycompany.modelpptgame;
 
+import com.mycompany.datapptgame.Player;
 import java.util.ArrayList;
 
 /**

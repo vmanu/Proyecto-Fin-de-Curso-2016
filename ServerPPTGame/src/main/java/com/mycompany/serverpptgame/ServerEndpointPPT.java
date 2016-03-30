@@ -6,16 +6,16 @@
 package com.mycompany.serverpptgame;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.mycompany.modelpptgame.OpcionJuego;
+import com.mycompany.datapptgame.OpcionJuego;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.datapptgame.MetaMessage;
 import com.mycompany.datapptgame.TypeMessage;
-import com.mycompany.modelpptgame.GameType;
+import com.mycompany.datapptgame.GameType;
 import com.mycompany.modelpptgame.Partida;
-import com.mycompany.modelpptgame.Player;
-import com.mycompany.modelpptgame.RoundsNumber;
+import com.mycompany.datapptgame.Player;
+import com.mycompany.datapptgame.RoundsNumber;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
