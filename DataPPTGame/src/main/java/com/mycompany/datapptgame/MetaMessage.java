@@ -10,7 +10,7 @@ package com.mycompany.datapptgame;
  * @author oscar
  */
 public class MetaMessage {
-    
+    //METAMENSAJEEEEEEEEEEEEE
     private TypeMessage type;
     private Object content;
 

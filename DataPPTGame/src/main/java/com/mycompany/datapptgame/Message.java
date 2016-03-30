@@ -10,6 +10,7 @@ package com.mycompany.datapptgame;
  * @author dam2
  */
 public class Message {
+    
     private String msg;
     private String from;
     
