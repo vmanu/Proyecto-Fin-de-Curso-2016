@@ -9,7 +9,7 @@ package com.mycompany.modelpptgame;
  *
  * @author ivanp
  */
-class OpcionJuego {
+public class OpcionJuego {
     private int opcion;
     private String gana;
 
