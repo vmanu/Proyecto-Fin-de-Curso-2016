@@ -16,8 +16,12 @@ import com.mycompany.datapptgame.GameType;
 import com.mycompany.modelpptgame.Partida;
 import com.mycompany.datapptgame.Player;
 import com.mycompany.datapptgame.RoundsNumber;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.websocket.EndpointConfig;
@@ -33,8 +37,9 @@ import javax.websocket.server.ServerEndpoint;
  */
 @ServerEndpoint(value = "/ppt")
 public class ServerEndpointPPT {
+    private static final long TIEMPO_ESPERA_MILLIS=30000;
     
-// <editor-fold defaultstate="collapsed" desc="METODOS WEBSOCKET">
+    //<editor-fold defaultstate="collapsed" desc="METODOS WEBSOCKET">
     @OnOpen
     public void onOpen(Session s, EndpointConfig config) {
         Player p = new Player();
@@ -56,8 +61,7 @@ public class ServerEndpointPPT {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            MetaMessage meta = mapper.readValue(msg, new TypeReference<MetaMessage>() {
-            });
+            MetaMessage meta = mapper.readValue(msg, new TypeReference<MetaMessage>() {});
             Player p = (Player) s.getUserProperties().get("player");
             switch (meta.getType()) {
                 case CONEXION:
@@ -93,6 +97,7 @@ public class ServerEndpointPPT {
         for(int i=0;i<sesiones.size()&&!sal;i++){
             if(((Player)sesiones.get(i).getUserProperties().get("player")).getNamePlayer().equals(nombre)){
                 partida=(Partida)sesiones.get(i).getUserProperties().get("partida");
+                System.out.println(nombre+" tiene guardado "+partida);
                 sal=true;
             }
         }
@@ -101,6 +106,7 @@ public class ServerEndpointPPT {
     
     public void enviarEleccion(String nombre,OpcionJuego opcion,Session s,ObjectMapper mapper,Partida partida){
         String nombreObjetivo;
+        System.out.println("VEAMOS: "+nombre+" buscando y encuentra: "+partida);
         if(partida.getJugadores().get(0).getNamePlayer().equals(nombre)){
             nombreObjetivo=partida.getJugadores().get(1).getNamePlayer();
         }else{
@@ -130,8 +136,12 @@ public class ServerEndpointPPT {
         Partida p=null;
         boolean sal=false;
         ArrayList<Session> sessions=new ArrayList(ses.getOpenSessions());
-        for(int i=0;i<sessions.size()&&!sal;i++){
+        long timeInicial=System.currentTimeMillis();
+        for(int i=0;!sal&&System.currentTimeMillis()-timeInicial<TIEMPO_ESPERA_MILLIS;i++){
             try {
+                if(i==sessions.size()){
+                    i=0;
+                }
                 Player player=(Player)sessions.get(i).getUserProperties().get("player");
                 if(encuentraPartida(player, n)){
                     sal=true;
@@ -144,6 +154,8 @@ public class ServerEndpointPPT {
                     String mmString=mapper.writeValueAsString(mm);
                     sessions.get(i).getBasicRemote().sendText(mmString);
                     ses.getUserProperties().put("partida", p);
+                    sessions.get(i).getUserProperties().put("partida", p);
+                    System.out.println("SE HA UNIDO A LOS SIGUIENTES JUGADORES: "+player.getNamePlayer()+" y "+n.getNamePlayer());
                 }
             } catch (IOException ex) {
                 Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
@@ -208,9 +220,15 @@ public class ServerEndpointPPT {
         return (comparaGameTypes(gt1,gt2)&&!comparaDosAnyGameTypes(gt1,gt2));
     }
     
+    public boolean comprobarNone(Player player) {
+        return player.getNumberOfRounds()!=RoundsNumber.NONE&&player.getTipoJuego()!=GameType.NONE;
+    }
+    
     public boolean encuentraPartida(Player player,Player n){
-        return !comparaNombres(player.getNamePlayer(), n.getNamePlayer())&&comprobacionComunRounds(player.getNumberOfRounds(), n.getNumberOfRounds())
+        return !comparaNombres(player.getNamePlayer(), n.getNamePlayer())&&comprobarNone(player)&&comprobacionComunRounds(player.getNumberOfRounds(), n.getNumberOfRounds())
                     &&comprobacionComunGameTypes(player.getTipoJuego(), n.getTipoJuego());
     }
     // </editor-fold>
+
+    
 }

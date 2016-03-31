@@ -41,4 +41,9 @@ public class Partida {
     public void resetPlayers(){
         jugadores.clear();
     }
+
+    @Override
+    public String toString() {
+        return "Partida{" + "jugadores=" + jugadores + '}';
+    }
 }
