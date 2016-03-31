@@ -34,7 +34,7 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint(value = "/ppt")
 public class ServerEndpointPPT {
     
-    // <editor-fold defaultstate="collapsed" desc="METODOS WEBSOCKET">
+// <editor-fold defaultstate="collapsed" desc="METODOS WEBSOCKET">
     @OnOpen
     public void onOpen(Session s, EndpointConfig config) {
         Player p = new Player();
