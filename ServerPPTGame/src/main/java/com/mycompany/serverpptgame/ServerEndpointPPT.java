@@ -33,7 +33,8 @@ import javax.websocket.server.ServerEndpoint;
  */
 @ServerEndpoint(value = "/ppt")
 public class ServerEndpointPPT {
-
+    
+    // <editor-fold defaultstate="collapsed" desc="METODOS WEBSOCKET">
     @OnOpen
     public void onOpen(Session s, EndpointConfig config) {
         Player p = new Player();
@@ -74,7 +75,9 @@ public class ServerEndpointPPT {
             Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    //</editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="METODOS FUNCIONALIDADES">
     public Partida encuentraPartida(String nombre,Session s){
         ArrayList <Session> sesiones=new ArrayList(s.getOpenSessions());
         boolean sal=false;
@@ -139,6 +142,7 @@ public class ServerEndpointPPT {
         }
         ses.getUserProperties().put("partida", p);
     }
+    //</editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="CONDICIONES BÚSQUEDA PARTIDA">
     public boolean comparaNombres(String n1,String n2){
