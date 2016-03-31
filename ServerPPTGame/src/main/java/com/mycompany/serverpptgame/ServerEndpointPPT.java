@@ -70,6 +70,14 @@ public class ServerEndpointPPT {
                     OpcionJuego opcion=mapper.readValue(mapper.writeValueAsString(meta.getContent()), new TypeReference<OpcionJuego>() {});
                     enviarEleccion(p.getNamePlayer(),opcion,s, mapper, encuentraPartida(p.getNamePlayer(), s));
                     break;
+                case DESCONEXION:
+                    Partida partida=(Partida)s.getUserProperties().get("partida");
+                    int i=1;
+                    if(partida.getJugadores().get(0).getNamePlayer().equals(p.getNamePlayer())){
+                        i=0;
+                    }
+                    cerrarPartidaPorDesconexion(s,partida.getJugadores().get(i).getNamePlayer(), mapper);
+                    break;
             }
         } catch (IOException ex) {
             Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,7 +130,7 @@ public class ServerEndpointPPT {
         Partida p=null;
         boolean sal=false;
         ArrayList<Session> sessions=new ArrayList(ses.getOpenSessions());
-        for(int i=0;i<ses.getOpenSessions().size()&&!sal;i++){
+        for(int i=0;i<sessions.size()&&!sal;i++){
             try {
                 Player player=(Player)sessions.get(i).getUserProperties().get("player");
                 if(encuentraPartida(player, n)){
@@ -130,17 +138,44 @@ public class ServerEndpointPPT {
                     p=new Partida();
                     p.addPlayer(player);
                     p.addPlayer(n);
+                    MetaMessage mm=new MetaMessage();
+                    mm.setType(TypeMessage.RESPUESTA);
+                    mm.setContent(player.getNamePlayer());
+                    String mmString=mapper.writeValueAsString(mm);
+                    sessions.get(i).getBasicRemote().sendText(mmString);
+                    ses.getUserProperties().put("partida", p);
                 }
-                MetaMessage mm=new MetaMessage();
-                mm.setType(TypeMessage.RESPUESTA);
-                mm.setContent(player.getNamePlayer());
-                String mmString=mapper.writeValueAsString(mm);
-                sessions.get(i).getBasicRemote().sendText(mmString);
             } catch (IOException ex) {
                 Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        ses.getUserProperties().put("partida", p);
+        if(!sal){
+            MetaMessage desc=new MetaMessage();
+            desc.setType(TypeMessage.DESCONEXION);
+            try {
+                ses.getBasicRemote().sendText(mapper.writeValueAsString(desc));
+            } catch (JsonProcessingException ex) {
+                Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    public void cerrarPartidaPorDesconexion(Session s, String nombrePareja, ObjectMapper mapper){
+        boolean sal=false;
+        ArrayList<Session> sessions=new ArrayList(s.getOpenSessions());
+        for(int i=0;i<sessions.size()&&!sal;i++){
+            if(((Player)sessions.get(i).getUserProperties().get("player")).getNamePlayer().equals(nombrePareja)){
+                try {
+                    MetaMessage mt=new MetaMessage();
+                    mt.setType(TypeMessage.DESCONEXION);
+                    sessions.get(i).getBasicRemote().sendText(mapper.writeValueAsString(mt));
+                } catch (IOException ex) {
+                    Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
     //</editor-fold>
     
