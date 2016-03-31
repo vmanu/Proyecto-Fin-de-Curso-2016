@@ -10,5 +10,5 @@ package com.mycompany.datapptgame;
  * @author oscar
  */
 public enum TypeMessage {
-    CONEXION,PARTIDA,RESPUESTA
+    CONEXION,PARTIDA,RESPUESTA,DESCONEXION
 }
