@@ -56,4 +56,9 @@ public class Player {
     public void setPlaying(boolean playing) {
         this.playing = playing;
     }
+
+    @Override
+    public String toString() {
+        return "Player{" + "namePlayer=" + namePlayer + ", tipoJuego=" + tipoJuego + ", numberOfRounds=" + numberOfRounds + ", playing=" + playing + '}';
+    }
 }
