@@ -11,14 +11,14 @@ package com.mycompany.datapptgame;
  */
 public class OpcionJuego {
     private int opcion;
-    private String gana;
+    private Result result;
 
     public OpcionJuego() {
     }
 
-    public OpcionJuego(int opcion, String gana) {
+    public OpcionJuego(int opcion, Result result) {
         this.opcion = opcion;
-        this.gana = gana;
+        this.result = result;
     }
 
     public int getOpcion() {
@@ -29,17 +29,17 @@ public class OpcionJuego {
         this.opcion = opcion;
     }
 
-    public String getGana() {
-        return gana;
+    public Result getResult() {
+        return result;
     }
 
-    public void setGana(String gana) {
-        this.gana = gana;
+    public void setResult(Result result) {
+        this.result = result;
     }
 
     @Override
     public String toString() {
-        return "OpcionJuego{" + "opcion=" + opcion + ", gana=" + gana + '}';
+        return "OpcionJuego{" + "opcion=" + opcion + ", gana=" + result + '}';
     }
     
     
