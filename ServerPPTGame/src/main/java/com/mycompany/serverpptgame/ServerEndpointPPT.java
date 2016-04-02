@@ -37,7 +37,7 @@ import javax.websocket.server.ServerEndpoint;
  */
 @ServerEndpoint(value = "/ppt")
 public class ServerEndpointPPT {
-    private static final long TIEMPO_ESPERA_MILLIS=60000;
+    private static final long TIEMPO_ESPERA_MILLIS=30000;
     
     //<editor-fold defaultstate="collapsed" desc="METODOS WEBSOCKET">
     @OnOpen
