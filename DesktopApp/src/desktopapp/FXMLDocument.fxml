@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import gestorLenguaje.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="608.0" prefWidth="1080.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="desktopapp.FXMLDocumentController">
+    <children>
+      <Pane layoutX="310.0" layoutY="22.0" prefHeight="565.0" prefWidth="461.0">
+         <children>
+            <Button id="PlayMenuPrincipalButton" layoutY="119.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="461.0" text="%play">
+               <font>
+                  <Font name="Arial Narrow" size="18.0" />
+               </font>
+            </Button>
+            <Button id="OnlineModeButton" layoutY="170.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="461.0" text="Online Mode">
+               <font>
+                  <Font name="Arial Narrow" size="18.0" />
+               </font>
+            </Button>
+            <Button id="RulesGameButton" layoutY="221.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="461.0" text="Rules of the game">
+               <font>
+                  <Font name="Arial Narrow" size="18.0" />
+               </font>
+            </Button>
+            <Button id="RulesGameGraphicallyButton" layoutY="273.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="461.0" text="Rules of the game (Graphically)">
+               <font>
+                  <Font name="Arial Narrow" size="18.0" />
+               </font>
+            </Button>
+            <Button id="InfoDeveloperButton" layoutY="326.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="461.0" text="Info of developers">
+               <font>
+                  <Font name="Arial Narrow" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+    </children>
+</AnchorPane>
