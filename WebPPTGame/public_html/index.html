@@ -40,25 +40,25 @@ and open the template in the editor.
     </head>
     <body class="bgBlue">
         <h1 id="title">Piedra, Papel o Tijera</h1>
-        <div class="buttonsAtCenter" id="initialButtons">
+        <div class="atCenterOfScreen" id="initialButtons">
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playLocal')">Play</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playOnline')">Online mode</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('rules')">Rules of the game</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('graphicRules')">Rules of the game (graphically)</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('infoDev')">Info of developers</button>
         </div>
-        <div class="buttonsAtCenter" id="playLocal" hidden="">
+        <div class="atCenterOfScreen" id="playLocal" hidden="">
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('localGameMenu')">Play</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block">Scores</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block">Backup</button><br><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
         </div>
-        <div class="buttonsAtCenter" id="playOnline" hidden="">
+        <div class="atCenterOfScreen" id="playOnline" hidden="">
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('onlineGameMenu')">Play customed</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block">Scores</button><br><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
         </div>
-        <div class="buttonsAtCenter" id="rules" hidden="">
+        <div class="atCenterOfScreen" id="rules" hidden="">
             <h3>Rules of the game</h3>
             <pre class="bgBlue">
             Los jugadores seleccionan una de las opciones.
@@ -119,14 +119,14 @@ and open the template in the editor.
             </pre>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
         </div>
-        <div class="buttonsAtCenter" id="graphicRules" hidden="">
+        <div class="atCenterOfScreen" id="graphicRules" hidden="">
             <h3>Rules of the game (Graphically)</h3>
             <img src="resources/threegame.png" alt=""/><br>
             <img src="resources/fivegame.png" alt=""/><br><br>
             <img src="resources/ninegame.png" alt=""/><br><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
         </div>
-        <div class="buttonsAtCenter" id="infoDev" hidden="">
+        <div class="atCenterOfScreen" id="infoDev" hidden="">
             <h3>Info of developers</h3>
             Created proudly by:<br>
             - Iván Pellissó Redondo<br>
@@ -136,7 +136,7 @@ and open the template in the editor.
             -Gema: for giving us Christmas homework<br><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
         </div>
-        <div class="buttonsAtCenter" id="localGameMenu" hidden>
+        <div class="atCenterOfScreen" id="localGameMenu" hidden>
             <h4>Choose option:</h4>
             <input type="radio" name="game"/>Game of 3<br>
             <input type="radio" name="game"/>Game of 5<br>
@@ -157,12 +157,12 @@ and open the template in the editor.
                 <button type="button" class="btn btn-primary btn-lg atLeft" onclick="cambiaVista('playLocal')">Back</button>
             </div>
         </div>
-        <div class="buttonsAtCenter" id="onlineGameMenu" hidden="">
+        <div class="atCenterOfScreen" id="onlineGameMenu" hidden="">
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('customedOnline')">Play</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block">Randomly</button><br><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playOnline')">Back</button>
         </div>
-        <div class="buttonsAtCenter" id="customedOnline" hidden>
+        <div class="atCenterOfScreen" id="customedOnline" hidden>
             <h4>Choose option:</h4>
             <input type="radio" name="game"/>Game of 3<br>
             <input type="radio" name="game"/>Game of 5<br>
