@@ -12,28 +12,65 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import static constantes.Constantes.*;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  *
  * @author Victor
  */
 public class FXMLDocumentController implements Initializable {
-    
-    @FXML
-    private Label label;
-    
+
+    private Parent root;
+
     @FXML
     private void handleButtonAction(ActionEvent event) {
-        String id=((Button)event.getSource()).getId();
-        gestorLenguaje.GestorLeguaje.getLibrary();
-        switch(id){
-            
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = null;
+        ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");
+        switch (((Button) event.getSource()).getId()) {
+            case ID_BOTON_PLAY_MENU_PRINCIPAL:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+                break;
+            case ID_BOTON_PLAY_ONLINE_MENU_PRINCIPAL:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+                break;
+            case ID_BOTON_RULES_MENU_PRINCIPAL:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+                break;
+            case ID_BOTON_RULES_GRAPHICALLY_MENU_PRINCIPAL:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+                break;
+            case ID_BOTON_DEVELOPERS_MENU_PRINCIPAL:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+                break;
+            default:
+                loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"), bundle);
+                break;
+        }
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (root != null) {
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         }
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+
+    }
+
 }
