@@ -20,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -48,6 +49,7 @@ public class ServerEndpointPPT {
         p.setPlaying(false);
         p.setNamePlayer(s.getRequestParameterMap().get("user").get(0));
         s.getUserProperties().put("player", p);
+        s.getUserProperties().put("escogido", false);
     }
 
     @OnClose
@@ -140,35 +142,46 @@ public class ServerEndpointPPT {
     public void search(Session ses, Player n,ObjectMapper mapper) {
         Partida p=null;
         boolean sal=false;
-        ArrayList<Session> sessions=new ArrayList(ses.getOpenSessions());
+        //ArrayList<Session> sessions=new ArrayList(ses.getOpenSessions());
+        Iterator it=ses.getOpenSessions().iterator();
         long timeInicial=System.currentTimeMillis();
         for(int i=0;!sal&&(System.currentTimeMillis()-timeInicial<TIEMPO_ESPERA_MILLIS);i++){
+            Session sessions=null;
+            if(!it.hasNext()){
+                it=ses.getOpenSessions().iterator();
+            }
+            sessions=(Session)it.next();
             try {
-                if(i==sessions.size()){
+                /*if(i==sessions.size()){
                     i=0;
                     sessions=new ArrayList(ses.getOpenSessions());
-                }
-                Player player=(Player)sessions.get(i).getUserProperties().get("player");
+                }*/
+                Player player=(Player)sessions.getUserProperties().get("player");
                 if(encuentraPartida(player, n)){
-                    sal=true;
-                    p=new Partida();
-                    p.addPlayer(player);
-                    p.addPlayer(n);
-                    player.setPlaying(true);
-                    n.setPlaying(true);
-                    MetaMessage mm=new MetaMessage();
-                    mm.setType(TypeMessage.NOMBRE);
-                    mm.setContent(n.getNamePlayer());
-                    String mmString=mapper.writeValueAsString(mm);
-                    mm.setContent(player.getNamePlayer());
-                    String mmString2=mapper.writeValueAsString(mm);
-                    sessions.get(i).getBasicRemote().sendText(mmString);
-                    ses.getBasicRemote().sendText(mmString2);
-                    ses.getUserProperties().put("partida", p);
-                    ses.getUserProperties().put("player", n);
-                    sessions.get(i).getUserProperties().put("player", player);
-                    sessions.get(i).getUserProperties().put("partida", p);
-                    System.out.println("SE HA UNIDO A LOS SIGUIENTES JUGADORES: "+player.getNamePlayer()+" y "+n.getNamePlayer());
+                    ses.getUserProperties().put("escogido",true);
+                    if(!(boolean)sessions.getUserProperties().get("escogido")){
+                        sal=true;
+                        p=new Partida();
+                        p.addPlayer(player);
+                        p.addPlayer(n);
+                        player.setPlaying(true);
+                        n.setPlaying(true);
+                        MetaMessage mm=new MetaMessage();
+                        mm.setType(TypeMessage.NOMBRE);
+                        mm.setContent(n.getNamePlayer());
+                        String mmString=mapper.writeValueAsString(mm);
+                        mm.setContent(player.getNamePlayer());
+                        String mmString2=mapper.writeValueAsString(mm);
+                        sessions.getBasicRemote().sendText(mmString);
+                        ses.getBasicRemote().sendText(mmString2);
+                        ses.getUserProperties().put("partida", p);
+                        ses.getUserProperties().put("player", n);
+                        sessions.getUserProperties().put("player", player);
+                        sessions.getUserProperties().put("partida", p);
+                        System.out.println("SE HA UNIDO A LOS SIGUIENTES JUGADORES: "+player.getNamePlayer()+" y "+n.getNamePlayer());
+                    }else{
+                        ses.getUserProperties().put("escogido",false);
+                    }
                 }
             } catch (IOException ex) {
                 Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
