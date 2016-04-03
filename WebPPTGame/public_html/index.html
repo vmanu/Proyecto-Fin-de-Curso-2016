@@ -16,6 +16,7 @@ and open the template in the editor.
         <script>
             function cambiaVista(divId) {
                 document.getElementById('initialButtons').style.display = 'none';
+                document.getElementById('initialButtons').style.display = 'none';
                 document.getElementById('playLocal').style.display = 'none';
                 document.getElementById('playOnline').style.display = 'none';
                 document.getElementById('rules').style.display = 'none';
@@ -25,7 +26,25 @@ and open the template in the editor.
                 document.getElementById('localGameMenu').style.display = 'none';
                 document.getElementById('onlineGameMenu').style.display = 'none';
                 document.getElementById('customedOnline').style.display = 'none';
+                document.getElementById('gameOf3red').style.display = 'none';
+                document.getElementById('gameOf3blue').style.display = 'none';
+                document.getElementById('gameOf5red').style.display = 'none';
+                document.getElementById('gameOf5blue').style.display = 'none';
+                document.getElementById('gameOf9red').style.display = 'none';
+                document.getElementById('gameOf9blue').style.display = 'none';
                 document.getElementById(divId).style.display = 'block';
+            }
+
+            function cambiaVistaJuego() {
+                if (document.getElementById('game3').checked == true) {
+                    cambiaVista('gameOf3red');
+                } else {
+                    if (document.getElementById('game5').checked == true) {
+                        cambiaVista('gameOf5red');
+                    } else {
+                        cambiaVista('gameOf9red');
+                    }
+                }
             }
 
             function visibleElement(element) {
@@ -39,7 +58,7 @@ and open the template in the editor.
         </script>
     </head>
     <body class="bgBlue">
-        <h1 id="title">Piedra, Papel o Tijera</h1>
+        <h1 id="title">Piedra, Papel o Tijera</h1><br>
         <div class="atCenterOfScreen" id="initialButtons">
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playLocal')">Play</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playOnline')">Online mode</button><br>
@@ -138,45 +157,103 @@ and open the template in the editor.
         </div>
         <div class="atCenterOfScreen" id="localGameMenu" hidden>
             <h4>Choose option:</h4>
-            <input type="radio" name="game"/>Game of 3<br>
-            <input type="radio" name="game"/>Game of 5<br>
-            <input type="radio" name="game"/>Game of 9<br>
+            <input checked="" type="radio" id="game3" name="game" value="3" />Game of 3<br>
+            <input type="radio" id="game5" name="game" value="5"/>Game of 5<br>
+            <input type="radio" id="game9" name="game" value="9"/>Game of 9<br>
             <h4>Choose number of players:</h4>
-            <input type="radio" name="players" onclick="invisibleElement('nameOfPlayer2')"/>One player<br>
-            <input type="radio" name="players" onclick="visibleElement('nameOfPlayer2')"/>Two players<br>
+            <input checked="" type="radio" id="onePlayer" name="players" onclick="invisibleElement('nameOfPlayer2')" />One player<br>
+            <input type="radio" id="twoPlayers" name="players" onclick="visibleElement('nameOfPlayer2')"/>Two players<br>
             <input type="text" class="containsPlaceholder" id="nameOfPlayer1" name="nameOfPlayer1" placeholder="Player 1"/>
             <input type="text" class="containsPlaceholder" id="nameOfPlayer2" name="nameOfPlayer2" placeholder="Player 2" hidden/>
             <h4>Choose number of rounds:</h4>
-            <input type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/>One round<br>
-            <input type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/>Three rounds<br>
-            <input type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/>Five rounds<br>
-            <input type="radio" name="rounds" onclick="visibleElement('customedRounds')"/>Customed rounds<br>
+            <input checked="" id="oneRound" type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/>One round<br>
+            <input type="radio" id="twoRounds" name="rounds" onclick="invisibleElement('customedRounds')"/>Three rounds<br>
+            <input type="radio" id="fiveRounds" name="rounds" onclick="invisibleElement('customedRounds')"/>Five rounds<br>
+            <input type="radio" id="moreRounds" name="rounds" onclick="visibleElement('customedRounds')"/>Customed rounds<br>
             <input type="text" class="containsPlaceholder" id="customedRounds" name="customedRounds" placeholder="Number of Rounds" hidden/><br><br>
             <div>
-                <button type="button" class="btn btn-primary btn-lg atRight" onclick="">Play</button>
+                <button type="button" class="btn btn-primary btn-lg atRight" onclick="cambiaVistaJuego()">Play</button>
                 <button type="button" class="btn btn-primary btn-lg atLeft" onclick="cambiaVista('playLocal')">Back</button>
             </div>
         </div>
         <div class="atCenterOfScreen" id="onlineGameMenu" hidden="">
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('customedOnline')">Play</button><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVistaJuego()">Play</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block">Randomly</button><br><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playOnline')">Back</button>
         </div>
         <div class="atCenterOfScreen" id="customedOnline" hidden>
             <h4>Choose option:</h4>
-            <input type="radio" name="game"/>Game of 3<br>
-            <input type="radio" name="game"/>Game of 5<br>
-            <input type="radio" name="game"/>Game of 9<br>
+            <input type="radio" id="game3Onl" name="game" checked/>Game of 3<br>
+            <input type="radio" id="game5Onl" name="game"/>Game of 5<br>
+            <input type="radio" id="game9Onl" name="game"/>Game of 9<br>
             <h4>Put your name:</h4>
             <input type="text" class="containsPlaceholder" id="nameOfPlayerOnline" name="nameOfPlayer1" placeholder="Your name HERE"/>
             <h4>Choose number of rounds:</h4>
-            <input type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/>One round<br>
-            <input type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/>Three rounds<br>
-            <input type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/>Five rounds<br>
+            <input type="radio" id="oneRoundOnl" name="rounds" onclick="invisibleElement('customedRounds')" checked/>One round<br>
+            <input type="radio" id="twoRoundsOnl" name="rounds" onclick="invisibleElement('customedRounds')"/>Three rounds<br>
+            <input type="radio" id="fiveRoundsOnl" name="rounds" onclick="invisibleElement('customedRounds')"/>Five rounds<br>
             <div>
-                <button type="button" class="btn btn-primary btn-lg atRight" onclick="">Play</button>
+                <button type="button" class="btn btn-primary btn-lg atRight" onclick="cambiaVistaJuego()">Play</button>
                 <button type="button" class="btn btn-primary btn-lg atLeft" onclick="cambiaVista('onlineGameMenu')">Back</button>
             </div>
+        </div>
+        <div class="atCenterOfScreen" id="gameOf3red" hidden>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>-<img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <br><br><br>
+            <img class="sizeAdjust" src="imagesPPTGame/piedraroja.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/papelrojo.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/tijerasrojo.png" alt=""/>
+        </div>
+        <div  class="atCenterOfScreen" id="gameOf3blue" hidden>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>-<img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
+            <br><br><br>
+            <img class="sizeAdjust" src="imagesPPTGame/piedraazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/papelazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/tijerasazul.png" alt=""/>
+        </div>
+        <div class="atCenterOfScreen" id="gameOf5red" hidden>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/><span style="font-size: 5%">-</span><img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <br><br><br>
+            <img class="sizeAdjust imageOfGame5" src="imagesPPTGame/lizardrojo.png" alt=""/><br>
+            <img class="sizeAdjust" src="imagesPPTGame/piedraroja.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/papelrojo.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/tijerasrojo.png" alt=""/><br>
+            <img class="sizeAdjust imageOfGame5" src="imagesPPTGame/spockrojo.png" alt=""/>
+        </div>
+        <div  class="atCenterOfScreen" id="gameOf5blue" hidden>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>-<img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
+            <br><br><br>
+            <img class="sizeAdjust imageOfGame5" src="imagesPPTGame/lizardazul.png" alt=""/><br>
+            <img class="sizeAdjust" src="imagesPPTGame/piedraazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/papelazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/tijerasazul.png" alt=""/><br>
+            <img class="sizeAdjust imageOfGame5" src="imagesPPTGame/spockazul.png" alt=""/>
+        </div>
+        <div class="atCenterOfScreen" id="gameOf9red" hidden>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>-<img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <br><br><br>
+            <img class="sizeAdjust" src="imagesPPTGame/waterrojo.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/windrojo.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/gunrojo.png" alt=""/><br>
+            <img class="sizeAdjust" src="imagesPPTGame/piedraroja.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/papelrojo.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/tijerasrojo.png" alt=""/><br>
+            <img class="sizeAdjust" src="imagesPPTGame/humanrojo.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/spongerojo.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/firerojo.png" alt=""/>
+        </div>
+        <div  class="atCenterOfScreen" id="gameOf9blue" hidden>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>-<img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
+            <br><br><br>
+            <img class="sizeAdjust" src="imagesPPTGame/waterazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/windazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/gunazul.png" alt=""/><br>
+            <img class="sizeAdjust" src="imagesPPTGame/piedraazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/papelazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/tijerasazul.png" alt=""/><br>
+            <img class="sizeAdjust" src="imagesPPTGame/humanazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/spongeazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/fireazul.png" alt=""/>
         </div>
     </body>
 </html>
