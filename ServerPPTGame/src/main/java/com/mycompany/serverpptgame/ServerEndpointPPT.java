@@ -15,7 +15,9 @@ import com.mycompany.datapptgame.TypeMessage;
 import com.mycompany.datapptgame.GameType;
 import com.mycompany.modelpptgame.Partida;
 import com.mycompany.datapptgame.Player;
+import com.mycompany.datapptgame.Result;
 import com.mycompany.datapptgame.RoundsNumber;
+import controller.ControladorBD;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -90,6 +92,11 @@ public class ServerEndpointPPT {
                 case PARTIDA:
                     OpcionJuego opcion = mapper.readValue(mapper.writeValueAsString(meta.getContent()), new TypeReference<OpcionJuego>() {
                     });
+                    if(opcion.getResult()!=null&&opcion.getResult()!=Result.EMPATA){
+                        //ENVIA A BD
+                        ControladorBD cbd=new ControladorBD();
+                        
+                    }
                     enviarEleccion(p.getNamePlayer(), opcion, s, mapper, damePartida(s));
                     break;
                 case DESCONEXION:
