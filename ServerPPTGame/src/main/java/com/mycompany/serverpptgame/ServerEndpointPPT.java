@@ -5,6 +5,7 @@
  */
 package com.mycompany.serverpptgame;
 
+import ServletAware.ServletAwareConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mycompany.datapptgame.OpcionJuego;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -27,6 +28,8 @@ import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -38,14 +41,16 @@ import javax.websocket.server.ServerEndpoint;
  *
  * @author ivanp
  */
-@ServerEndpoint(value = "/ppt")
+@ServerEndpoint(value = "/ppt",  configurator=ServletAwareConfig.class)
 public class ServerEndpointPPT {
 
     private static final long TIEMPO_ESPERA_MILLIS = 30000;
+    private EndpointConfig config;
 
     //<editor-fold defaultstate="collapsed" desc="METODOS WEBSOCKET">
     @OnOpen
     public void onOpen(Session s, EndpointConfig config) {
+        this.config=config;
         Player p = new Player();
         p.setNumberOfRounds(RoundsNumber.NONE);
         p.setTipoJuego(GameType.NONE);
@@ -94,8 +99,8 @@ public class ServerEndpointPPT {
                     });
                     if(opcion.getResult()!=null&&opcion.getResult()!=Result.EMPATA){
                         //ENVIA A BD
-                        ControladorBD cbd=new ControladorBD();
-                        
+                        HttpSession httpSession = (HttpSession) config.getUserProperties().get("httpSession");
+                        ServletContext servletContext = httpSession.getServletContext();
                     }
                     enviarEleccion(p.getNamePlayer(), opcion, s, mapper, damePartida(s));
                     break;
