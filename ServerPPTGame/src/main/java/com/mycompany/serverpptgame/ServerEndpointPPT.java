@@ -85,7 +85,6 @@ public class ServerEndpointPPT {
                     });
                     p.setNumberOfRounds(recogida.getNumberOfRounds());
                     p.setTipoJuego(recogida.getTipoJuego());
-                    Partida game = (Partida) s.getUserProperties().get("partida");
                     search(s, p, mapper);
                     break;
                 case PARTIDA:
