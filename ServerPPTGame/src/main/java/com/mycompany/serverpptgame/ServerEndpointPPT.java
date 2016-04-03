@@ -19,6 +19,7 @@ import com.mycompany.datapptgame.Player;
 import com.mycompany.datapptgame.Result;
 import com.mycompany.datapptgame.RoundsNumber;
 import controller.ControladorBD;
+import dao.Dao;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -29,6 +30,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
@@ -36,6 +40,7 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import services.ServicesPlayers;
 
 /**
  *
@@ -98,9 +103,22 @@ public class ServerEndpointPPT {
                     OpcionJuego opcion = mapper.readValue(mapper.writeValueAsString(meta.getContent()), new TypeReference<OpcionJuego>() {
                     });
                     if(opcion.getResult()!=null&&opcion.getResult()!=Result.EMPATA){
-                        //ENVIA A BD
                         HttpSession httpSession = (HttpSession) config.getUserProperties().get("httpSession");
-                        ServletContext servletContext = httpSession.getServletContext();
+                        if(opcion.getResult()!=Result.GANA){
+                            httpSession.setAttribute("player", p);
+                        }else{
+                            Partida partida=(Partida)s.getUserProperties().get("partida");
+                            if((partida.getJugadores().get(0).getNamePlayer()!=p.getNamePlayer())){
+                                httpSession.setAttribute("player", partida.getJugadores().get(0).getNamePlayer());
+                            }else{
+                                httpSession.setAttribute("player", partida.getJugadores().get(1).getNamePlayer());
+                            }
+                        }
+                        ServletDB sdb=new ServletDB();
+                        HttpServletRequest request=((HttpServletRequest)config.getUserProperties().get("request"));
+                        request.setAttribute("op", "update");
+                        HttpServletResponse response=(HttpServletResponse)config.getUserProperties().get("response");
+                        sdb.processRequest(request, response);
                     }
                     enviarEleccion(p.getNamePlayer(), opcion, s, mapper, damePartida(s));
                     break;
@@ -116,6 +134,8 @@ public class ServerEndpointPPT {
                     break;
             }
         } catch (IOException ex) {
+            Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ServletException ex) {
             Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
