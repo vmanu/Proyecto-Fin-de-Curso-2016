@@ -34,7 +34,15 @@ and open the template in the editor.
                 document.getElementById('gameOf9blue').style.display = 'none';
                 document.getElementById(divId).style.display = 'block';
             }
+            
+            function visibleElement(element) {
+                document.getElementById(element).style.display = 'inline';
+            }
 
+            function invisibleElement(element) {
+                document.getElementById(element).style.display = 'none';
+            }
+            
             function cambiaVistaJuego() {
                 if (document.getElementById('game3').checked == true) {
                     cambiaVista('gameOf3red');
@@ -46,13 +54,9 @@ and open the template in the editor.
                     }
                 }
             }
-
-            function visibleElement(element) {
-                document.getElementById(element).style.display = 'inline';
-            }
-
-            function invisibleElement(element) {
-                document.getElementById(element).style.display = 'none';
+            
+            function manda(id){
+                alert(id);
             }
 
         </script>
@@ -157,9 +161,9 @@ and open the template in the editor.
         </div>
         <div class="atCenterOfScreen" id="localGameMenu" hidden>
             <h4>Choose option:</h4>
-            <input checked="" type="radio" id="game3" name="game" value="3" />Game of 3<br>
-            <input type="radio" id="game5" name="game" value="5"/>Game of 5<br>
-            <input type="radio" id="game9" name="game" value="9"/>Game of 9<br>
+            <input checked="" type="radio" id="game3" name="game"/>Game of 3<br>
+            <input type="radio" id="game5" name="game"/>Game of 5<br>
+            <input type="radio" id="game9" name="game"/>Game of 9<br>
             <h4>Choose number of players:</h4>
             <input checked="" type="radio" id="onePlayer" name="players" onclick="invisibleElement('nameOfPlayer2')" />One player<br>
             <input type="radio" id="twoPlayers" name="players" onclick="visibleElement('nameOfPlayer2')"/>Two players<br>
@@ -200,16 +204,16 @@ and open the template in the editor.
         <div class="atCenterOfScreen" id="gameOf3red" hidden>
             <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>-<img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
             <br><br><br>
-            <img class="sizeAdjust" src="imagesPPTGame/piedraroja.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/papelrojo.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/tijerasrojo.png" alt=""/>
+            <img id="piedraroja3" name="juego3" class="sizeAdjust" src="imagesPPTGame/piedraroja.png" alt="" onclick="manda(this.id)"/>
+            <img id="papelrojo3" name="juego3" class="sizeAdjust" src="imagesPPTGame/papelrojo.png" alt="" onclick="manda(this.id)">
+            <img id="tijerasrojo3" name="juego3" class="sizeAdjust" src="imagesPPTGame/tijerasrojo.png" alt="" onclick="manda(this.id)"/>
         </div>
         <div  class="atCenterOfScreen" id="gameOf3blue" hidden>
             <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>-<img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
             <br><br><br>
-            <img class="sizeAdjust" src="imagesPPTGame/piedraazul.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/papelazul.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/tijerasazul.png" alt=""/>
+            <img id="piedraazul3" name="juego3" class="sizeAdjust" src="imagesPPTGame/piedraazul.png" alt="" onclick="manda(this.id)"/>
+            <img id="papelazul3" name="juego3" class="sizeAdjust" src="imagesPPTGame/papelazul.png" alt="" onclick="manda(this.id)"/>
+            <img id="tijerasazul3" name="juego3" class="sizeAdjust" src="imagesPPTGame/tijerasazul.png" alt="" onclick="manda(this.id)"/>
         </div>
         <div class="atCenterOfScreen" id="gameOf5red" hidden>
             <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/><span style="font-size: 5%">-</span><img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
