@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <link href="styles.css" rel="stylesheet" type="text/css"/>
+        <script>
+            function cambiaVista(divId) {
+                document.getElementById('initialButtons').style.display = 'none';
+                document.getElementById('playLocal').style.display = 'none';
+                document.getElementById('playOnline').style.display = 'none';
+                document.getElementById('rules').style.display = 'none';
+                document.getElementById('graphicRules').style.display = 'none';
+                document.getElementById('infoDev').style.display = 'none';
+                document.getElementById('infoDev').style.display = 'none';
+                document.getElementById('localGameMenu').style.display = 'none';
+                document.getElementById('onlineGameMenu').style.display = 'none';
+                document.getElementById('customedOnline').style.display = 'none';
+                document.getElementById(divId).style.display = 'block';
+            }
+
+            function visibleElement(element) {
+                document.getElementById(element).style.display = 'inline';
+            }
+
+            function invisibleElement(element) {
+                document.getElementById(element).style.display = 'none';
+            }
+
+        </script>
+    </head>
+    <body class="bgBlue">
+        <h1 id="title">Piedra, Papel o Tijera</h1>
+        <div class="buttonsAtCenter" id="initialButtons">
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playLocal')">Play</button><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playOnline')">Online mode</button><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('rules')">Rules of the game</button><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('graphicRules')">Rules of the game (graphically)</button><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('infoDev')">Info of developers</button>
+        </div>
+        <div class="buttonsAtCenter" id="playLocal" hidden="">
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('localGameMenu')">Play</button><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block">Scores</button><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block">Backup</button><br><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
+        </div>
+        <div class="buttonsAtCenter" id="playOnline" hidden="">
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('onlineGameMenu')">Play customed</button><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block">Scores</button><br><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
+        </div>
+        <div class="buttonsAtCenter" id="rules" hidden="">
+            <h3>Rules of the game</h3>
+            <pre class="bgBlue">
+            Los jugadores seleccionan una de las opciones.
+            El objetivo es vencer al oponente.
+            Según las siguientes reglas las armas son:
+            JUEGO DE 3:
+              • Tijeras cortan papel
+              • Papel tapa piedra
+              • Piedra aplasta tijeras
+
+            JUEGO DE 5
+              • Tijeras cortan papel
+              • Papel tapa piedra
+              • Piedra aplasta Lagarto
+              • Lagarto envenena a Spock
+              • Spock rompe tijeras
+              • Tijeras decapitan lagarto
+              • Lagarto devora papel
+              • Papel desautoriza Spock
+              • Spock vaporiza piedra
+              • Piedra aplasta tijeras
+
+            JUEGO DE 9
+              • Piedra aplasta a la tijera
+              • Piedra machaca a la esponja
+              • Piedra machaca al humano
+              • Piedra resiste al fuego
+              • Tijera corta al papel
+              • Tijera corta a la esponja
+              • Tijera corta al humano
+              • Tijera corta el aire
+              • Fuego quema a las tijeras
+              • Fuego quema al humano
+              • Fuego quema a la esponja
+              • Fuego quema al papel
+              • Humano contamina el agua
+              • Humano contamina el aire
+              • Humano rompe el papel
+              • Humano rompe la esponja
+              • Esponja moja el papel
+              • Esponja inutiliza la pistola
+              • Esponja absorbe el agua
+              • Esponja absorbe el aire
+              • Papel contamina el aire
+              • Papel contamina el agua
+              • Papel inutiliza la pistola
+              • Papel envuelve a la piedra
+              • Aire apaga el fuego
+              • Aire mueve agua
+              • Aire oxida la pistola
+              • Aire erosiona la piedra
+              • Agua apaga el fuego
+              • Agua inutiliza la pistola
+              • Agua erosiona a la piedra
+              • Agua oxida las tijeras
+              • Pistola mata al humano
+              • Pistola destroza las tijeras
+            </pre>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
+        </div>
+        <div class="buttonsAtCenter" id="graphicRules" hidden="">
+            <h3>Rules of the game (Graphically)</h3>
+            <img src="resources/threegame.png" alt=""/><br>
+            <img src="resources/fivegame.png" alt=""/><br><br>
+            <img src="resources/ninegame.png" alt=""/><br><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
+        </div>
+        <div class="buttonsAtCenter" id="infoDev" hidden="">
+            <h3>Info of developers</h3>
+            Created proudly by:<br>
+            - Iván Pellissó Redondo<br>
+            - Víctor Manuel Oviedo Huertas<br>
+            As a project for 2 DAMat PMDM subject.<br>
+            Thanks:<br>
+            -Gema: for giving us Christmas homework<br><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
+        </div>
+        <div class="buttonsAtCenter" id="localGameMenu" hidden>
+            <h4>Choose option:</h4>
+            <input type="radio" name="game"/>Game of 3<br>
+            <input type="radio" name="game"/>Game of 5<br>
+            <input type="radio" name="game"/>Game of 9<br>
+            <h4>Choose number of players:</h4>
+            <input type="radio" name="players" onclick="invisibleElement('nameOfPlayer2')"/>One player<br>
+            <input type="radio" name="players" onclick="visibleElement('nameOfPlayer2')"/>Two players<br>
+            <input type="text" class="containsPlaceholder" id="nameOfPlayer1" name="nameOfPlayer1" placeholder="Player 1"/>
+            <input type="text" class="containsPlaceholder" id="nameOfPlayer2" name="nameOfPlayer2" placeholder="Player 2" hidden/>
+            <h4>Choose number of rounds:</h4>
+            <input type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/>One round<br>
+            <input type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/>Three rounds<br>
+            <input type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/>Five rounds<br>
+            <input type="radio" name="rounds" onclick="visibleElement('customedRounds')"/>Customed rounds<br>
+            <input type="text" class="containsPlaceholder" id="customedRounds" name="customedRounds" placeholder="Number of Rounds" hidden/><br><br>
+            <div>
+                <button type="button" class="btn btn-primary btn-lg atRight" onclick="">Play</button>
+                <button type="button" class="btn btn-primary btn-lg atLeft" onclick="cambiaVista('playLocal')">Back</button>
+            </div>
+        </div>
+        <div class="buttonsAtCenter" id="onlineGameMenu" hidden="">
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('customedOnline')">Play</button><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block">Randomly</button><br><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playOnline')">Back</button>
+        </div>
+        <div class="buttonsAtCenter" id="customedOnline" hidden>
+            <h4>Choose option:</h4>
+            <input type="radio" name="game"/>Game of 3<br>
+            <input type="radio" name="game"/>Game of 5<br>
+            <input type="radio" name="game"/>Game of 9<br>
+            <h4>Put your name:</h4>
+            <input type="text" class="containsPlaceholder" id="nameOfPlayerOnline" name="nameOfPlayer1" placeholder="Your name HERE"/>
+            <h4>Choose number of rounds:</h4>
+            <input type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/>One round<br>
+            <input type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/>Three rounds<br>
+            <input type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/>Five rounds<br>
+            <div>
+                <button type="button" class="btn btn-primary btn-lg atRight" onclick="">Play</button>
+                <button type="button" class="btn btn-primary btn-lg atLeft" onclick="cambiaVista('onlineGameMenu')">Back</button>
+            </div>
+        </div>
+    </body>
+</html>
