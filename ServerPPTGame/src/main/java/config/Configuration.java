@@ -23,9 +23,8 @@ public class Configuration {
         if (config == null)
         {
             Yaml yaml = new Yaml();
-            /*config = (Configuration)yaml.loadAs(in,Configuration.class);
-            config.pathBase = pathBase;*/
-            config=new Configuration();
+            config = (Configuration)yaml.loadAs(in,Configuration.class);
+            config.pathBase = pathBase;
         }
         return config;
     }
@@ -33,13 +32,6 @@ public class Configuration {
     
     public static Configuration getInstance()
     {
-        if (config == null)
-        {
-            Yaml yaml = new Yaml();
-            /*config = (Configuration)yaml.loadAs(in,Configuration.class);
-            config.pathBase = pathBase;*/
-            config=new Configuration();
-        }
         return config;
     }
     
@@ -52,7 +44,7 @@ public class Configuration {
     
 
     public String getDburl() {
-        return "jdbc:sqlite:"+/WEB-INF/\\";
+        return "jdbc:sqlite:"+pathBase+"\\"+dburl;
     }
 
     public void setDburl(String dburl) {

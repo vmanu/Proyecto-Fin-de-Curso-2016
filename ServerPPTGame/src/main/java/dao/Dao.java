@@ -12,7 +12,7 @@ package dao;
 public class Dao {
 
     public boolean agregarVictoria(String user) {
-        
+        return true;
     }
     
 }

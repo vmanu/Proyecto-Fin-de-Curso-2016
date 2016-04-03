@@ -6,7 +6,6 @@
 package dao;
 
 import config.Configuration;
-import static constants.Constantes.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
