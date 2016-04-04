@@ -48,15 +48,16 @@ public class ServletDB extends HttpServlet {
                 String op = (String)request.getAttribute("op");
                 switch(op){
                     case "put":
-                        
+                        sp.insertPlayer(p);
                         break;
                     case "del":
-                        
+                        sp.deletePlayer(p.getNamePlayer());
                         break;
                     case "update":
                         sp.addVictories(p.getNamePlayer());
                         break;
                     case "get":
+                        request.setAttribute("players", sp.getPlayers());
                         break;
                 }
             } catch (Exception ex) {

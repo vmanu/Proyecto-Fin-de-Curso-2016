@@ -13,6 +13,6 @@ import dao.Dao;
  */
 public class ControladorBD {
     public boolean agregarVictoria(String user){
-        return new Dao().agregarVictoria(user);
+        return new Dao().addVictories(user);
     }
 }

@@ -5,7 +5,9 @@
  */
 package services;
 
+import com.mycompany.datapptgame.Player;
 import dao.Dao;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,7 +16,18 @@ import dao.Dao;
 public class ServicesPlayers {
     
     public boolean addVictories(String player){
-        Dao dao=new Dao();
-        return dao.addVictories(player);
+        return new Dao().addVictories(player);
+    }
+    
+    public ArrayList<Player> getPlayers(){
+        return new Dao().getPlayers();
+    }
+    
+    public boolean deletePlayer(String player){
+        return new Dao().deletePlayer(player);
+    }
+    
+    public boolean insertPlayer(Player player){
+        return new Dao().insertPlayer(player);
     }
 }

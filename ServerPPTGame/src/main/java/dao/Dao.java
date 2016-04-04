@@ -5,11 +5,13 @@
  */
 package dao;
 
+import com.mycompany.datapptgame.Player;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +33,7 @@ public class Dao {
             while (rs.next()) {
                 victories = rs.getInt("victories");
             }
-            sql = "UPDATE PLAYERS set victories=? where name=?";
+            sql = "UPDATE PLAYERS set victories=? where login=?";
             victories++;
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, victories);
@@ -49,4 +51,83 @@ public class Dao {
         return ok!=0;
     }
     
+    public ArrayList<Player> getPlayers(){
+        ArrayList<Player> players = new ArrayList<>();
+        Connection connection=null;
+        DBConnector con = new DBConnector();
+        try {
+            connection = con.getConnection();
+            String sql = "SELECT login,pass,victories FROM PLAYERS";
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            //STEP 5: Extract data from result set
+            while (rs.next()) {
+                //Retrieve by column name
+                String name=rs.getString("login");
+                String pass=rs.getString("pass");
+                int victories=rs.getInt("victories");
+                
+                //Display values
+                Player p = new Player(name, pass, victories);
+                players.add(p);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally
+        {
+            con.cerrarConexion(connection);
+        }
+        return players;
+    }
+    
+    public boolean deletePlayer(String n){
+        Connection connection=null;
+        int del=0;
+        DBConnector con = new DBConnector();
+        try {
+            connection = con.getConnection();
+            String sql = "DELETE from PLAYERS where login=?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, n);        
+            del=stmt.executeUpdate();
+            //STEP 5: Extract data from result set
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally
+        {
+            con.cerrarConexion(connection);
+        }
+        return del!=0;
+    }
+    
+    public boolean insertPlayer(Player p){
+        Connection connection=null;
+        int ins=0;
+        DBConnector con = new DBConnector();
+        try {
+            connection = con.getConnection();
+            String sql = "insert into PLAYERS values (?,?,?)";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, p.getNamePlayer());
+            stmt.setString(2, p.getPass());
+            stmt.setInt(3, p.getNumPartidas());
+            ins=stmt.executeUpdate();
+            //STEP 5: Extract data from result set
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally
+        {
+            con.cerrarConexion(connection);
+        }
+        return ins!=0;
+    }
 }
