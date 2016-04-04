@@ -55,16 +55,13 @@ public class FXMLDocumentController implements Initializable {
                 loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"), bundle);
                 break;
         }
-        Parent root = null;
         try {
             root = loader.load();
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (root != null) {
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            stage.getScene().setRoot(root);
         }
     }
 
