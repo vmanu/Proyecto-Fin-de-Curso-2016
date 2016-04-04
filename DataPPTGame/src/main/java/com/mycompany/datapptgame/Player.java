@@ -11,7 +11,6 @@ package com.mycompany.datapptgame;
  */
 public class Player {
     private String namePlayer;
-    private String pass;
     private GameType tipoJuego;
     private RoundsNumber numberOfRounds;
     private boolean playing;
@@ -20,18 +19,16 @@ public class Player {
     public Player() {
     }
 
-    public Player(String namePlayer, String pass, GameType tipoJuego, RoundsNumber numberOfRounds, boolean playing, int numPartidas) {
+    public Player(String namePlayer, GameType tipoJuego, RoundsNumber numberOfRounds, boolean playing, int numPartidas) {
         this.namePlayer = namePlayer;
-        this.pass=pass;
         this.tipoJuego = tipoJuego;
         this.numberOfRounds = numberOfRounds;
         this.playing = playing;
         this.numPartidas=numPartidas;
     }
 
-    public Player(String name, String pass, int numPartidas) {
+    public Player(String name, int numPartidas) {
         this.namePlayer = name;
-        this.pass=pass;
         this.numPartidas=numPartidas;
     }
 
@@ -75,16 +72,8 @@ public class Player {
         this.numPartidas = numPartidas;
     }
 
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
     @Override
     public String toString() {
-        return "Player{" + "namePlayer=" + namePlayer +", pass="+pass+ ", tipoJuego=" + tipoJuego + ", numberOfRounds=" + numberOfRounds + ", playing=" + playing + ", numPartidas="+numPartidas+'}';
+        return "Player{" + "namePlayer=" + namePlayer + ", tipoJuego=" + tipoJuego + ", numberOfRounds=" + numberOfRounds + ", playing=" + playing + ", numPartidas="+numPartidas+'}';
     }
 }
