@@ -60,15 +60,12 @@ public class Dao {
             String sql = "SELECT login,pass,victories FROM PLAYERS";
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-            //STEP 5: Extract data from result set
             while (rs.next()) {
-                //Retrieve by column name
                 String name=rs.getString("login");
-                String pass=rs.getString("pass");
+                //String pass=rs.getString("pass");
                 int victories=rs.getInt("victories");
-                
-                //Display values
-                Player p = new Player(name, pass, victories);
+                //Player p = new Player(name, pass, victories);
+                Player p = new Player(name, victories);
                 players.add(p);
             }
         } catch (ClassNotFoundException ex) {
@@ -112,11 +109,11 @@ public class Dao {
         DBConnector con = new DBConnector();
         try {
             connection = con.getConnection();
-            String sql = "insert into PLAYERS values (?,?,?)";
+            String sql = "insert into PLAYERS values (?,?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, p.getNamePlayer());
-            stmt.setString(2, p.getPass());
-            stmt.setInt(3, p.getNumPartidas());
+            //stmt.setString(2, p.getPass());
+            stmt.setInt(2, p.getNumPartidas());
             ins=stmt.executeUpdate();
             //STEP 5: Extract data from result set
         } catch (ClassNotFoundException ex) {
