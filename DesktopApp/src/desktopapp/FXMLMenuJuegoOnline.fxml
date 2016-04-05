@@ -19,9 +19,9 @@
                     <font>
                         <Font size="24.0" />
                     </font>
-                    <padding>
-                        <Insets bottom="200.0" />
-                    </padding>
+               <padding>
+                  <Insets bottom="200.0" />
+               </padding>
                 </Label>
                 <Button mnemonicParsing="false" onAction="#handleButtonsMenuPrincipalAction" prefHeight="25.0" prefWidth="461.0" text="%play">
                     <id>
@@ -34,14 +34,6 @@
                 <Button mnemonicParsing="false" onAction="#handleButtonsMenuPrincipalAction" prefHeight="25.0" prefWidth="461.0" text="%OnlineMode">
                     <id>
                         <!--<Constantes fx:constant="ID_BOTON_PLAY_ONLINE_MENU_PRINCIPAL"/>-->
-                    </id>
-                    <font>
-                        <Font name="Arial Narrow" size="18.0" />
-                    </font>
-                </Button>
-                <Button mnemonicParsing="false" onAction="#handleButtonsMenuPrincipalAction" prefHeight="25.0" prefWidth="461.0" text="%RulesGame">
-                    <id>
-                        <!--<Constantes fx:constant="ID_BOTON_RULES_MENU_PRINCIPAL"/>-->
                     </id>
                     <font>
                         <Font name="Arial Narrow" size="18.0" />

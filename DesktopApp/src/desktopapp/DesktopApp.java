@@ -21,7 +21,7 @@ public class DesktopApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");//GESTIONA IDIOMAS
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"), bundle);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLMenuPrincipal.fxml"), bundle);
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);

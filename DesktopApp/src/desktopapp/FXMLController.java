@@ -26,12 +26,12 @@ import javafx.stage.Stage;
  *
  * @author Victor
  */
-public class FXMLDocumentController implements Initializable {
+public class FXMLController implements Initializable {
 
     private Parent root;
 
     @FXML
-    private void handleButtonAction(ActionEvent event) {
+    private void handleButtonsMenuPrincipalAction(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader loader = null;
         ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");
@@ -40,7 +40,7 @@ public class FXMLDocumentController implements Initializable {
                 loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
                 break;
             case ID_BOTON_PLAY_ONLINE_MENU_PRINCIPAL:
-                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoOnline.fxml"), bundle);
                 break;
             case ID_BOTON_RULES_MENU_PRINCIPAL:
                 loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
@@ -52,13 +52,13 @@ public class FXMLDocumentController implements Initializable {
                 loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
                 break;
             default:
-                loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"), bundle);
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuPrincipal.fxml"), bundle);
                 break;
         }
         try {
             root = loader.load();
         } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (root != null) {
             stage.getScene().setRoot(root);

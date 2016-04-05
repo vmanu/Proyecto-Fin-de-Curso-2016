@@ -11,16 +11,16 @@
 <?import constantes.Constantes ?>
 
 
-<HBox alignment="CENTER" prefHeight="608.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopapp.FXMLDocumentController">
-   <children>
-      <FlowPane alignment="CENTER" columnHalignment="CENTER" orientation="VERTICAL" prefHeight="608.0" prefWidth="1080.0" vgap="20.0">
-         <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="461.0" text="%ChooseOption">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-                <Button mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="461.0" text="%play">
+<HBox alignment="CENTER" prefHeight="608.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopapp.FXMLController">
+    <children>
+        <FlowPane alignment="CENTER" columnHalignment="CENTER" orientation="VERTICAL" prefHeight="608.0" prefWidth="1080.0" vgap="20.0">
+            <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="461.0" text="%ChooseOption">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Button mnemonicParsing="false" onAction="#handleButtonsMenuPrincipalAction" prefHeight="25.0" prefWidth="461.0" text="%play">
                     <id>
                         <Constantes fx:constant="ID_BOTON_PLAY_MENU_PRINCIPAL"/>
                     </id>
@@ -28,7 +28,7 @@
                         <Font name="Arial Narrow" size="18.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="461.0" text="%OnlineMode">
+                <Button mnemonicParsing="false" onAction="#handleButtonsMenuPrincipalAction" prefHeight="25.0" prefWidth="461.0" text="%OnlineMode">
                     <id>
                         <Constantes fx:constant="ID_BOTON_PLAY_ONLINE_MENU_PRINCIPAL"/>
                     </id>
@@ -36,7 +36,7 @@
                         <Font name="Arial Narrow" size="18.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="461.0" text="%RulesGame">
+                <Button mnemonicParsing="false" onAction="#handleButtonsMenuPrincipalAction" prefHeight="25.0" prefWidth="461.0" text="%RulesGame">
                     <id>
                         <Constantes fx:constant="ID_BOTON_RULES_MENU_PRINCIPAL"/>
                     </id>
@@ -44,7 +44,7 @@
                         <Font name="Arial Narrow" size="18.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="461.0" text="%RulesGameGraphically">
+                <Button mnemonicParsing="false" onAction="#handleButtonsMenuPrincipalAction" prefHeight="25.0" prefWidth="461.0" text="%RulesGameGraphically">
                     <id>
                         <Constantes fx:constant="ID_BOTON_RULES_GRAPHICALLY_MENU_PRINCIPAL"/>
                     </id>
@@ -52,7 +52,7 @@
                         <Font name="Arial Narrow" size="18.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="461.0" text="%InfoDevelopers">
+                <Button mnemonicParsing="false" onAction="#handleButtonsMenuPrincipalAction" prefHeight="25.0" prefWidth="461.0" text="%InfoDevelopers">
                     <id>
                         <Constantes fx:constant="ID_BOTON_DEVELOPERS_MENU_PRINCIPAL"/>
                     </id>
@@ -60,7 +60,7 @@
                         <Font name="Arial Narrow" size="18.0" />
                     </font>
                 </Button>
-         </children>
-      </FlowPane>
-   </children>
+            </children>
+        </FlowPane>
+    </children>
 </HBox>
