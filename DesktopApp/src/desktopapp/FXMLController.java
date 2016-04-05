@@ -43,13 +43,13 @@ public class FXMLController implements Initializable {
                 loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoOnline.fxml"), bundle);
                 break;
             case ID_BOTON_RULES_MENU_PRINCIPAL:
-                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuRules.fxml"), bundle);
                 break;
             case ID_BOTON_RULES_GRAPHICALLY_MENU_PRINCIPAL:
-                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuRulesGrafico.fxml"), bundle);
                 break;
             case ID_BOTON_DEVELOPERS_MENU_PRINCIPAL:
-                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuDevelopers.fxml"), bundle);
                 break;
             default:
                 loader = new FXMLLoader(getClass().getResource("FXMLMenuPrincipal.fxml"), bundle);
@@ -64,7 +64,68 @@ public class FXMLController implements Initializable {
             stage.getScene().setRoot(root);
         }
     }
+    
+    @FXML
+    private void handleButtonsMenuNormalAction(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = null;
+        ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");
+        switch (((Button) event.getSource()).getId()) {
+            case ID_BOTON_PLAY_MENU_JUEGO_NORMAL:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuConfiguracionJuegoNormal.fxml"), bundle);
+                break;
+            case ID_BOTON_SCORES_MENU_JUEGO_NORMAL:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoOnline.fxml"), bundle);
+                break;
+            case ID_BOTON_BACKUP_MENU_JUEGO_NORMAL:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+                break;
+            case ID_BOTON_BACK_MENU_JUEGO_NORMAL:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuPrincipal.fxml"), bundle);
+                break;
+            default:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+                break;
+        }
+        try {
+            root = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (root != null) {
+            stage.getScene().setRoot(root);
+        }
+    }
 
+    @FXML
+    private void handleButtonsMenuOnlineAction(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = null;
+        ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");
+        switch (((Button) event.getSource()).getId()) {
+            case ID_BOTON_PLAY_MENU_JUEGO_ONLINE:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+                break;
+            case ID_BOTON_SCORES_MENU_JUEGO_ONLINE:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoOnline.fxml"), bundle);
+                break;
+            case ID_BOTON_BACK_MENU_JUEGO_ONLINE:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuPrincipal.fxml"), bundle);
+                break;
+            default:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoOnline.fxml"), bundle);
+                break;
+        }
+        try {
+            root = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (root != null) {
+            stage.getScene().setRoot(root);
+        }
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 

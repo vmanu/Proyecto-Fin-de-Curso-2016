@@ -20,7 +20,7 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Button mnemonicParsing="false" onAction="#handleButtonsMenuPrincipalAction" prefHeight="25.0" prefWidth="461.0" text="%play">
+                <Button mnemonicParsing="false" onAction="#handleButtonsMenuPrincipalAction" prefHeight="25.0" prefWidth="461.0" text="%Play">
                     <id>
                         <Constantes fx:constant="ID_BOTON_PLAY_MENU_PRINCIPAL"/>
                     </id>
