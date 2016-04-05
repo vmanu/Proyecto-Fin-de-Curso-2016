@@ -14,6 +14,7 @@ and open the template in the editor.
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <link href="styles.css" rel="stylesheet" type="text/css"/>
         <script>
+            var datos=new DataContainer();
             function cambiaVista(divId) {
                 document.getElementById('initialButtons').style.display = 'none';
                 document.getElementById('initialButtons').style.display = 'none';
@@ -53,6 +54,23 @@ and open the template in the editor.
                         cambiaVista('gameOf9red');
                     }
                 }
+            }
+            
+            function gestionaJuego(window,imgId){
+                //=require_directory ./model
+               var modalidad=new ModalidadJuego().getModalidad();
+               if(document.getElementById(window).style.display=="block"){
+                   var chosen=datos.getMapFichas()[imgId];
+                   if(datos.isTurno()&&chosen!=null){
+                       datos.setEnumChosen2(chosen);
+                       datos.setIdImgPulsada1(imgId);
+                       if(datos.getModalidadJuego()==modalidad.properties[(modalidad.DOS)].ordinal){
+                           
+                       }else{
+                           
+                       }
+                   }
+               }
             }
             
             function manda(id){
