@@ -126,6 +126,21 @@ public class FXMLController implements Initializable {
         }
     }
     
+    @FXML
+    private void handleButtonsBackRulesAction(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");
+        FXMLLoader loader = loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+        try {
+            root = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (root != null) {
+            stage.getScene().setRoot(root);
+        }
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
