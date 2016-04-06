@@ -8,19 +8,15 @@
 <?import javafx.scene.layout.*?>
 
 <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="608.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopapp.FXMLController">
-    <content>
-        <HBox id="HBox" alignment="CENTER" prefHeight="608.0" prefWidth="1080.0">
-         <children>
-            <FlowPane alignment="CENTER" columnHalignment="CENTER" orientation="VERTICAL" vgap="20.0">
-               <children>
-                  <Label text="Title" />
-                  <Label text="Label" />
-               </children>
-            </FlowPane>
-         </children>
-      </HBox>
-    </content>
    <opaqueInsets>
       <Insets />
    </opaqueInsets>
+   <content>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Title" />
+            <Label alignment="CENTER" contentDisplay="CENTER" text="%RulesText" />
+         </children>
+      </VBox>
+   </content>
 </ScrollPane>
