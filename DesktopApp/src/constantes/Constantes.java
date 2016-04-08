@@ -22,4 +22,5 @@ public class Constantes {
     public static final String ID_BOTON_BACK_MENU_JUEGO_ONLINE="BackMenuJuegoOnline";
     public static final String ID_BOTON_SCORES_MENU_JUEGO_ONLINE="ScoresMenuJuegoOnline";
     public static final String ID_BOTON_PLAY_MENU_JUEGO_ONLINE="PlayMenuJuegoOnline";
+    public static final String ID_BOTON_BACK_OPCIONES_MENU_ONLINE="BackOpcionesMenuOnline";
 }
