@@ -80,15 +80,12 @@ and open the template in the editor.
                 if (document.getElementById(window).style.display == "block") {
            //////////////////////////////////////////////////////
                     var opc=mapFichas[opClicked];
-                    ////console.log(opc["ordinal"]);
-                    //var chosen=new EnumChosen(); 
-                    //chosen.setName(opc.name);
-                    //chosen.setOrdinal(opc.ordinal);
+                    
            ///////////////////////////////////////////////////////
                     if (datos.isTurno() && opc != null) {
                         datos.setEnumChosen1(opc);
                         datos.setIdImgPulsada1(opClicked);
-                        if (datos.getModalidadJuego() == modalidad[2].name) {
+                        if (datos.getModalidadJuego() == modalidad[2].ordinal) {
                             ////////////////////////////////////////////////////////////////////////////////
                             cambiaAzul();///////////////////////////////////////////////////////////////////
                             datos.cambiaTurno();
