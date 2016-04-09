@@ -169,7 +169,7 @@ and open the template in the editor.
                 var sal=false;
                 switch(datos.getFactorAlgoritmo()){
                     case 1:
-                        for(var i=0;i<new EnumFichas3().getFichas3().length;i++){
+                        for(var i=0;i<new EnumFichas3().getFichas3().length&&!sal;i++){
                             if(i==ordinal){
                                 res=new EnumFichas3().getFichas3()[i];
                                 sal=true;
@@ -177,7 +177,7 @@ and open the template in the editor.
                         }
                         break;
                     case 2:
-                        for(var i=0;i<new EnumFichas5().getFichas5().length;i++){
+                        for(var i=0;i<new EnumFichas5().getFichas5().length&&!sal;i++){
                             if(i==ordinal){
                                 res=new EnumFichas5().getFichas5()[i];
                                 sal=true;
@@ -185,7 +185,7 @@ and open the template in the editor.
                         }
                         break;
                     case 3:
-                        for(var i=0;i<new EnumFichas9().getFichas9().length;i++){
+                        for(var i=0;i<new EnumFichas9().getFichas9().length&&!sal;i++){
                             if(i==ordinal){
                                 res=new EnumFichas9().getFichas9()[i];
                                 sal=true;
