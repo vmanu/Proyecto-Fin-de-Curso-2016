@@ -3,6 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+/*
+var imported = document.createElement('script');
+imported.src = '/model/EnumFichas3';
+document.head.appendChild(imported);
+
+var imported2 = document.createElement('script');
+imported2.src = '/model/EnumFichas5';
+document.head.appendChild(imported2);
+
+var imported3 = document.createElement('script');
+imported3.src = '/model/EnumFichas9';
+document.head.appendChild(imported3);
+*/
 DataContainer = function(){
     var roundsCounter;
     var roundsLimit;
@@ -10,8 +23,8 @@ DataContainer = function(){
     var victoriesP2;
     var turno;
     var modalidadJuego;
-    var EnumChosen1;
-    var EnumChosen2;
+    var enumChosen1=new EnumChosen();
+    var enumChosen2=new EnumChosen();;
     var factorAlgoritmo;
     var idImgPulsada1;
     var idImgPulsada2;
@@ -21,6 +34,13 @@ DataContainer = function(){
     var mapFichas;
     var mapFichasMaquina;
     
+    this.initialize=function(){
+        inicializaMapFichas();
+        inicializaMapFichasMaquina();
+        inicializaMapImagesAzul();
+        inicializaMapImagesRojo();
+    };
+    
     this.dataContainer=function(contRondas,limRondas,vP1,vP2,turn,modoJuego,chosen1,chosen2,factorAlg,idImg1,idImg2,nJ1,nJ2,playing,mapF,mapFMaq){
         roundsCounter=contRondas;
         roundsLimit=limRondas;
@@ -28,8 +48,8 @@ DataContainer = function(){
         victoriesP2=vP2;
         turno=turn;
         modalidadJuego=modoJuego;
-        EnumChosen1=chosen1;
-        EnumChosen2=chosen2;
+        enumChosen1=chosen1;
+        enumChosen2=chosen2;
         factorAlgoritmo=factorAlg;
         idImgPulsada1=idImg1;
         idImgPulsada2=idImg2;
@@ -59,10 +79,10 @@ DataContainer = function(){
         return modalidadJuego;
     };
     this.getEnumChosen1=function(){
-        return EnumChosen1;
+        return enumChosen1;
     };
     this.getEnumChosen2=function(){
-        return EnumChosen2;
+        return enumChosen2;
     };
     this.getFactorAlgoritmo=function(){
         return factorAlgoritmo;
@@ -105,16 +125,13 @@ DataContainer = function(){
         turno=turn;
     };
     this.setModalidadJuego=function(modoJuego){
-        turno=modoJuego;
-    };
-    this.setModalidadJuego=function(modoJuego){
         modalidadJuego=modoJuego;
     };
     this.setEnumChosen1=function(chosen1){
-        EnumChosen1=chosen1; 
+        enumChosen1=chosen1; 
     };
     this.setEnumChosen2=function(chosen2){
-        EnumChosen2=chosen2;
+        enumChosen2=chosen2;
     };
     this.setFactorAlgoritmo=function(factorAlg){
         factorAlgoritmo=factorAlg;
@@ -144,7 +161,7 @@ DataContainer = function(){
     this.inicializaMapFichas=function(){
         var fichas3=new EnumFichas3().getFichas3();
         var fichas5=new EnumFichas5().getFichas5();
-        var fichas9=new EnumFichas3().getFichas9();
+        var fichas9=new EnumFichas9().getFichas9();
         mapFichas={
             "PAPEL5": fichas5[1],
             "SPOCK5": fichas5[2],
@@ -164,6 +181,7 @@ DataContainer = function(){
             "PAPEL3": fichas3[2],
             "TIJERA3": fichas3[3]
         };
+        return mapFichas;
     };
     
     this.inicializaMapFichasMaquina=function(){
@@ -180,6 +198,7 @@ DataContainer = function(){
             "HUMANO":"humanazul",
             "ESPONJA":"spongeazul"
         };
+        return mapFichasMaquina;
     };
     
     this.inicializaMapImagesAzul=function(){
@@ -226,6 +245,58 @@ DataContainer = function(){
             "TIJERA3":"tijerasrojo"
         };
         return mapImagesAzul;
+    };
+    
+    this.cambiaTurno=function(){
+        turno=!turno;
+    };
+    
+    this.avanzaRonda=function(){
+        return roundsCounter++;
+    };
+    
+    this.rondasFinalizadas=function(){
+        return roundsCounter==roundsLimit;
+    };
+    
+    this.getOrdinalChosen1=function(){
+        return enumChosen1.getOrdinal();
+    };
+    
+    this.getOrdinalChosen2=function(){
+        return enumChosen2.getOrdinal();
+    };
+    
+    this.setOrdinalChosen1=function(ord){
+        enumChosen1.setOrdinal(ord);
+    };
+    
+    this.setOrdinalChosen2=function(ord){
+        enumChosen2.setOrdinal(ord);
+    };
+    
+    this.getNameChosen1=function(){
+        return enumChosen1.getName();
+    };
+    
+    this.getNameChosen2=function(){
+        return enumChosen2.getName();
+    };
+    
+    this.setNameChosen1=function(name){
+        enumChosen1.setName(name);
+    };
+    
+    this.setNameChosen2=function(name){
+        enumChosen2.setName(name);
+    };
+    
+    this.sumaVictoriesP1=function(){
+        victoriesP1++;
+    };
+    
+    this.sumaVictoriesP2=function(){
+        victoriesP2++;
     };
 };
 

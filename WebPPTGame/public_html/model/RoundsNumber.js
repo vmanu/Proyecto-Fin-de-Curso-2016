@@ -3,19 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-RoundsNumber=function(){
-    var roundsNumber={
-        UNA:1, TRES:2, CINCO:3, ANY:4, NONE:5,
-        properties:{
-            1:{name:"una",ordinal:1},
-            2:{name:"tres",ordinal:2},
-            3:{name:"cinco",ordinal:3},
-            4:{name:"any",ordinal:4},
-            5:{name:"none",ordinal:5}
-        }
+RoundsNumber = function () {
+    var roundsNumber = {
+        1: {name: "UNA", ordinal: 1},
+        2: {name: "TRES", ordinal: 2},
+        3: {name: "CINCO", ordinal: 3},
+        4: {name: "ANY", ordinal: 4},
+        5: {name: "NONE", ordinal: 5}
     };
-    
-    this.getRoundsNumber=function(){
+
+    this.getRoundsNumber = function () {
         return roundsNumber;
     };
 };

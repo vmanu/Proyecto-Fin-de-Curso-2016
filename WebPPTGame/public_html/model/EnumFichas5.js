@@ -4,16 +4,16 @@
  * and open the template in the editor.
  */
 
-EnumFichas5=function(){
-    var Fichas5={
-        1:"PAPEL",
-        2:"SPOCK",
-        3:"PIEDRA",
-        4:"TIJERA",
-        5:"LAGARTO"
+EnumFichas5 = function () {
+    var Fichas5 = {
+        1: {name: "PAPEL", ordinal: 1},
+        2: {name: "SPOCK", ordinal: 2},
+        3: {name: "PIEDRA", ordinal: 3},
+        4: {name: "TIJERA", ordinal: 4},
+        5: {name: "LAGARTO", ordinal: 5}
     };
-    
-    this.getFichas5=function(){
+
+    this.getFichas5 = function () {
         return Fichas5;
     };
 };

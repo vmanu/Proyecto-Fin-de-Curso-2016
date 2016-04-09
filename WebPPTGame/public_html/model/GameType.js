@@ -3,19 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-GameType=function(){
-    var gameType={
-        JUEGO3:1, JUEGO5:2, JUEGO9:3, ANY:4, NONE:5,
-        properties:{
-            1:{name:"juego3",ordinal:1},
-            2:{name:"juego5",ordinal:2},
-            3:{name:"juego9",ordinal:3},
-            4:{name:"any",ordinal:4},
-            5:{name:"none",ordinal:5}
-        }
+GameType = function () {
+    var gameType = {
+        1: {name: "JUEGO3", ordinal: 1},
+        2: {name: "JUEGO5", ordinal: 2},
+        3: {name: "JUEGO9", ordinal: 3},
+        4: {name: "ANY", ordinal: 4},
+        5: {name: "NONE", ordinal: 5}
     };
-    
-    this.getGameType=function(){
+
+    this.getGameType = function () {
         return gameType;
     };
 };

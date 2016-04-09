@@ -12,9 +12,25 @@ and open the template in the editor.
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        
+        <script src="model/ModalidadJuego.js" type="text/javascript"></script>
+        <script src="model/GameType.js" type="text/javascript"></script>
+        <script src="model/RoundsNumber.js" type="text/javascript"></script>
+        <script src="model/Player.js" type="text/javascript"></script>
+        <script src="model/EnumChosen.js" type="text/javascript"></script>
+        <script src="model/EnumFichas3.js" type="text/javascript"></script>
+        <script src="model/EnumFichas9.js" type="text/javascript"></script>
+        <script src="model/EnumFichas5.js" type="text/javascript"></script>
+        <script src="model/DataContainer.js" type="text/javascript"></script>
         <link href="styles.css" rel="stylesheet" type="text/css"/>
         <script>
-            var datos=new DataContainer();
+            var datos, mapFichas;
+            $(document).ready(function () {
+                datos = new DataContainer();
+                mapFichas=datos.inicializaMapFichas();
+                console.log(mapFichas);
+            });
+
             function cambiaVista(divId) {
                 document.getElementById('initialButtons').style.display = 'none';
                 document.getElementById('initialButtons').style.display = 'none';
@@ -33,9 +49,10 @@ and open the template in the editor.
                 document.getElementById('gameOf5blue').style.display = 'none';
                 document.getElementById('gameOf9red').style.display = 'none';
                 document.getElementById('gameOf9blue').style.display = 'none';
+                document.getElementById('vistaResult').style.display = 'none';
                 document.getElementById(divId).style.display = 'block';
             }
-            
+
             function visibleElement(element) {
                 document.getElementById(element).style.display = 'inline';
             }
@@ -43,7 +60,7 @@ and open the template in the editor.
             function invisibleElement(element) {
                 document.getElementById(element).style.display = 'none';
             }
-            
+
             function cambiaVistaJuego() {
                 if (document.getElementById('game3').checked == true) {
                     cambiaVista('gameOf3red');
@@ -55,28 +72,184 @@ and open the template in the editor.
                     }
                 }
             }
-            
-            function gestionaJuego(window,imgId){
+
+            function gestionaJuego(window, opClicked, idTextPlayer, imgId) {
                 //=require_directory ./model
-               var modalidad=new ModalidadJuego().getModalidad();
-               if(document.getElementById(window).style.display=="block"){
-                   var chosen=datos.getMapFichas()[imgId];
-                   if(datos.isTurno()&&chosen!=null){
-                       datos.setEnumChosen2(chosen);
-                       datos.setIdImgPulsada1(imgId);
-                       if(datos.getModalidadJuego()==modalidad.properties[(modalidad.DOS)].ordinal){
-                           
-                       }else{
-                           
-                       }
-                   }
-               }
+                var modalidad = new ModalidadJuego().getModalidad();
+                if (document.getElementById(window).style.display == "block") {
+           //////////////////////////////////////////////////////
+                    var opc=mapFichas[opClicked];
+                    //console.log(opc["ordinal"]);
+                    var chosen=new EnumChosen(); 
+                    chosen.setName(opc.name);
+                    chosen.setOrdinal(opc.ordinal);
+           ///////////////////////////////////////////////////////
+                    if (datos.isTurno() && chosen != null) {
+                        datos.setEnumChosen2(chosen);
+                        datos.setIdImgPulsada1(opClicked);
+                        if (datos.getModalidadJuego() == modalidad[2].name) {
+                            ////////////////////////////////////////////////////////////////////////////////
+                            cambiaAzul();///////////////////////////////////////////////////////////////////
+                            datos.cambiaTurno();
+                            showToastBlue();
+                        } else {
+                            if(datos.getModalidadJuego()==modalidad[1].ordinal){
+                                ////////////////////////////////////////////////////////////////////////////////
+                                datos.setEnumChosen2(getEnumFromOrdinal((Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)),datos));///////////////////////////////////////////////////////////////////
+                                comunEvaluacionGanador(datos.getEnumChosen2(),false,idTextPlayer,datos,imgId);
+                                datos.setIdImgPulsada2(gestionaPulsadoMaquina(datos.getEnumChosen2(),datos));
+                                $("#"+imgId).attr("src", $("#"+datos.getIdImgPulsada2()).src);
+                            }
+                        }
+                    }
+                }
             }
             
-            function manda(id){
-                alert(id);
+            function comunEvaluacionGanador(chosen,recuperando,id,datos,imgId){
+                $("#"+imgId).attr("src", $("#"+datos.getIdImgPulsada1()).src);///////////////////////////////////////////////////
+                switch(logicaJuego(chosen.getOrdinal(),id,datos)){
+                    case 0:
+                        //empata
+                        $("#"+id).text("DRAW!");
+                        break;
+                    case 1:
+                        //gana jugador 1
+                        $("#"+id).text(datos.getNombreJ1()+" WINS!");
+                        if(!recuperando){
+                            datos.sumaVictoriasP1();
+                        }
+                        break;
+                    case 2:
+                        //gana jugador 2
+                        $("#"+id).text(datos.getNombreJ2()+" WINS!");
+                        if(!recuperando){
+                            datos.sumaVictoriasP2();
+                        }
+                        break;
+                }
+                cambiarVistaAResult(datos);
+                ////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////
+            }
+            
+            function logicaJuego(chosen,datos){
+                var resultado=0;
+                if(chosen==(datos.getEnumChosen1().ordinal)){
+                    resultado=0;
+                }else{
+                    var ganaChosen=false;
+                    datos.avanzaRonda();
+                    if(datos.rondasFinalizadas()){
+                        $("#next").prop("disabled",true);
+                    }
+                    for(var j=((chosen.getOrdinal()+1)%((datos.getFactorAlgoritmo()*2)+1)),i=0;i<(datos.getFactorAlgoritmo())&&!ganaChosen;i++,j=((j+1)%((datos.getFactorAlgoritmo()*2)+1))){
+                        if(datos.getEnumChosen1().getOrdinal()){
+                            ganaChosen=true;
+                            resultado=2;
+                        }
+                    }
+                    if(!ganaChosen){
+                        resultado=1;
+                    }
+                }
+                return resultado;
+            }
+            
+            function cambiarVistaAResult(datos){
+                cambiaVista('vistaResult');
+                $("#wonCountP1").html(datos.getNombreJ1()+" WON:<br> "+datos.getVictoriesP1());
+                $("#wonCountP2").html(datos.getNombreJ2()+" WON:<br> "+datos.getVictoriesP2());
+                datos.setEnumChosen1(null);
+                datos.setEnumChosen2(null);
+                datos.setJugando(false);
+            }
+            
+            function gestionaPulsadoMaquina(chosen, datos){
+                return datos.getMapFichasMaquina()[chosen.name];
+            }
+            
+            function cambiaAzul(){
+                var opcionJuego=opcionJuegoEscogida();
+                switch(opcionJuego){
+                    case "game3":
+                        //cambiar imagenes de juego3
+                        $("#piedraroja3").attr("src", "imagesPPTGame/piedraazul.png");
+                        $("#papelrojo3").attr("src", "imagesPPTGame/papelazul.png");
+                        $("#tijerasrojo3").attr("src", "imagesPPTGame/tijerasazul.png");
+                        break;
+                    case "game5":
+                        //cambiar imagenes de juego5
+                        $("#piedraroja5").attr("src", "imagesPPTGame/piedraazul.png");
+                        $("#papelrojo5").attr("src", "imagesPPTGame/papelazul.png");
+                        $("#tijerasrojo5").attr("src", "imagesPPTGame/tijerasazul.png");
+                        $("#lizardrojo").attr("src", "imagesPPTGame/lizardazul.png");
+                        $("#spockrojo").attr("src", "imagesPPTGame/spockazul.png");
+                        break;
+                    case "game9":
+                        //cambiar imagenes de juego9
+                        $("#piedraroja9").attr("src", "imagesPPTGame/piedraazul.png");
+                        $("#papelrojo9").attr("src", "imagesPPTGame/papelazul.png");
+                        $("#tijerasrojo9").attr("src", "imagesPPTGame/tijerasazul.png");
+                        $("#windrojo").attr("src", "imagesPPTGame/windazul.png");
+                        $("#gunrojo").attr("src", "imagesPPTGame/gunazul.png");
+                        $("#waterrojo").attr("src", "imagesPPTGame/waterazul.png");
+                        $("#firerojo").attr("src", "imagesPPTGame/fireazul.png");
+                        $("#humanrojo").attr("src", "imagesPPTGame/humanazul.png");
+                        $("#spongerojo").attr("src", "imagesPPTGame/spongeazul.png");
+                        break;
+                }
+            }
+            
+            function cambiaRojo(){
+                var opcionJuego=opcionJuegoEscogida();
+                switch(opcionJuego){
+                    case "game3":
+                        //cambiar imagenes de juego3
+                        $("#piedraazul3").attr("src", "imagesPPTGame/piedrarojo.png");
+                        $("#papelazul3").attr("src", "imagesPPTGame/papelrojo.png");
+                        $("#tijerasazul3").attr("src", "imagesPPTGame/tijerasrojo.png");
+                        break;
+                    case "game5":
+                        //cambiar imagenes de juego5
+                        $("#piedraazul3").attr("src", "imagesPPTGame/piedrarojo.png");
+                        $("#papelazul3").attr("src", "imagesPPTGame/papelrojo.png");
+                        $("#tijerasazul3").attr("src", "imagesPPTGame/tijerasrojo.png");
+                        $("#lizardazul").attr("src", "imagesPPTGame/lizardrojo.png");
+                        $("#spockazul").attr("src", "imagesPPTGame/spockrojo.png");
+                        break;
+                    case "game9":
+                        //cambiar imagenes de juego9
+                        $("#piedraazul3").attr("src", "imagesPPTGame/piedrarojo.png");
+                        $("#papelazul3").attr("src", "imagesPPTGame/papelrojo.png");
+                        $("#tijerasazul3").attr("src", "imagesPPTGame/tijerasrojo.png");
+                        $("#windrojo").attr("src", "imagesPPTGame/windrojo.png");
+                        $("#gunrojo").attr("src", "imagesPPTGame/gunrojo.png");
+                        $("#waterrojo").attr("src", "imagesPPTGame/waterrojo.png");
+                        $("#firerojo").attr("src", "imagesPPTGame/firerojo.png");
+                        $("#humanrojo").attr("src", "imagesPPTGame/humanrojo.png");
+                        $("#spongerojo").attr("src", "imagesPPTGame/spongerojo.png");
+                        break;
+                }
+            }
+            
+            function opcionJuegoEscogida(){
+                var opc;
+                if($("[name='gameOnl']")!=null){
+                    opc=$("input[name='gameOnl']:checked").val();
+                }else{
+                    opc=$("input[name='game']:checked").val();
+                }
+                return opc;
             }
 
+            function showToastRed() {
+                $('.toast').text(datos.getNombreJ1() + "'s turn").fadeIn(500).delay(1200).fadeOut(550);
+            }
+
+            function showToastBlue() {
+                $('.toast').text(datos.getNombreJ2() + "'s turn").css("background-color", "blue").fadeIn(400).delay(1200).fadeOut(400);
+            }
         </script>
     </head>
     <body class="bgBlue">
@@ -179,9 +352,9 @@ and open the template in the editor.
         </div>
         <div class="atCenterOfScreen" id="localGameMenu" hidden>
             <h4>Choose option:</h4>
-            <input checked="" type="radio" id="game3" name="game"/>Game of 3<br>
-            <input type="radio" id="game5" name="game"/>Game of 5<br>
-            <input type="radio" id="game9" name="game"/>Game of 9<br>
+            <input checked="" type="radio" value="game3" id="game3" name="game"/>Game of 3<br>
+            <input type="radio" id="game5" value="game5" name="game"/>Game of 5<br>
+            <input type="radio" id="game9" value="game9" name="game"/>Game of 9<br>
             <h4>Choose number of players:</h4>
             <input checked="" type="radio" id="onePlayer" name="players" onclick="invisibleElement('nameOfPlayer2')" />One player<br>
             <input type="radio" id="twoPlayers" name="players" onclick="visibleElement('nameOfPlayer2')"/>Two players<br>
@@ -205,9 +378,9 @@ and open the template in the editor.
         </div>
         <div class="atCenterOfScreen" id="customedOnline" hidden>
             <h4>Choose option:</h4>
-            <input type="radio" id="game3Onl" name="game" checked/>Game of 3<br>
-            <input type="radio" id="game5Onl" name="game"/>Game of 5<br>
-            <input type="radio" id="game9Onl" name="game"/>Game of 9<br>
+            <input type="radio" id="game3Onl" value="game3Onl" name="game" checked/>Game of 3<br>
+            <input type="radio" id="game5Onl" value="game5Onl" name="game"/>Game of 5<br>
+            <input type="radio" id="game9Onl" value="game9Onl" name="game"/>Game of 9<br>
             <h4>Put your name:</h4>
             <input type="text" class="containsPlaceholder" id="nameOfPlayerOnline" name="nameOfPlayer1" placeholder="Your name HERE"/>
             <h4>Choose number of rounds:</h4>
@@ -220,62 +393,75 @@ and open the template in the editor.
             </div>
         </div>
         <div class="atCenterOfScreen" id="gameOf3red" hidden>
-            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>-<img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>---<img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
             <br><br><br>
-            <img id="piedraroja3" name="juego3" class="sizeAdjust" src="imagesPPTGame/piedraroja.png" alt="" onclick="manda(this.id)"/>
-            <img id="papelrojo3" name="juego3" class="sizeAdjust" src="imagesPPTGame/papelrojo.png" alt="" onclick="manda(this.id)">
-            <img id="tijerasrojo3" name="juego3" class="sizeAdjust" src="imagesPPTGame/tijerasrojo.png" alt="" onclick="manda(this.id)"/>
+            <img id="piedraroja3" name="juego3" class="sizeAdjust" src="imagesPPTGame/piedraroja.png" alt="" onclick="gestionaJuego()('gameOf3red','PIEDRA3',this.id)"/>
+            <img id="papelrojo3" name="juego3" class="sizeAdjust" src="imagesPPTGame/papelrojo.png" alt="" onclick="gestionaJuego('gameOf3red','PAPEL3',this.id)">
+            <img id="tijerasrojo3" name="juego3" class="sizeAdjust" src="imagesPPTGame/tijerasrojo.png" alt="" onclick="gestionaJuego('gameOf3red','TIJERA3',this.id)"/>
         </div>
         <div  class="atCenterOfScreen" id="gameOf3blue" hidden>
-            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>-<img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>---<img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
             <br><br><br>
-            <img id="piedraazul3" name="juego3" class="sizeAdjust" src="imagesPPTGame/piedraazul.png" alt="" onclick="manda(this.id)"/>
-            <img id="papelazul3" name="juego3" class="sizeAdjust" src="imagesPPTGame/papelazul.png" alt="" onclick="manda(this.id)"/>
-            <img id="tijerasazul3" name="juego3" class="sizeAdjust" src="imagesPPTGame/tijerasazul.png" alt="" onclick="manda(this.id)"/>
+            <img id="piedraazul3" name="juego3" class="sizeAdjust" src="imagesPPTGame/piedraazul.png" alt="" onclick="gestionaJuego('gameOf3blue','PIEDRA3',this.id)"/>
+            <img id="papelazul3" name="juego3" class="sizeAdjust" src="imagesPPTGame/papelazul.png" alt="" onclick="gestionaJuego('gameOf3blue','PAPEL3',this.id)"/>
+            <img id="tijerasazul3" name="juego3" class="sizeAdjust" src="imagesPPTGame/tijerasazul.png" alt="" onclick="gestionaJuego('gameOf3blue','TIJERA3',this.id)"/>
         </div>
         <div class="atCenterOfScreen" id="gameOf5red" hidden>
-            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/><span style="font-size: 5%">-</span><img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>---<img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
             <br><br><br>
-            <img class="sizeAdjust imageOfGame5" src="imagesPPTGame/lizardrojo.png" alt=""/><br>
-            <img class="sizeAdjust" src="imagesPPTGame/piedraroja.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/papelrojo.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/tijerasrojo.png" alt=""/><br>
-            <img class="sizeAdjust imageOfGame5" src="imagesPPTGame/spockrojo.png" alt=""/>
+            <img class="sizeAdjust imageOfGame5" id="lizardrojo" name="juego5" src="imagesPPTGame/lizardrojo.png" alt=""/><br>
+            <img class="sizeAdjust" id="piedraroja5" name="juego5" src="imagesPPTGame/piedraroja.png" alt=""/>
+            <img class="sizeAdjust" id="papelrojo5" name="juego5" src="imagesPPTGame/papelrojo.png" alt=""/>
+            <img class="sizeAdjust" id="tijerasrojo5" name="juego5" src="imagesPPTGame/tijerasrojo.png" alt=""/><br>
+            <img class="sizeAdjust imageOfGame5" id="spockrojo" name="juego5" src="imagesPPTGame/spockrojo.png" alt=""/>
         </div>
         <div  class="atCenterOfScreen" id="gameOf5blue" hidden>
-            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>-<img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>---<img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
             <br><br><br>
-            <img class="sizeAdjust imageOfGame5" src="imagesPPTGame/lizardazul.png" alt=""/><br>
-            <img class="sizeAdjust" src="imagesPPTGame/piedraazul.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/papelazul.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/tijerasazul.png" alt=""/><br>
-            <img class="sizeAdjust imageOfGame5" src="imagesPPTGame/spockazul.png" alt=""/>
+            <img class="sizeAdjust imageOfGame5" id="lizardazul" name="juego5" src="imagesPPTGame/lizardazul.png" alt=""/><br>
+            <img class="sizeAdjust" id="piedraazul5" name="juego5" src="imagesPPTGame/piedraazul.png" alt=""/>
+            <img class="sizeAdjust" id="papelazul5" name="juego5" src="imagesPPTGame/papelazul.png" alt=""/>
+            <img class="sizeAdjust" id="tijerasazul5" name="juego5" src="imagesPPTGame/tijerasazul.png" alt=""/><br>
+            <img class="sizeAdjust imageOfGame5" id="spockazul" name="juego5" src="imagesPPTGame/spockazul.png" alt=""/>
         </div>
         <div class="atCenterOfScreen" id="gameOf9red" hidden>
-            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>-<img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>---<img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
             <br><br><br>
-            <img class="sizeAdjust" src="imagesPPTGame/waterrojo.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/windrojo.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/gunrojo.png" alt=""/><br>
-            <img class="sizeAdjust" src="imagesPPTGame/piedraroja.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/papelrojo.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/tijerasrojo.png" alt=""/><br>
-            <img class="sizeAdjust" src="imagesPPTGame/humanrojo.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/spongerojo.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/firerojo.png" alt=""/>
+            <img class="sizeAdjust" id="waterrojo" name="juego9" src="imagesPPTGame/waterrojo.png" alt=""/>
+            <img class="sizeAdjust" id="windrojo" name="juego9" src="imagesPPTGame/windrojo.png" alt=""/>
+            <img class="sizeAdjust" id="gunrojo" name="juego9" src="imagesPPTGame/gunrojo.png" alt=""/><br>
+            <img class="sizeAdjust" id="piedrarojo9" name="juego9" src="imagesPPTGame/piedraroja.png" alt=""/>
+            <img class="sizeAdjust" id="papelrojo9" name="juego9" src="imagesPPTGame/papelrojo.png" alt=""/>
+            <img class="sizeAdjust" id="tijerasrojo9" name="juego9" src="imagesPPTGame/tijerasrojo.png" alt=""/><br>
+            <img class="sizeAdjust" id="humanrojo" name="juego9" src="imagesPPTGame/humanrojo.png" alt=""/>
+            <img class="sizeAdjust" id="spongerojo" name="juego9" src="imagesPPTGame/spongerojo.png" alt=""/>
+            <img class="sizeAdjust" id="firerojo" name="juego9" src="imagesPPTGame/firerojo.png" alt=""/>
         </div>
         <div  class="atCenterOfScreen" id="gameOf9blue" hidden>
-            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>-<img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>---<img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
             <br><br><br>
-            <img class="sizeAdjust" src="imagesPPTGame/waterazul.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/windazul.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/gunazul.png" alt=""/><br>
-            <img class="sizeAdjust" src="imagesPPTGame/piedraazul.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/papelazul.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/tijerasazul.png" alt=""/><br>
-            <img class="sizeAdjust" src="imagesPPTGame/humanazul.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/spongeazul.png" alt=""/>
-            <img class="sizeAdjust" src="imagesPPTGame/fireazul.png" alt=""/>
+            <img class="sizeAdjust" id="waterazul" name="juego9" src="imagesPPTGame/waterazul.png" alt=""/>
+            <img class="sizeAdjust" id="windazul" name="juego9" src="imagesPPTGame/windazul.png" alt=""/>
+            <img class="sizeAdjust" id="gunazul" name="juego9" src="imagesPPTGame/gunazul.png" alt=""/><br>
+            <img class="sizeAdjust" id="piedraazul9" name="juego9" src="imagesPPTGame/piedraazul.png" alt=""/>
+            <img class="sizeAdjust" id="papelazul9" name="juego9" src="imagesPPTGame/papelazul.png" alt=""/>
+            <img class="sizeAdjust" id="tijerasazul9" name="juego9" src="imagesPPTGame/tijerasazul.png" alt=""/><br>
+            <img class="sizeAdjust" id="humanazul" name="juego9" src="imagesPPTGame/humanazul.png" alt=""/>
+            <img class="sizeAdjust" id="spongeazul" name="juego9" src="imagesPPTGame/spongeazul.png" alt=""/>
+            <img class="sizeAdjust" id="fireazul" name="juego9" src="imagesPPTGame/fireazul.png" alt=""/>
+        </div>
+        <div id="toastJS" class="toast" style="display: none">
+        </div>
+        <div id="vistaResult">
+            <img class="sizeAdjust" src="" alt=""/>---<img class="sizeAdjust" src="" alt=""/>
+            <div id="wonCountP1">
+                
+            </div>
+            <div id="wonCountP2">
+                
+            </div>
+            <input type="button" id="next" value="Next"/>
+            <input type="button" id="back" value="Back"/>
         </div>
     </body>
 </html>
