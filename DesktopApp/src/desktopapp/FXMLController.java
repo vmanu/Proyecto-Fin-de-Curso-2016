@@ -90,14 +90,12 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleButtonsMenuOnlineAction(ActionEvent event) {
-        boolean setOptions = false;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader loader = null;
         ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");
         switch (((Button) event.getSource()).getId()) {
             case ID_BOTON_PLAY_MENU_JUEGO_ONLINE:
                 loader = new FXMLLoader(getClass().getResource("FXMLMenuOpcionesJuegoOnline.fxml"), bundle);
-                setOptions = true;
                 break;
             case ID_BOTON_SCORES_MENU_JUEGO_ONLINE:
                 loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoOnline.fxml"), bundle);
@@ -114,10 +112,10 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleRadioButtonsAction(ActionEvent event) {
-        RadioButton rb=(RadioButton) event.getSource();
+        String rb=((Node) event.getSource()).getId();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         TextField txtField, txtField1, txtFieldRounds;
-        switch (rb.getId()){
+        switch (rb){
             case ID_RADIOBUTTON_1_PLAYERS:
                 txtField1=(TextField) stage.getScene().lookup("#TxtFieldP1");
                 txtField=(TextField) stage.getScene().lookup("#TxtFieldP2");
@@ -152,9 +150,7 @@ public class FXMLController implements Initializable {
         String boton = ((Button) event.getSource()).getId();
         ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");
         FXMLLoader loader = loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
-        System.out.println("boton id: " + ((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible());
         if (boton.equals(ID_BOTON_PLAY_OPCIONES_MENU_ONLINE)) {
-            System.out.println("BOTON PLAY");
             if (((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, false);
                 cargarPantalla=false;
@@ -185,7 +181,6 @@ public class FXMLController implements Initializable {
         } else {
             if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
                 //MAKE RANDOMLY THE SETTING OF THE GAME
-                System.out.println("RANDOMLY");
             } else {
                 //BACK
                 if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
@@ -200,6 +195,38 @@ public class FXMLController implements Initializable {
             changeSceneRoot(event, loader, stage);
         }
     }
+    
+    @FXML
+    private void handleButtonsMenuOpcionesJuegoNormalAction(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = null;
+        ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");
+        switch (((Node)event.getSource()).getId()) {
+            case ID_BOTON_PLAY_OPCIONES_MENU_NORMAL:
+                switch(getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Games_Normal")).getChildren()))){
+                    case ID_RADIOBUTTON_GAME_OF_3:
+                        loader = new FXMLLoader(getClass().getResource("FXMLJuegoGame3.fxml"), bundle);
+                        break;
+                    case ID_RADIOBUTTON_GAME_OF_5:
+                        loader = new FXMLLoader(getClass().getResource("FXMLJuegoGame5.fxml"), bundle);
+                        break;
+                    case ID_RADIOBUTTON_GAME_OF_9:
+                        loader = new FXMLLoader(getClass().getResource("FXMLJuegoGame9.fxml"), bundle);
+                        break;
+                }
+                
+                break;
+            case ID_BOTON_BACK_OPCIONES_MENU_NORMAL:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+                break;
+            default:
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuOpcionesJuegoNormal.fxml"), bundle);
+                break;
+        }
+        changeSceneRoot(event, loader, stage);
+    }
+    
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -230,13 +257,16 @@ public class FXMLController implements Initializable {
     }
 
     private void setVisibilitiesStateMenuOpcionesOnline(Stage stage, boolean visibilityButton) {
-        System.out.println("stage: " + stage);
         ObservableList<Node> nodos = ((ObservableList<Node>) ((VBox) stage.getScene().lookup("#VBoxParentOnlineOptions")).getChildren());
-        System.out.println("visibility: " + visibilityButton + ", nodos: " + nodos);
         for (int i = 1; i < nodos.size(); i++) {
             nodos.get(i).setVisible(!visibilityButton);
         }
         ((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).setVisible(visibilityButton);
         ((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).setManaged(visibilityButton);
+    }
+    
+    @FXML
+    private void gestionaJuego(ActionEvent event) {
+        
     }
 }
