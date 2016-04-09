@@ -12,7 +12,7 @@
 
 <!--<?import constantes.Constantes ?>-->
 
-<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="608.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopapp.FXMLController">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="608.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.FXMLController">
     <content>
         <VBox alignment="CENTER" minHeight="300.0" minWidth="500.0" prefHeight="608.0" prefWidth="1080.0">
             <children>
