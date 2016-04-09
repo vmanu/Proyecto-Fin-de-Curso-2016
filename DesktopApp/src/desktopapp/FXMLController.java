@@ -157,13 +157,13 @@ public class FXMLController implements Initializable {
             } else {
                 switch (getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Games_Online")).getChildren()))) {
                     case ID_RADIOBUTTON_GAME_OF_3:
-                        loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoOnline.fxml"), bundle);
+                        loader = new FXMLLoader(getClass().getResource("FXMLJuegoGame3.fxml"), bundle);
                         break;
                     case ID_RADIOBUTTON_GAME_OF_5:
-                        loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoOnline.fxml"), bundle);
+                        loader = new FXMLLoader(getClass().getResource("FXMLJuegoGame5.fxml"), bundle);
                         break;
                     case ID_RADIOBUTTON_GAME_OF_9:
-                        loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoOnline.fxml"), bundle);
+                        loader = new FXMLLoader(getClass().getResource("FXMLJuegoGame9.fxml"), bundle);
                         break;
                 }
                 switch (getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Rounds_Online")).getChildren()))) {
@@ -214,7 +214,6 @@ public class FXMLController implements Initializable {
                         loader = new FXMLLoader(getClass().getResource("FXMLJuegoGame9.fxml"), bundle);
                         break;
                 }
-                
                 break;
             case ID_BOTON_BACK_OPCIONES_MENU_NORMAL:
                 loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
