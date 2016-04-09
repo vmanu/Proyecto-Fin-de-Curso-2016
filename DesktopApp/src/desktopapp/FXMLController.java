@@ -11,15 +11,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import static constantes.Constantes.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -104,7 +107,7 @@ public class FXMLController implements Initializable {
         ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");
         switch (((Button) event.getSource()).getId()) {
             case ID_BOTON_PLAY_MENU_JUEGO_ONLINE:
-                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+                loader = new FXMLLoader(getClass().getResource("FXMLMenuOpcionesJuegoOnline.fxml"), bundle);
                 break;
             case ID_BOTON_SCORES_MENU_JUEGO_ONLINE:
                 loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoOnline.fxml"), bundle);
@@ -126,9 +129,58 @@ public class FXMLController implements Initializable {
         }
     }
     
+    @FXML
+    private void handleButtonsBackRulesAction(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");
+        FXMLLoader loader = loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+        try {
+            root = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (root != null) {
+            stage.getScene().setRoot(root);
+        }
+    }
+    
+    @FXML
+    private void handleButtonsMenuOpcionesJuegoOnlineAction(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");
+        FXMLLoader loader = loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
+        //Group rb=((Group)stage.getScene().lookup("#group"));
+        switch(getSelectedRadioButton(((ObservableList<Node>)((VBox)stage.getScene().lookup("#RadioGroup_Games_Online")).getChildren()))){
+            /*case bundle.getString("%GameOf3"):
+                break;*/
+        }
+        try {
+            root = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (root != null) {
+            stage.getScene().setRoot(root);
+        }
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        //INICIALIZAMOS TODOS LOS HASHMAPS CON LOS VALORES DE LOS DISTINTOS COMPONENTES, PARA PODER USARLOS EN LAS REGLAS DE NEGOCIO (CONDICIONES)
+        //rb.getString("Play");
     }
 
+    private String getSelectedRadioButton(ObservableList<Node> lista){
+        String devuelve="";
+        for(Node nodo:lista){
+            System.out.println("busco");
+            RadioButton rb=(RadioButton)nodo;
+            if(rb.isSelected()){
+                devuelve=rb.getText();
+                break;
+            }
+        }
+        System.out.println("devuelvo: "+devuelve);
+        return devuelve;
+    }
 }
