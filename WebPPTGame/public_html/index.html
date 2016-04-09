@@ -25,6 +25,7 @@ and open the template in the editor.
         <link href="styles.css" rel="stylesheet" type="text/css"/>
         <script>
             var datos, mapFichas;
+            
             $(document).ready(function () {
                 datos = new DataContainer();
                 mapFichas=datos.inicializaMapFichas();
@@ -73,16 +74,13 @@ and open the template in the editor.
                 }
             }
 
-            function gestionaJuego(window, opClicked, idTextPlayer, imgId) {
+            function gestionaJuego(window, opClicked, imgId) {
                 //=require_directory ./model
                 var modalidad = new ModalidadJuego().getModalidad();
                 if (document.getElementById(window).style.display == "block") {
            //////////////////////////////////////////////////////
                     var opc=mapFichas[opClicked];
-                    //console.log(opc["ordinal"]);
-                    //var chosen=new EnumChosen(); 
-                    //chosen.setName(opc.name);
-                    //chosen.setOrdinal(opc.ordinal);
+                    
            ///////////////////////////////////////////////////////
                     if (datos.isTurno() && opc != null) {
                         datos.setEnumChosen1(opc);
@@ -96,34 +94,44 @@ and open the template in the editor.
                             if(datos.getModalidadJuego()==modalidad[1].ordinal){
                                 ////////////////////////////////////////////////////////////////////////////////
                                 datos.setEnumChosen2(getEnumFromOrdinal((Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)),datos));///////////////////////////////////////////////////////////////////
-                                comunEvaluacionGanador(datos.getEnumChosen2(),false,idTextPlayer,datos,imgId);
+                                comunEvaluacionGanador(datos.getEnumChosen2(),false,datos,imgId);
                                 datos.setIdImgPulsada2(gestionaPulsadoMaquina(datos.getEnumChosen2(),datos));
                                 $("#"+imgId).attr("src", $("#"+datos.getIdImgPulsada2()).src);
                             }
+                        }
+                    }else{
+                        if(!datos.isTurno()&&opc!=null){
+                            datos.setEnumChosen2(opc);
+                            datos.setIdImgPulsada2(opClicked);
+                            cambiaRojo();
+                            $("#"+imgId).attr("src", $("#"+datos.getIdImgPulsada2()).src);
+                            console.log(datos.getEnumChosen2())
+                            comunEvaluacionGanador(datos.getEnumChosen2(),false,datos,imgId);
+                            datos.cambiaTurno();
                         }
                     }
                 }
             }
             
-            function comunEvaluacionGanador(chosen,recuperando,id,datos,imgId){
+            function comunEvaluacionGanador(opc,recuperando,id,imgId){
                 $("#"+imgId).attr("src", $("#"+datos.getIdImgPulsada1()).src);///////////////////////////////////////////////////
-                switch(logicaJuego(chosen.getOrdinal(),id,datos)){
+                switch(logicaJuego(opc.ordinal,id,datos)){
                     case 0:
                         //empata
-                        $("#"+id).text("DRAW!");
+                        $("#resultGame").text("DRAW!");
                         break;
                     case 1:
                         //gana jugador 1
-                        $("#"+id).text(datos.getNombreJ1()+" WINS!");
+                        $("#resultGame").text(datos.getNombreJ1()+" WINS!");
                         if(!recuperando){
-                            datos.sumaVictoriasP1();
+                            datos.sumaVictoriesP1();
                         }
                         break;
                     case 2:
                         //gana jugador 2
-                        $("#"+id).text(datos.getNombreJ2()+" WINS!");
+                        $("#resultGame").text(datos.getNombreJ2()+" WINS!");
                         if(!recuperando){
-                            datos.sumaVictoriasP2();
+                            datos.sumaVictoriesP2();
                         }
                         break;
                 }
@@ -133,7 +141,7 @@ and open the template in the editor.
                 ////////////////////////////////////////////////////////////
             }
             
-            function logicaJuego(chosen,datos){
+            function logicaJuego(chosen){
                 var resultado=0;
                 if(chosen==(datos.getEnumChosen1().ordinal)){
                     resultado=0;
@@ -143,8 +151,8 @@ and open the template in the editor.
                     if(datos.rondasFinalizadas()){
                         $("#next").prop("disabled",true);
                     }
-                    for(var j=((chosen.getOrdinal()+1)%((datos.getFactorAlgoritmo()*2)+1)),i=0;i<(datos.getFactorAlgoritmo())&&!ganaChosen;i++,j=((j+1)%((datos.getFactorAlgoritmo()*2)+1))){
-                        if(datos.getEnumChosen1().getOrdinal()){
+                    for(var j=((chosen.ordinal+1)%((datos.getFactorAlgoritmo()*2)+1)),i=0;i<(datos.getFactorAlgoritmo())&&!ganaChosen;i++,j=((j+1)%((datos.getFactorAlgoritmo()*2)+1))){
+                        if(datos.getEnumChosen1().getOrdinal()==j){
                             ganaChosen=true;
                             resultado=2;
                         }
@@ -156,16 +164,50 @@ and open the template in the editor.
                 return resultado;
             }
             
-            function cambiarVistaAResult(datos){
+            function getEnumFromOrdinal(ordinal){
+                var res=null;
+                var sal=false;
+                switch(datos.getFactorAlgoritmo()){
+                    case 1:
+                        for(var i=0;i<new EnumFichas3().getFichas3().length&&!sal;i++){
+                            if(i==ordinal){
+                                res=new EnumFichas3().getFichas3()[i];
+                                sal=true;
+                            }
+                        }
+                        break;
+                    case 2:
+                        for(var i=0;i<new EnumFichas5().getFichas5().length&&!sal;i++){
+                            if(i==ordinal){
+                                res=new EnumFichas5().getFichas5()[i];
+                                sal=true;
+                            }
+                        }
+                        break;
+                    case 3:
+                        for(var i=0;i<new EnumFichas9().getFichas9().length&&!sal;i++){
+                            if(i==ordinal){
+                                res=new EnumFichas9().getFichas9()[i];
+                                sal=true;
+                            }
+                        }
+                        break;
+                }
+                return res;
+            }
+            
+            function cambiarVistaAResult(){
                 cambiaVista('vistaResult');
                 $("#wonCountP1").html(datos.getNombreJ1()+" WON:<br> "+datos.getVictoriesP1());
                 $("#wonCountP2").html(datos.getNombreJ2()+" WON:<br> "+datos.getVictoriesP2());
+                console.log("P1:"+datos.getEnumChosen1());
+                console.log("P2:"+datos.getEnumChosen1());
                 datos.setEnumChosen1(null);
                 datos.setEnumChosen2(null);
                 datos.setJugando(false);
             }
             
-            function gestionaPulsadoMaquina(chosen, datos){
+            function gestionaPulsadoMaquina(chosen){
                 return datos.getMapFichasMaquina()[chosen.name];
             }
             
@@ -367,8 +409,8 @@ and open the template in the editor.
             <input type="radio" id="moreRounds" name="rounds" onclick="visibleElement('customedRounds')"/>Customed rounds<br>
             <input type="text" class="containsPlaceholder" id="customedRounds" name="customedRounds" placeholder="Number of Rounds" hidden/><br><br>
             <div>
-                <button type="button" class="btn btn-primary btn-lg atRight" onclick="cambiaVistaJuego()">Play</button>
-                <button type="button" class="btn btn-primary btn-lg atLeft" onclick="cambiaVista('playLocal')">Back</button>
+                <button type="button" class="btn btn-primary btn-lg atLeft" onclick="cambiaVistaJuego()">Play</button>
+                <button type="button" class="btn btn-primary btn-lg atRight" onclick="cambiaVista('playLocal')">Back</button>
             </div>
         </div>
         <div class="atCenterOfScreen" id="onlineGameMenu" hidden="">
@@ -388,8 +430,8 @@ and open the template in the editor.
             <input type="radio" id="twoRoundsOnl" name="rounds" onclick="invisibleElement('customedRounds')"/>Three rounds<br>
             <input type="radio" id="fiveRoundsOnl" name="rounds" onclick="invisibleElement('customedRounds')"/>Five rounds<br>
             <div>
-                <button type="button" class="btn btn-primary btn-lg atRight" onclick="cambiaVistaJuego()">Play</button>
-                <button type="button" class="btn btn-primary btn-lg atLeft" onclick="cambiaVista('onlineGameMenu')">Back</button>
+                <button type="button" class="btn btn-primary btn-lg atLeft" onclick="cambiaVistaJuego()">Play</button>
+                <button type="button" class="btn btn-primary btn-lg atRight" onclick="cambiaVista('onlineGameMenu')">Back</button>
             </div>
         </div>
         <div class="atCenterOfScreen" id="gameOf3red" hidden>
@@ -452,16 +494,17 @@ and open the template in the editor.
         </div>
         <div id="toastJS" class="toast" style="display: none">
         </div>
-        <div id="vistaResult">
-            <img class="sizeAdjust" src="" alt=""/>---<img class="sizeAdjust" src="" alt=""/>
-            <div id="wonCountP1">
-                
+        <div id="vistaResult" class="atCenterTopOfScreen" hidden="">
+            <div>
+                <img class="sizeAdjust atLeft" src="imagesPPTGame/fireazul.png" alt=""/><img class="sizeAdjust atRight" src="imagesPPTGame/gunrojo.png" alt=""/><br>
+                <br>
+                <div class="atRight" style="float: left">WWWW</div>
             </div>
-            <div id="wonCountP2">
-                
+            <div class="atLeft" id="resultGame"  style="float: right">
+                YEAH
             </div>
-            <input type="button" id="next" value="Next"/>
-            <input type="button" id="back" value="Back"/>
+            <input type="button" class="btn btn-primary btn-lg atRight" id="next" value="Next"/>
+            <input type="button" class="btn btn-primary btn-lg atLeft" id="back" value="Back"/>
         </div>
     </body>
 </html>

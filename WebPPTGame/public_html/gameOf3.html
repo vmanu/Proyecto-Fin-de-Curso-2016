@@ -10,10 +10,13 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="styles.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     </head>
 
     <body>
-        <div class="atCenterTopOfScreen" id="gameOf3red">
+        <div class="atCenterTopOfScreen" id="gameOf3red" hidden="">
             <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/> <span style="font-size: 150px ">/</span> <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
             <br><br><br>
             <img class="sizeAdjust" src="imagesPPTGame/piedraroja.png" alt=""/>
@@ -27,7 +30,20 @@ and open the template in the editor.
             <img class="sizeAdjust" src="imagesPPTGame/papelazul.png" alt=""/>
             <img class="sizeAdjust" src="imagesPPTGame/tijerasazul.png" alt=""/>
         </div>
-        
-        
+        <div id="vistaResult" class="atCenterTopOfScreen">
+                <div class="sizeAdjust atLeft">
+                    <img class="sizeAdjust" src="imagesPPTGame/fireazul.png" alt=""/>
+                    <div style="float: left">OOOO</div>
+                </div>
+                <div class="sizeAdjust atRight">
+                    <div>WWWW</div>
+                    <img class="sizeAdjust" src="imagesPPTGame/gunrojo.png" alt=""/><br>
+                </div>
+            <div id="resultGame">
+                YEAH
+            </div>
+            <input type="button" class="btn btn-primary btn-lg atLeft" id="next" value="Next"/>
+            <input type="button" class="btn btn-primary btn-lg atRight" id="back" value="Back"/>
+        </div>
     </body>
 </html>
