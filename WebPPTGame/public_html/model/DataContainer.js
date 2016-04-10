@@ -163,33 +163,33 @@ DataContainer = function(){
         var fichas5=new EnumFichas5().getFichas5();
         var fichas9=new EnumFichas9().getFichas9();
         mapFichas={
-            "PAPEL5": fichas5[1],
-            "SPOCK5": fichas5[2],
-            "PIEDRA5": fichas5[3],
-            "TIJERA5": fichas5[4],
-            "LAGARTO5": fichas5[5],
-            "PAPEL9": fichas9[1],
-            "AIRE": fichas9[2],
-            "AGUA": fichas9[3],
-            "PISTOLA": fichas9[4],
-            "PIEDRA9": fichas9[5],
-            "FUEGO": fichas9[6],
-            "TIJERA9": fichas9[7],
-            "HUMANO": fichas9[8],
-            "ESPONJA": fichas9[9],
-            "PIEDRA3": fichas3[1],
-            "PAPEL3": fichas3[2],
-            "TIJERA3": fichas3[3]
+            PAPEL5: fichas5[0],
+            PIEDRA5: fichas5[1],
+            TIJERA5: fichas5[2],
+            SPOCK5: fichas5[3],
+            LAGARTO5: fichas5[4],
+            PAPEL9: fichas9[0],
+            PIEDRA9: fichas9[1],
+            TIJERA9: fichas9[2],
+            AIRE: fichas9[3],
+            AGUA: fichas9[4],
+            FUEGO: fichas9[5],
+            PISTOLA: fichas9[6],
+            HUMANO: fichas9[7],
+            ESPONJA: fichas9[8],
+            PAPEL3: fichas3[0],
+            PIEDRA3: fichas3[1],
+            TIJERA3: fichas3[2]
         };
         return mapFichas;
     };
     
     this.inicializaMapFichasMaquina=function(){
         mapFichasMaquina={
-            PAPEL:"papelAzul",
-            SPOCK:"spockazul",
+            PAPEL:"papelazul",
             PIEDRA:"piedraazul",
             TIJERA:"tijerasazul",
+            SPOCK:"spockazul",
             LAGARTO:"lizardazul",
             AIRE:"windazul",
             AGUA:"waterazul",
@@ -203,46 +203,46 @@ DataContainer = function(){
     
     this.inicializaMapImagesAzul=function(){
         var mapImagesAzul={
-            "PAPEL5":"papelazul",
-            "SPOCK5":"spockazul",
-            "PIEDRA5":"piedraazul",
-            "TIJERA5":"tijerasazul",
-            "LAGARTO5":"lizardazul",
-            "PAPEL9":"windazul",
-            "AIRE9":"windazul",
-            "AGUA":"waterazul",
-            "PISTOLA":"gunazul",
-            "PIEDRA9":"piedraazul",
-            "FUEGO":"fireazul",
-            "TIJERA9":"tijerasazul",
-            "HUMANO":"humanazul",
-            "ESPONJA":"spongeazul",
-            "PAPEL3":"papelazul",
-            "PIEDRA":"piedraazul",
-            "TIJERA3":"tijerasazul"
+            PAPEL5:"papelazul",
+            SPOCK5:"spockazul",
+            PIEDRA5:"piedraazul",
+            TIJERA5:"tijerasazul",
+            LAGARTO5:"lizardazul",
+            PAPEL9:"windazul",
+            AIRE9:"windazul",
+            AGUA:"waterazul",
+            PISTOLA:"gunazul",
+            PIEDRA9:"piedraazul",
+            FUEGO:"fireazul",
+            TIJERA9:"tijerasazul",
+            HUMANO:"humanazul",
+            ESPONJA:"spongeazul",
+            PAPEL3:"papelazul",
+            PIEDRA:"piedraazul",
+            TIJERA3:"tijerasazul"
         };
         return mapImagesAzul;
     };
     
     this.inicializaMapImagesRojo=function(){
         var mapImagesAzul={
-            "PAPEL5":"papelrojo",
-            "SPOCK5":"spockrojo",
-            "PIEDRA5":"piedraroja",
-            "TIJERA5":"tijerasrojo",
-            "LAGARTO5":"lizardrojo",
-            "PAPEL9":"windrojo",
-            "AIRE9":"windrojo",
-            "AGUA":"waterrojo",
-            "PISTOLA":"gunrojo",
-            "PIEDRA9":"piedraroja",
-            "FUEGO":"firerojo",
-            "TIJERA9":"tijerasrojo",
-            "HUMANO":"humanrojo",
-            "ESPONJA":"spongerojo",
-            "PAPEL3":"papelrojo",
-            "PIEDRA":"piedraroja",
-            "TIJERA3":"tijerasrojo"
+            PAPEL5:"papelrojo",
+            SPOCK5:"spockrojo",
+            PIEDRA5:"piedraroja",
+            TIJERA5:"tijerasrojo",
+            LAGARTO5:"lizardrojo",
+            PAPEL9:"windrojo",
+            AIRE9:"windrojo",
+            AGUA:"waterrojo",
+            PISTOLA:"gunrojo",
+            PIEDRA9:"piedraroja",
+            FUEGO:"firerojo",
+            TIJERA9:"tijerasrojo",
+            HUMANO:"humanrojo",
+            ESPONJA:"spongerojo",
+            PAPEL3:"papelrojo",
+            PIEDRA:"piedraroja",
+            TIJERA3:"tijerasrojo"
         };
         return mapImagesAzul;
     };
@@ -252,11 +252,15 @@ DataContainer = function(){
     };
     
     this.avanzaRonda=function(){
-        return roundsCounter++;
+        roundsCounter++;
     };
     
     this.rondasFinalizadas=function(){
-        return roundsCounter==roundsLimit;
+        var fin=false;
+        if(roundsCounter==roundsLimit){
+            fin=true;
+        }
+        return fin;
     };
     
     this.getOrdinalChosen1=function(){

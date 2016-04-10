@@ -24,15 +24,25 @@ and open the template in the editor.
         <script src="model/DataContainer.js" type="text/javascript"></script>
         <link href="styles.css" rel="stylesheet" type="text/css"/>
         <script>
-            var datos, mapFichas, mapFichasMaquina, opc, modo;
+            var datos, mapFichas, mapFichasMaquina, opc, modo, online;
 
             $(document).ready(function () {
                 datos = new DataContainer();
+                datos.setRoundsCounter(0);
+                datos.setVictoriesP1(0);
+                datos.setVictoriesP2(0);
                 mapFichas = datos.inicializaMapFichas();
                 mapFichasMaquina = datos.inicializaMapFichasMaquina();
             });
 
             function cambiaVista(divId) {
+                if(divId=="playLocal"){
+                    online=false;
+                }else{
+                    if(divId=="playOnline"){
+                        online=true;
+                    }
+                }
                 document.getElementById('initialButtons').style.display = 'none';
                 document.getElementById('initialButtons').style.display = 'none';
                 document.getElementById('playLocal').style.display = 'none';
@@ -52,6 +62,7 @@ and open the template in the editor.
                 document.getElementById('gameOf9blue').style.display = 'none';
                 document.getElementById('vistaResult').style.display = 'none';
                 document.getElementById(divId).style.display = 'block';
+                
             }
 
             function visibleElement(element) {
@@ -63,7 +74,6 @@ and open the template in the editor.
             }
 
             function cambiaVistaJuego() {
-
                 if (document.getElementById('game3').checked == true) {
                     cambiaVista('gameOf3red');
                     datos.setFactorAlgoritmo(1);
@@ -85,7 +95,6 @@ and open the template in the editor.
                     datos.setModalidadJuego(new ModalidadJuego().getModalidad()[2]);
                 }
                 if (document.getElementById('oneRound').checked == true || document.getElementById('oneRoundOnl').checked == true) {
-
                     datos.setRoundsLimit(1);
                 } else {
                     if (document.getElementById('threeRounds').checked == true || document.getElementById('threeRoundsOnl').checked == true) {
@@ -98,6 +107,8 @@ and open the template in the editor.
                         }
                     }
                 }
+                alert("LIMITE RONDAS "+datos.getRoundsLimit());
+                
                 datos.setTurno(true);
             }
 
@@ -109,7 +120,7 @@ and open the template in the editor.
                     datos.setNombreJ1($("#nameOfPlayer1").val())
                     opc = mapFichas[opClicked];
                     ///////////////////////////////////////////////////////
-
+                    console.log(opc);
                     if (datos.isTurno() == true && opc != null) {
                         datos.setEnumChosen1(opc);
                         datos.setIdImgPulsada1(imgId);
@@ -124,38 +135,39 @@ and open the template in the editor.
                         } else {
                             if (datos.getModalidadJuego().ordinal == modalidad[1].ordinal) {
                                 ////////////////////////////////////////////////////////////////////////////////
-                                datos.setEnumChosen2(getEnumFromOrdinal(Math.floor((Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)))));///////////////////////////////////////////////////////////////////
+                                datos.setEnumChosen2(getEnumFromOrdinal());///////////////////////////////////////////////////////////////////
                                 datos.setNombreJ2("CPU");
                                 datos.setIdImgPulsada2(gestionaPulsadoMaquina() + modo);
-                                alert("ID 2 " + datos.getIdImgPulsada2());
-                                comunEvaluacionGanador(datos.getEnumChosen2(), false);
+                                //alert("ID 2 " + datos.getIdImgPulsada2());
+                                comunEvaluacionGanador(false);
                                 //$("#"+imgId).attr("src", $("#"+datos.getIdImgPulsada2()).src);
                             }
                         }
                     } else {
-                        if (!datos.isTurno() == false && opc != null) {
+                        if (datos.isTurno() == false && opc != null) {
+                            //alert("AQUI NO DEBE DE ENTRAR");
                             datos.setEnumChosen2(opc);
 
                             datos.setIdImgPulsada2(opClicked);
                             cambiaRojo();
                             //$("#"+imgId).attr("src", $("#"+datos.getIdImgPulsada2()).src);
                             console.log(datos.getEnumChosen2())
-                            comunEvaluacionGanador(datos.getEnumChosen2(), false);
+                            comunEvaluacionGanador(false);
                             datos.setTurno(true);
                         }
                     }
                 }
             }
 
-            function comunEvaluacionGanador(opc, recuperando) {
+            function comunEvaluacionGanador(recuperando) {
                 console.log(datos.getIdImgPulsada2());
-                alert("ID 1" + datos.getIdImgPulsada1());
-                alert("SRC 1" + document.getElementById(datos.getIdImgPulsada1()).src);
-                alert("SRC 2 " + document.getElementById(datos.getIdImgPulsada2()).src);
+                //alert("ID 1" + datos.getIdImgPulsada1());
+                //alert("SRC 1" + document.getElementById(datos.getIdImgPulsada1()).src);
+                //alert("SRC 2 " + document.getElementById(datos.getIdImgPulsada2()).src);
                 $("#imgResultP1").attr("src", document.getElementById(datos.getIdImgPulsada1()).src);///////////////////////////////////////////////////
                 $("#imgResultP2").attr("src", document.getElementById(datos.getIdImgPulsada2()).src);
-                alert(logicaJuego());
-                switch (logicaJuego(opc.ordinal)) {
+                //alert(logicaJuego());
+                switch (logicaJuego()) {
                     case 0:
                         //empata
                         $("#resultGame").text("DRAW!");
@@ -178,18 +190,21 @@ and open the template in the editor.
                 cambiarVistaAResult(datos);
             }
 
-            function logicaJuego(opc) {
+            function logicaJuego() {
                 var resultado = 0;
-                if (opc == (datos.getEnumChosen1().ordinal)) {
+                //alert("ordinal 1: "+datos.getEnumChosen1().ordinal+"| chosen 2: "+datos.getEnumChosen2().ordinal)
+                if (datos.getEnumChosen2().ordinal == (datos.getEnumChosen1().ordinal)) {
                     resultado = 0;
                 } else {
                     var ganaChosen = false;
                     datos.avanzaRonda();
-                    if (datos.rondasFinalizadas()) {
+                    alert(datos.getRoundsCounter());
+                    if (datos.rondasFinalizadas()==true) {
+                        alert("FIIIIIIIIIIIIIIIIN!");
                         $("#next").prop("disabled", true);
                     }
-                    for (var j = ((opc + 1) % ((datos.getFactorAlgoritmo() * 2) + 1)), i = 0; i < (datos.getFactorAlgoritmo()) && !ganaChosen; i++, j = ((j + 1) % ((datos.getFactorAlgoritmo() * 2) + 1))) {
-                        alert("J ES "+j);
+                    for (var j = ((datos.getEnumChosen2().ordinal + 1) % ((datos.getFactorAlgoritmo() * 2) + 1)), i = 0; i < (datos.getFactorAlgoritmo()) && !ganaChosen; i++, j = ((j + 1) % ((datos.getFactorAlgoritmo() * 2) + 1))) {
+                        //alert("J ES "+j);
                         /////////////////////////SE RALLA CON J
                         if (datos.getEnumChosen1().ordinal == j) {
                             ganaChosen = true;
@@ -203,10 +218,13 @@ and open the template in the editor.
                 return resultado;
             }
 
-            function getEnumFromOrdinal(ordinal) {
+            function getEnumFromOrdinal() {
                 var res = null;
                 var sal = false;
                 var factor = datos.getFactorAlgoritmo();
+                //alert("FACTOR ES "+factor);
+                var ordinal=Math.floor((Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)));
+                //alert("RANDOM ES "+ordinal);
                 switch (factor) {
                     case 1:
                         for (var i = 0; i < 3 && !sal; i++) {
@@ -247,7 +265,7 @@ and open the template in the editor.
             }
 
             function gestionaPulsadoMaquina() {
-                alert("ENUM CHOSEN: " + datos.getEnumChosen2().name);
+                //alert("ENUM CHOSEN: " + datos.getEnumChosen2().name);
                 console.log(datos.getEnumChosen2());
                 //alert("VALUE MAQUINA "+mapFichasMaquina[datos.getEnumChosen2().name]);
                 return mapFichasMaquina[datos.getEnumChosen2().name];
@@ -325,6 +343,14 @@ and open the template in the editor.
                     opc = $("input[name='game']:checked").val();
                 }
                 return opc;
+            }
+            
+            function backFromPlayScreen(){
+                if (online) {
+                    cambiaVista('playOnline');
+                }else{
+                    cambiaVista('playLocal');
+                }
             }
 
             function showToastRed() {
@@ -437,7 +463,7 @@ and open the template in the editor.
         </div>
         <div class="atCenterOfScreen" id="localGameMenu" hidden>
             <h4>Choose option:</h4>
-            <input checked="" type="radio" value="game3" id="game3" name="game"/>Game of 3<br>
+            <input type="radio" value="game3" id="game3" name="game" checked="" />Game of 3<br>
             <input type="radio" id="game5" value="game5" name="game"/>Game of 5<br>
             <input type="radio" id="game9" value="game9" name="game"/>Game of 9<br>
             <h4>Choose number of players:</h4>
@@ -544,8 +570,8 @@ and open the template in the editor.
             <div id="resultGame">
                 YEAH
             </div>
-            <input type="button" class="btn btn-primary btn-lg atLeft" id="next" value="Next"/>
-            <input type="button" class="btn btn-primary btn-lg atRight" id="back" value="Back"/>
+            <input type="button" class="btn btn-primary btn-lg atLeft" id="next" value="Next" onclick="cambiaVistaJuego()"/>
+            <input type="button" class="btn btn-primary btn-lg atRight" id="back" value="Back" onclick="backFromPlayScreen()"/>
         </div>
     </body>
 </html>

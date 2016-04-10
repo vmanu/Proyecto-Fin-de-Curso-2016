@@ -5,9 +5,9 @@
  */
 EnumFichas3=function(){
     var Fichas3={
-        1:{name:"PAPEL", ordinal:1},
-        2:{name:"PIEDRA", ordinal:2},
-        3:{name:"TIJERA", ordinal:3}
+        0:{name:"PAPEL", ordinal:0},
+        1:{name:"PIEDRA", ordinal:1},
+        2:{name:"TIJERA", ordinal:2}
     };
     
     this.getFichas3=function(){

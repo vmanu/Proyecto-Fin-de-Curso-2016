@@ -5,15 +5,15 @@
  */
 EnumFichas9=function(){
     var Fichas9={
-        1: {name: "PAPEL", ordinal: 1},
-        2: {name: "AIRE", ordinal: 2},
-        3: {name: "AGUA", ordinal: 3},
-        4: {name: "PISTOLA", ordinal: 4},
-        5: {name: "PIEDRA", ordinal: 5},
-        6: {name: "FUEGO", ordinal: 6},
-        7: {name: "TIJERA", ordinal: 7},
-        8: {name: "HUMANO", ordinal: 8},
-        9: {name: "ESPONJA", ordinal: 9}
+        0: {name: "PAPEL", ordinal: 0},
+        1: {name: "PIEDRA", ordinal: 1},
+        2: {name: "TIJERA", ordinal: 2},
+        3: {name: "PISTOLA", ordinal: 3},
+        4: {name: "AIRE", ordinal: 4},
+        5: {name: "FUEGO", ordinal: 5},
+        6: {name: "AGUA", ordinal: 6},
+        7: {name: "HUMANO", ordinal: 7},
+        8: {name: "ESPONJA", ordinal: 8}
     };
     
     this.getFichas9=function(){
