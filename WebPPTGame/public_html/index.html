@@ -36,20 +36,18 @@ and open the template in the editor.
             });
 
             function cambiaVista(divId) {
-                if(divId=="playLocal"){
-                    online=false;
-                }else{
-                    if(divId=="playOnline"){
-                        online=true;
+                if (divId == "playLocal") {
+                    online = false;
+                } else {
+                    if (divId == "playOnline") {
+                        online = true;
                     }
                 }
-                document.getElementById('initialButtons').style.display = 'none';
                 document.getElementById('initialButtons').style.display = 'none';
                 document.getElementById('playLocal').style.display = 'none';
                 document.getElementById('playOnline').style.display = 'none';
                 document.getElementById('rules').style.display = 'none';
                 document.getElementById('graphicRules').style.display = 'none';
-                document.getElementById('infoDev').style.display = 'none';
                 document.getElementById('infoDev').style.display = 'none';
                 document.getElementById('localGameMenu').style.display = 'none';
                 document.getElementById('onlineGameMenu').style.display = 'none';
@@ -62,7 +60,7 @@ and open the template in the editor.
                 document.getElementById('gameOf9blue').style.display = 'none';
                 document.getElementById('vistaResult').style.display = 'none';
                 document.getElementById(divId).style.display = 'block';
-                
+
             }
 
             function visibleElement(element) {
@@ -94,21 +92,35 @@ and open the template in the editor.
                 } else {
                     datos.setModalidadJuego(new ModalidadJuego().getModalidad()[2]);
                 }
-                if (document.getElementById('oneRound').checked == true || document.getElementById('oneRoundOnl').checked == true) {
-                    datos.setRoundsLimit(1);
-                } else {
-                    if (document.getElementById('threeRounds').checked == true || document.getElementById('threeRoundsOnl').checked == true) {
-                        alert();
-                        datos.setRoundsLimit(3);
+                if (!online) {
+                    if (document.getElementById('oneRound').checked) {
+                        datos.setRoundsLimit(1);
                     } else {
-                        if (document.getElementById('fiveRounds').checked == true || document.getElementById('fiveRoundsOnl').checked == true) {
-                            datos.setRoundsLimit(5);
-                        }else{
-                            datos.setRoundsLimit($("#customedRounds").val());
+                        if (document.getElementById('threeRounds').checked) {
+                            datos.setRoundsLimit(3);
+                        } else {
+                            if (document.getElementById('fiveRounds').checked) {
+                                datos.setRoundsLimit(5);
+                            } else {
+                                datos.setRoundsLimit($("#customedRounds").val());
+                            }
+                        }
+                    }
+                }else{
+                    if (document.getElementById('oneRoundOnl').checked) {
+                        datos.setRoundsLimit(1);
+                    } else {
+                        if (document.getElementById('threeRoundsOnl').checked) {
+                            datos.setRoundsLimit(3);
+                        } else {
+                            if (document.getElementById('fiveRoundsOnl').checked) {
+                                datos.setRoundsLimit(5);
+                            } else {
+                                datos.setRoundsLimit($("#customedRoundsOnl").val());
+                            }
                         }
                     }
                 }
-                alert("LIMIT "+datos.getRoundsLimit());
                 datos.setTurno(true);
             }
 
@@ -117,7 +129,7 @@ and open the template in the editor.
                 var modalidad = new ModalidadJuego().getModalidad();
                 if (document.getElementById(window).style.display == "block") {
                     //////////////////////////////////////////////////////
-                    datos.setNombreJ1($("#nameOfPlayer1").val())
+                    datos.setNombreJ1($("#nameOfPlayer1").val());
                     opc = mapFichas[opClicked];
                     ///////////////////////////////////////////////////////
                     if (datos.isTurno() == true && opc != null) {
@@ -128,12 +140,13 @@ and open the template in the editor.
                             ////////////////////////////////////////////////////////////////////////////////
                             cambiaAzul();///////////////////////////////////////////////////////////////////
                             //datos.cambiaTurno();
-                            datos.setTurno(false)
+                            datos.setTurno(false);
                             showToastBlue();
                         } else {
                             if (datos.getModalidadJuego().ordinal == modalidad[1].ordinal) {
                                 ////////////////////////////////////////////////////////////////////////////////
-                                datos.setEnumChosen2(getEnumFromOrdinal());///////////////////////////////////////////////////////////////////
+                                datos.setEnumChosen2(getEnumFromOrdinal());
+                                console.log(datos.getEnumChosen2());
                                 datos.setNombreJ2("CPU");
                                 datos.setIdImgPulsada2(gestionaPulsadoMaquina() + modo);
                                 comunEvaluacionGanador(false);
@@ -185,8 +198,7 @@ and open the template in the editor.
                     var ganaChosen = false;
                     datos.avanzaRonda();
                     //alert(datos.getRoundsCounter());
-                    if (datos.rondasFinalizadas()==true) {
-                        //alert("FIIIIIIIIIIIIIIIIN!");
+                    if (datos.rondasFinalizadas() == true) {
                         datos.setRoundsCounter(0);
                         $("#next").prop("disabled", true);
                     }
@@ -207,7 +219,7 @@ and open the template in the editor.
                 var res = null;
                 var sal = false;
                 var factor = datos.getFactorAlgoritmo();
-                var ordinal=Math.floor((Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)));
+                var ordinal = Math.floor((Math.random() * ((factor * 2) + 1)));
                 switch (factor) {
                     case 1:
                         for (var i = 0; i < 3 && !sal; i++) {
@@ -225,7 +237,7 @@ and open the template in the editor.
                             }
                         }
                         break;
-                    case 3:
+                    case 4:
                         for (var i = 0; i < 9 && !sal; i++) {
                             if (i == ordinal) {
                                 res = new EnumFichas9().getFichas9()[i];
@@ -323,11 +335,12 @@ and open the template in the editor.
                 }
                 return opc;
             }
-            
-            function backFromPlayScreen(){
+
+            function backFromPlayScreen() {
+                $("#next").prop("disabled", false);
                 if (online) {
                     cambiaVista('playOnline');
-                }else{
+                } else {
                     cambiaVista('playLocal');
                 }
             }
@@ -339,7 +352,7 @@ and open the template in the editor.
             function showToastBlue() {
                 $('.toast').text(datos.getNombreJ2() + "'s turn").css("background-color", "blue").fadeIn(400).delay(1200).fadeOut(400);
             }
-            
+
         </script>
     </head>
     <body class="bgBlue">
@@ -483,62 +496,74 @@ and open the template in the editor.
             </div>
         </div>
         <div class="atCenterOfScreen" id="gameOf3red" hidden>
-            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>---<img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/separator.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
             <br><br><br>
             <img id="piedraroja3" name="juego3" class="sizeAdjust" src="imagesPPTGame/piedraroja.png" alt="" onclick="gestionaJuego('gameOf3red', 'PIEDRA3', this.id)"/>
             <img id="papelrojo3" name="juego3" class="sizeAdjust" src="imagesPPTGame/papelrojo.png" alt="" onclick="gestionaJuego('gameOf3red', 'PAPEL3', this.id)">
             <img id="tijerasrojo3" name="juego3" class="sizeAdjust" src="imagesPPTGame/tijerasrojo.png" alt="" onclick="gestionaJuego('gameOf3red', 'TIJERA3', this.id)"/>
         </div>
         <div  class="atCenterOfScreen" id="gameOf3blue" hidden>
-            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>---<img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/separator.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
             <br><br><br>
             <img id="piedraazul3" name="juego3" class="sizeAdjust" src="imagesPPTGame/piedraazul.png" alt="" onclick="gestionaJuego('gameOf3blue', 'PIEDRA3', this.id)"/>
             <img id="papelazul3" name="juego3" class="sizeAdjust" src="imagesPPTGame/papelazul.png" alt="" onclick="gestionaJuego('gameOf3blue', 'PAPEL3', this.id)"/>
             <img id="tijerasazul3" name="juego3" class="sizeAdjust" src="imagesPPTGame/tijerasazul.png" alt="" onclick="gestionaJuego('gameOf3blue', 'TIJERA3', this.id)"/>
         </div>
         <div class="atCenterOfScreen" id="gameOf5red" hidden>
-            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>---<img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/separator.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
             <br><br><br>
-            <img class="sizeAdjust imageOfGame5" id="lizardrojo" name="juego5" src="imagesPPTGame/lizardrojo.png" alt="" onclick="gestionaJuego('gameOf5red','LAGARTO',this.id)"/><br>
-            <img class="sizeAdjust" id="piedraroja5" name="juego5" src="imagesPPTGame/piedraroja.png" alt="" onclick="gestionaJuego('gameOf5red','PIEDRA5',this.id)"/>
-            <img class="sizeAdjust" id="papelrojo5" name="juego5" src="imagesPPTGame/papelrojo.png" alt="" onclick="gestionaJuego('gameOf5red','PAPEL5',this.id)"/>
-            <img class="sizeAdjust" id="tijerasrojo5" name="juego5" src="imagesPPTGame/tijerasrojo.png" alt="" onclick="gestionaJuego('gameOf5red','TIJERA5',this.id)"/><br>
-            <img class="sizeAdjust imageOfGame5" id="spockrojo" name="juego5" src="imagesPPTGame/spockrojo.png" alt="" onclick="gestionaJuego('gameOf5red','SPOCK',this.id)"/>
+            <img class="sizeAdjust imageOfGame5" id="lizardrojo" name="juego5" src="imagesPPTGame/lizardrojo.png" alt="" onclick="gestionaJuego('gameOf5red', 'LAGARTO5', this.id)"/><br>
+            <img class="sizeAdjust" id="piedraroja5" name="juego5" src="imagesPPTGame/piedraroja.png" alt="" onclick="gestionaJuego('gameOf5red', 'PIEDRA5', this.id)"/>
+            <img class="sizeAdjust" id="papelrojo5" name="juego5" src="imagesPPTGame/papelrojo.png" alt="" onclick="gestionaJuego('gameOf5red', 'PAPEL5', this.id)"/>
+            <img class="sizeAdjust" id="tijerasrojo5" name="juego5" src="imagesPPTGame/tijerasrojo.png" alt="" onclick="gestionaJuego('gameOf5red', 'TIJERA5', this.id)"/><br>
+            <img class="sizeAdjust imageOfGame5" id="spockrojo" name="juego5" src="imagesPPTGame/spockrojo.png" alt="" onclick="gestionaJuego('gameOf5red', 'SPOCK5', this.id)"/>
         </div>
         <div  class="atCenterOfScreen" id="gameOf5blue" hidden>
-            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>---<img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/separator.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
             <br><br><br>
-            <img class="sizeAdjust imageOfGame5" id="lizardazul" name="juego5" src="imagesPPTGame/lizardazul.png" alt="" onclick="gestionaJuego('gameOf5blue','LAGARTO',this.id)"/><br>
-            <img class="sizeAdjust" id="piedraazul5" name="juego5" src="imagesPPTGame/piedraazul.png" alt="" onclick="gestionaJuego('gameOf5blue','PIEDRA5',this.id)"/>
-            <img class="sizeAdjust" id="papelazul5" name="juego5" src="imagesPPTGame/papelazul.png" alt="" onclick="gestionaJuego('gameOf5blue','PAPEL5',this.id)"/>
-            <img class="sizeAdjust" id="tijerasazul5" name="juego5" src="imagesPPTGame/tijerasazul.png" alt="" onclick="gestionaJuego('gameOf5blue','TIJERA5',this.id)"/><br>
-            <img class="sizeAdjust imageOfGame5" id="spockazul" name="juego5" src="imagesPPTGame/spockazul.png" alt="" onclick="gestionaJuego('gameOf5blue','SPOCK',this.id)"/>
+            <img class="sizeAdjust imageOfGame5" id="lizardazul5" name="juego5" src="imagesPPTGame/lizardazul.png" alt="" onclick="gestionaJuego('gameOf5blue', 'LAGARTO5', this.id)"/><br>
+            <img class="sizeAdjust" id="piedraazul5" name="juego5" src="imagesPPTGame/piedraazul.png" alt="" onclick="gestionaJuego('gameOf5blue', 'PIEDRA5', this.id)"/>
+            <img class="sizeAdjust" id="papelazul5" name="juego5" src="imagesPPTGame/papelazul.png" alt="" onclick="gestionaJuego('gameOf5blue', 'PAPEL5', this.id)"/>
+            <img class="sizeAdjust" id="tijerasazul5" name="juego5" src="imagesPPTGame/tijerasazul.png" alt="" onclick="gestionaJuego('gameOf5blue', 'TIJERA5', this.id)"/><br>
+            <img class="sizeAdjust imageOfGame5" id="spockazul5" name="juego5" src="imagesPPTGame/spockazul.png" alt="" onclick="gestionaJuego('gameOf5blue', 'SPOCK5', this.id)"/>
         </div>
         <div class="atCenterOfScreen" id="gameOf9red" hidden>
-            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>---<img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/separator.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
             <br><br><br>
-            <img class="sizeAdjust" id="waterrojo" name="juego9" src="imagesPPTGame/waterrojo.png" alt=""/>
-            <img class="sizeAdjust" id="windrojo" name="juego9" src="imagesPPTGame/windrojo.png" alt=""/>
-            <img class="sizeAdjust" id="gunrojo" name="juego9" src="imagesPPTGame/gunrojo.png" alt=""/><br>
-            <img class="sizeAdjust" id="piedrarojo9" name="juego9" src="imagesPPTGame/piedraroja.png" alt=""/>
-            <img class="sizeAdjust" id="papelrojo9" name="juego9" src="imagesPPTGame/papelrojo.png" alt=""/>
-            <img class="sizeAdjust" id="tijerasrojo9" name="juego9" src="imagesPPTGame/tijerasrojo.png" alt=""/><br>
-            <img class="sizeAdjust" id="humanrojo" name="juego9" src="imagesPPTGame/humanrojo.png" alt=""/>
-            <img class="sizeAdjust" id="spongerojo" name="juego9" src="imagesPPTGame/spongerojo.png" alt=""/>
-            <img class="sizeAdjust" id="firerojo" name="juego9" src="imagesPPTGame/firerojo.png" alt=""/>
+            <img class="sizeAdjust" id="waterrojo9" name="juego9" src="imagesPPTGame/waterrojo.png" alt="" onclick="gestionaJuego('gameOf9red', 'AGUA9', this.id)"/>
+            <img class="sizeAdjust" id="windrojo9" name="juego9" src="imagesPPTGame/windrojo.png" alt="" onclick="gestionaJuego('gameOf9red', 'AIRE9', this.id)"/>
+            <img class="sizeAdjust" id="gunrojo9" name="juego9" src="imagesPPTGame/gunrojo.png" alt="" onclick="gestionaJuego('gameOf9red', 'PISTOLA9', this.id)"/><br>
+            <img class="sizeAdjust" id="piedrarojo9" name="juego9" src="imagesPPTGame/piedraroja.png" alt="" onclick="gestionaJuego('gameOf9red', 'PIEDRA9', this.id)"/>
+            <img class="sizeAdjust" id="papelrojo9" name="juego9" src="imagesPPTGame/papelrojo.png" alt="" onclick="gestionaJuego('gameOf9red', 'PAPEL9', this.id)"/>
+            <img class="sizeAdjust" id="tijerasrojo9" name="juego9" src="imagesPPTGame/tijerasrojo.png" alt="" onclick="gestionaJuego('gameOf9red', 'TIJERA9', this.id)"/><br>
+            <img class="sizeAdjust" id="humanrojo9" name="juego9" src="imagesPPTGame/humanrojo.png" alt="" onclick="gestionaJuego('gameOf9red', 'HUMANO9', this.id)"/>
+            <img class="sizeAdjust" id="spongerojo9" name="juego9" src="imagesPPTGame/spongerojo.png" alt="" onclick="gestionaJuego('gameOf9red', 'ESPONJA9', this.id)"/>
+            <img class="sizeAdjust" id="firerojo9" name="juego9" src="imagesPPTGame/firerojo.png" alt="" onclick="gestionaJuego('gameOf9red', 'FUEGO9', this.id)"/>
         </div>
         <div  class="atCenterOfScreen" id="gameOf9blue" hidden>
-            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>---<img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolazul.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/separator.png" alt=""/>
+            <img class="sizeAdjust" src="imagesPPTGame/helpsymbolrojo.png" alt=""/>
             <br><br><br>
-            <img class="sizeAdjust" id="waterazul" name="juego9" src="imagesPPTGame/waterazul.png" alt=""/>
-            <img class="sizeAdjust" id="windazul" name="juego9" src="imagesPPTGame/windazul.png" alt=""/>
-            <img class="sizeAdjust" id="gunazul" name="juego9" src="imagesPPTGame/gunazul.png" alt=""/><br>
-            <img class="sizeAdjust" id="piedraazul9" name="juego9" src="imagesPPTGame/piedraazul.png" alt=""/>
-            <img class="sizeAdjust" id="papelazul9" name="juego9" src="imagesPPTGame/papelazul.png" alt=""/>
-            <img class="sizeAdjust" id="tijerasazul9" name="juego9" src="imagesPPTGame/tijerasazul.png" alt=""/><br>
-            <img class="sizeAdjust" id="humanazul" name="juego9" src="imagesPPTGame/humanazul.png" alt=""/>
-            <img class="sizeAdjust" id="spongeazul" name="juego9" src="imagesPPTGame/spongeazul.png" alt=""/>
-            <img class="sizeAdjust" id="fireazul" name="juego9" src="imagesPPTGame/fireazul.png" alt=""/>
+            <img class="sizeAdjust" id="waterazul9" name="juego9" src="imagesPPTGame/waterazul.png" alt="" onclick="gestionaJuego('gameOf9blue', 'AGUA9', this.id)"/>
+            <img class="sizeAdjust" id="windazul9" name="juego9" src="imagesPPTGame/windazul.png" alt="" onclick="gestionaJuego('gameOf9blue', 'AIRE9', this.id)"/>
+            <img class="sizeAdjust" id="gunazul9" name="juego9" src="imagesPPTGame/gunazul.png" alt="" onclick="gestionaJuego('gameOf9blue', 'PISTOLA9', this.id)"/><br>
+            <img class="sizeAdjust" id="piedraazul9" name="juego9" src="imagesPPTGame/piedraazul.png" alt="" onclick="gestionaJuego('gameOf9blue', 'PIEDRA9', this.id)"/>
+            <img class="sizeAdjust" id="papelazul9" name="juego9" src="imagesPPTGame/papelazul.png" alt="" onclick="gestionaJuego('gameOf9blue', 'PAPEL9', this.id)"/>
+            <img class="sizeAdjust" id="tijerasazul9" name="juego9" src="imagesPPTGame/tijerasazul.png" alt="" onclick="gestionaJuego('gameOf9blue', 'TIJERA9', this.id)"/><br>
+            <img class="sizeAdjust" id="humanazul9" name="juego9" src="imagesPPTGame/humanazul.png" alt="" onclick="gestionaJuego('gameOf9blue', 'HUMANO9', this.id)"/>
+            <img class="sizeAdjust" id="spongeazul9" name="juego9" src="imagesPPTGame/spongeazul.png" alt="" onclick="gestionaJuego('gameOf9blue', 'ESPONJA9', this.id)"/>
+            <img class="sizeAdjust" id="fireazul9" name="juego9" src="imagesPPTGame/fireazul.png" alt="" onclick="gestionaJuego('gameOf9blue', 'FUEGO9', this.id)"/>
         </div>
         <div id="toastJS" class="toast" style="display: none">
         </div>
