@@ -210,15 +210,15 @@ DataContainer = function(){
             LAGARTO5:"lizardazul",
             PAPEL9:"windazul",
             AIRE9:"windazul",
-            AGUA:"waterazul",
-            PISTOLA:"gunazul",
+            AGUA9:"waterazul",
+            PISTOLA9:"gunazul",
             PIEDRA9:"piedraazul",
-            FUEGO:"fireazul",
+            FUEGO9:"fireazul",
             TIJERA9:"tijerasazul",
-            HUMANO:"humanazul",
-            ESPONJA:"spongeazul",
+            HUMANO9:"humanazul",
+            ESPONJA9:"spongeazul",
             PAPEL3:"papelazul",
-            PIEDRA:"piedraazul",
+            PIEDRA3:"piedraazul",
             TIJERA3:"tijerasazul"
         };
         return mapImagesAzul;
@@ -233,15 +233,15 @@ DataContainer = function(){
             LAGARTO5:"lizardrojo",
             PAPEL9:"windrojo",
             AIRE9:"windrojo",
-            AGUA:"waterrojo",
-            PISTOLA:"gunrojo",
+            AGUA9:"waterrojo",
+            PISTOLA9:"gunrojo",
             PIEDRA9:"piedraroja",
-            FUEGO:"firerojo",
+            FUEGO9:"firerojo",
             TIJERA9:"tijerasrojo",
-            HUMANO:"humanrojo",
-            ESPONJA:"spongerojo",
+            HUMANO9:"humanrojo",
+            ESPONJA9:"spongerojo",
             PAPEL3:"papelrojo",
-            PIEDRA:"piedraroja",
+            PIEDRA3:"piedraroja",
             TIJERA3:"tijerasrojo"
         };
         return mapImagesAzul;
