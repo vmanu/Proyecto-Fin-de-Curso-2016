@@ -42,7 +42,7 @@
                     <children>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="agua9" onMouseClicked="#gestionaJuego">
                                     <image>
                                         <Image url="@../imagenes/waterrojo.png" />
                                     </image>
@@ -50,12 +50,12 @@
                                         <Insets right="20.0" />
                                     </HBox.margin>
                                 </ImageView>
-                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="aire9" onMouseClicked="#gestionaJuego">
                                     <image>
                                         <Image url="@../imagenes/windrojo.png" />
                                     </image>
                                 </ImageView>
-                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="pistola9" onMouseClicked="#gestionaJuego">
                                     <image>
                                         <Image url="@../imagenes/gunrojo.png" />
                                     </image>
@@ -70,7 +70,7 @@
                         </HBox>
                         <HBox alignment="CENTER" layoutX="10.0" layoutY="171.0" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="piedra3" onMouseClicked="#gestionaJuego">
                                     <image>
                                         <Image url="@../imagenes/piedraroja.png" />
                                     </image>
@@ -78,12 +78,12 @@
                                         <Insets right="20.0" />
                                     </HBox.margin>
                                 </ImageView>
-                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="papel9" onMouseClicked="#gestionaJuego">
                                     <image>
                                         <Image url="@../imagenes/papelrojo.png" />
                                     </image>
                                 </ImageView>
-                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="tijera9" onMouseClicked="#gestionaJuego">
                                     <image>
                                         <Image url="@../imagenes/tijerasrojo.png" />
                                     </image>
@@ -95,7 +95,7 @@
                         </HBox>
                         <HBox alignment="CENTER" layoutX="10.0" layoutY="516.0" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="humano9" onMouseClicked="#gestionaJuego">
                                     <image>
                                         <Image url="@../imagenes/humanrojo.png" />
                                     </image>
@@ -103,12 +103,12 @@
                                         <Insets right="20.0" />
                                     </HBox.margin>
                                 </ImageView>
-                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="esponja9" onMouseClicked="#gestionaJuego">
                                     <image>
                                         <Image url="@../imagenes/spongerojo.png" />
                                     </image>
                                 </ImageView>
-                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="fuego9" onMouseClicked="#gestionaJuego">
                                     <image>
                                         <Image url="@../imagenes/firerojo.png" />
                                     </image>

@@ -40,7 +40,7 @@
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                     <children>
-                        <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="piedra3" fitHeight="113.0" fitWidth="96.0" onMouseClicked="#gestionaJuego" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../imagenes/piedraroja.png" />
                             </image>
@@ -48,12 +48,12 @@
                                 <Insets right="20.0" />
                             </HBox.margin>
                         </ImageView>
-                        <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="papel3" fitHeight="113.0" fitWidth="96.0" onMouseClicked="#gestionaJuego" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../imagenes/papelrojo.png" />
                             </image>
                         </ImageView>
-                        <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="tijera3" fitHeight="113.0" fitWidth="96.0" onMouseClicked="#gestionaJuego" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../imagenes/tijerasrojo.png" />
                             </image>

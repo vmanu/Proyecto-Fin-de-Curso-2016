@@ -13,24 +13,27 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import static constantes.Constantes.*;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import modelo.DataContainer;
+import modelo.ModalidadJuego;
+import static modelo.ModalidadJuego.*;
 
 /**
  *
@@ -39,6 +42,7 @@ import javafx.stage.Stage;
 public class FXMLController implements Initializable {
 
     private Parent root;
+    private static DataContainer datos;
 
     @FXML
     private ComboBox cbox;
@@ -184,13 +188,13 @@ public class FXMLController implements Initializable {
                 }
                 switch (getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Rounds_Online")).getChildren()))) {
                     case ID_RADIOBUTTON_ROUND_OF_1:
-                        //TODO SET VARIABLES
+                        datos.setRoundsLimit(1);
                         break;
                     case ID_RADIOBUTTON_ROUND_OF_3:
-                        ////////////////////////
+                        datos.setRoundsLimit(3);
                         break;
                     case ID_RADIOBUTTON_ROUND_OF_5:
-                        /////////////////////
+                        datos.setRoundsLimit(5);
                         break;
                 }
             }
@@ -204,6 +208,7 @@ public class FXMLController implements Initializable {
                     cargarPantalla = false;
                 } else {
                     loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
+                    datos = null;
                 }
             }
         }
@@ -215,34 +220,83 @@ public class FXMLController implements Initializable {
     @FXML
     private void handleButtonsMenuOpcionesJuegoNormalAction(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        boolean everythingOk = true;
         FXMLLoader loader = null;
         ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
         switch (((Node) event.getSource()).getId()) {
             case ID_BOTON_PLAY_OPCIONES_MENU_NORMAL:
-                switch (getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Games_Normal")).getChildren()))) {
-                    case ID_RADIOBUTTON_GAME_OF_3:
-                        loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame3.fxml"), bundle);
-                        break;
-                    case ID_RADIOBUTTON_GAME_OF_5:
-                        loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame5.fxml"), bundle);
-                        break;
-                    case ID_RADIOBUTTON_GAME_OF_9:
-                        loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame9.fxml"), bundle);
-                        break;
+                String player1Name = ((TextField) stage.getScene().lookup("#TxtFieldP1")).getText();
+                if (!player1Name.isEmpty()) {
+                    switch (getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Games_Normal")).getChildren()))) {
+                        case ID_RADIOBUTTON_GAME_OF_3:
+                            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame3.fxml"), bundle);
+                            datos.setFactorAlgoritmo(1);
+                            break;
+                        case ID_RADIOBUTTON_GAME_OF_5:
+                            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame5.fxml"), bundle);
+                            datos.setFactorAlgoritmo(2);
+                            break;
+                        case ID_RADIOBUTTON_GAME_OF_9:
+                            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame9.fxml"), bundle);
+                            datos.setFactorAlgoritmo(4);
+                            break;
+                    }
+                    switch (getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Rounds_Normal")).getChildren()))) {
+                        case ID_RADIOBUTTON_ROUND_OF_1:
+                            datos.setRoundsLimit(1);
+                            break;
+                        case ID_RADIOBUTTON_ROUND_OF_3:
+                            datos.setRoundsLimit(3);
+                            break;
+                        case ID_RADIOBUTTON_ROUND_OF_5:
+                            datos.setRoundsLimit(5);
+                            break;
+                        case ID_RADIOBUTTON_ROUND_CUSTOMIZED:
+                            datos.setRoundsLimit(Integer.getInteger(((TextField) stage.getScene().lookup("#NumberRoundsCustom")).getText()));
+                            break;
+                    }
+                    datos.setNombreJ1(((TextField) stage.getScene().lookup("#TxtFieldP1")).getText());
+                    if (getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Player_Normal")).getChildren())).equals("TxtFieldP2")) {
+                        String player2Name = ((TextField) stage.getScene().lookup("#TxtFieldP2")).getText();
+                        if (!player2Name.isEmpty()) {
+                            datos.setNombreJ2(player2Name);
+                        } else {
+                            everythingOk = false;
+                        }
+                    } else {
+                        datos.setNombreJ2("CPU");
+                    }
+                    System.out.println("nombreJ1: " + datos.getNombreJ1() + ", nombreJ2: " + datos.getNombreJ2() + ", roundLim: " + datos.getRoundsLimit() + ", gameType: " + datos.getModalidadJuego());
+                } else {
+                    everythingOk = false;
                 }
                 break;
             case ID_BOTON_BACK_OPCIONES_MENU_NORMAL:
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoNormal.fxml"), bundle);
+                datos = null;
                 break;
             default:
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuOpcionesJuegoNormal.fxml"), bundle);
                 break;
         }
-        changeSceneRoot(event, loader, stage);
+        if (everythingOk) {
+            changeSceneRoot(event, loader, stage);
+        } else {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("I have a great message for you!");
+
+            alert.showAndWait();
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if (datos == null) {
+            System.out.println("ESTA NULL");
+            datos = new DataContainer();
+        }
         if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLScores.fxml")) {
             //ENTRA EN SCORES
             List<String> list = new ArrayList<String>();
@@ -289,7 +343,8 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    private void gestionaJuego(ActionEvent event) {
-
+    private void gestionaJuego(MouseEvent event) {
+        System.out.println("ENTRAMOS EN GESTIONAJUEGO");
     }
+
 }
