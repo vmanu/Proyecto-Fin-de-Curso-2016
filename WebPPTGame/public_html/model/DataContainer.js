@@ -22,9 +22,9 @@ DataContainer = function(){
     var victoriesP1;
     var victoriesP2;
     var turno;
-    var modalidadJuego;
-    var enumChosen1=new EnumChosen();
-    var enumChosen2=new EnumChosen();;
+    var modalidadJuego=new ModalidadJuego();
+    var enumChosen1;
+    var enumChosen2;;
     var factorAlgoritmo;
     var idImgPulsada1;
     var idImgPulsada2;
@@ -186,17 +186,17 @@ DataContainer = function(){
     
     this.inicializaMapFichasMaquina=function(){
         mapFichasMaquina={
-            "PAPEL":"papelAzul",
-            "SPOCK":"spockazul",
-            "PIEDRA":"piedraazul",
-            "TIJERA":"tijerasazul",
-            "LAGARTO":"lizardazul",
-            "AIRE":"windazul",
-            "AGUA":"waterazul",
-            "PISTOLA":"gunazul",
-            "FUEGO":"fireazul",
-            "HUMANO":"humanazul",
-            "ESPONJA":"spongeazul"
+            PAPEL:"papelAzul",
+            SPOCK:"spockazul",
+            PIEDRA:"piedraazul",
+            TIJERA:"tijerasazul",
+            LAGARTO:"lizardazul",
+            AIRE:"windazul",
+            AGUA:"waterazul",
+            PISTOLA:"gunazul",
+            FUEGO:"fireazul",
+            HUMANO:"humanazul",
+            ESPONJA:"spongeazul"
         };
         return mapFichasMaquina;
     };

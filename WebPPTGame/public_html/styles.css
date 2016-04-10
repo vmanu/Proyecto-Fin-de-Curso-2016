@@ -33,6 +33,10 @@ html,body{
     left: 18%
 }
 
+.floatLeft{
+    float: left;
+}
+
 .containsPlaceholder{
     text-align: center
 }
