@@ -13,14 +13,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import static constantes.Constantes.*;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -34,6 +39,9 @@ import javafx.stage.Stage;
 public class FXMLController implements Initializable {
 
     private Parent root;
+
+    @FXML
+    private ComboBox cbox;
 
     @FXML
     private void handleButtonsMenuPrincipalAction(ActionEvent event) {
@@ -51,7 +59,7 @@ public class FXMLController implements Initializable {
                 loader = new FXMLLoader(getClass().getResource("FXMLMenuRules.fxml"), bundle);
                 break;
             case ID_BOTON_RULES_GRAPHICALLY_MENU_PRINCIPAL:
-                loader = new FXMLLoader(getClass().getResource("FXMLMenuRulesGrafico.fxml"), bundle);
+                loader = new FXMLLoader(getClass().getResource("FXMLRulesGraphic.fxml"), bundle);
                 break;
             case ID_BOTON_DEVELOPERS_MENU_PRINCIPAL:
                 loader = new FXMLLoader(getClass().getResource("FXMLMenuDevelopers.fxml"), bundle);
@@ -60,6 +68,14 @@ public class FXMLController implements Initializable {
                 loader = new FXMLLoader(getClass().getResource("FXMLMenuPrincipal.fxml"), bundle);
                 break;
         }
+        changeSceneRoot(event, loader, stage);
+    }
+
+    @FXML
+    private void handleButtonBackAction(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLMenuPrincipal.fxml"), bundle);
         changeSceneRoot(event, loader, stage);
     }
 
@@ -73,7 +89,7 @@ public class FXMLController implements Initializable {
                 loader = new FXMLLoader(getClass().getResource("FXMLMenuOpcionesNormal.fxml"), bundle);
                 break;
             case ID_BOTON_SCORES_MENU_JUEGO_NORMAL:
-                loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoOnline.fxml"), bundle);
+                loader = new FXMLLoader(getClass().getResource("FXMLScores.fxml"), bundle);
                 break;
             case ID_BOTON_BACKUP_MENU_JUEGO_NORMAL:
                 loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoNormal.fxml"), bundle);
@@ -112,31 +128,31 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleRadioButtonsAction(ActionEvent event) {
-        String rb=((Node) event.getSource()).getId();
+        String rb = ((Node) event.getSource()).getId();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         TextField txtField, txtField1, txtFieldRounds;
-        switch (rb){
+        switch (rb) {
             case ID_RADIOBUTTON_1_PLAYERS:
-                txtField1=(TextField) stage.getScene().lookup("#TxtFieldP1");
-                txtField=(TextField) stage.getScene().lookup("#TxtFieldP2");
+                txtField1 = (TextField) stage.getScene().lookup("#TxtFieldP1");
+                txtField = (TextField) stage.getScene().lookup("#TxtFieldP2");
                 txtField.setManaged(false);
                 txtField.setVisible(false);
                 txtField1.setPrefWidth(490.0);
                 break;
             case ID_RADIOBUTTON_2_PLAYERS:
-                txtField1=(TextField) stage.getScene().lookup("#TxtFieldP1");
-                txtField=(TextField) stage.getScene().lookup("#TxtFieldP2");
+                txtField1 = (TextField) stage.getScene().lookup("#TxtFieldP1");
+                txtField = (TextField) stage.getScene().lookup("#TxtFieldP2");
                 txtField.setManaged(true);
                 txtField.setVisible(true);
                 txtField1.setPrefWidth(230.0);
                 break;
             case ID_RADIOBUTTON_ROUND_CUSTOMIZED:
-                txtFieldRounds=(TextField) stage.getScene().lookup("#NumberRoundsCustom");
+                txtFieldRounds = (TextField) stage.getScene().lookup("#NumberRoundsCustom");
                 txtFieldRounds.setManaged(true);
                 txtFieldRounds.setVisible(true);
                 break;
             default:
-                txtFieldRounds=(TextField) stage.getScene().lookup("#NumberRoundsCustom");
+                txtFieldRounds = (TextField) stage.getScene().lookup("#NumberRoundsCustom");
                 txtFieldRounds.setManaged(false);
                 txtFieldRounds.setVisible(false);
                 break;
@@ -145,7 +161,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleButtonsMenuOpcionesJuegoOnlineAction(ActionEvent event) {
-        boolean cargarPantalla=true;
+        boolean cargarPantalla = true;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         String boton = ((Button) event.getSource()).getId();
         ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");
@@ -153,7 +169,7 @@ public class FXMLController implements Initializable {
         if (boton.equals(ID_BOTON_PLAY_OPCIONES_MENU_ONLINE)) {
             if (((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, false);
-                cargarPantalla=false;
+                cargarPantalla = false;
             } else {
                 switch (getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Games_Online")).getChildren()))) {
                     case ID_RADIOBUTTON_GAME_OF_3:
@@ -185,25 +201,25 @@ public class FXMLController implements Initializable {
                 //BACK
                 if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                     setVisibilitiesStateMenuOpcionesOnline(stage, true);
-                    cargarPantalla=false;
-                }else{
+                    cargarPantalla = false;
+                } else {
                     loader = new FXMLLoader(getClass().getResource("FXMLMenuJuegoOnline.fxml"), bundle);
                 }
             }
         }
-        if(cargarPantalla){
+        if (cargarPantalla) {
             changeSceneRoot(event, loader, stage);
         }
     }
-    
+
     @FXML
     private void handleButtonsMenuOpcionesJuegoNormalAction(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader loader = null;
         ResourceBundle bundle = ResourceBundle.getBundle("resources.UIResources");
-        switch (((Node)event.getSource()).getId()) {
+        switch (((Node) event.getSource()).getId()) {
             case ID_BOTON_PLAY_OPCIONES_MENU_NORMAL:
-                switch(getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Games_Normal")).getChildren()))){
+                switch (getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Games_Normal")).getChildren()))) {
                     case ID_RADIOBUTTON_GAME_OF_3:
                         loader = new FXMLLoader(getClass().getResource("FXMLJuegoGame3.fxml"), bundle);
                         break;
@@ -224,12 +240,20 @@ public class FXMLController implements Initializable {
         }
         changeSceneRoot(event, loader, stage);
     }
-    
-    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLScores.fxml")) {
+            //ENTRA EN SCORES
+            List<String> list = new ArrayList<String>();
+            list.add(rb.getString("VictoriesOption"));
+            list.add(rb.getString("RoundsOption"));
+            list.add(rb.getString("AverageOption"));
+            ObservableList obList = FXCollections.observableList(list);
+            cbox.getItems().clear();
+            cbox.setItems(obList);
+            cbox.setValue(list.get(0));
+        }
     }
 
     private String getSelectedRadioButtonID(ObservableList<Node> lista) {
@@ -263,9 +287,9 @@ public class FXMLController implements Initializable {
         ((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).setVisible(visibilityButton);
         ((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).setManaged(visibilityButton);
     }
-    
+
     @FXML
     private void gestionaJuego(ActionEvent event) {
-        
+
     }
 }
