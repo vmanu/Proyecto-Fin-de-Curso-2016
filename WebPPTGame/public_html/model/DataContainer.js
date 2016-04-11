@@ -262,7 +262,7 @@ DataContainer = function(){
         }
         return fin;
     };
-    
+    /*
     this.getOrdinalChosen1=function(){
         return enumChosen1.getOrdinal();
     };
@@ -294,7 +294,7 @@ DataContainer = function(){
     this.setNameChosen2=function(name){
         enumChosen2.setName(name);
     };
-    
+    */
     this.sumaVictoriesP1=function(){
         victoriesP1++;
     };

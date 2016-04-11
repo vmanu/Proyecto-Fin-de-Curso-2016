@@ -134,6 +134,7 @@ and open the template in the editor.
             }
 
             function gestionaJuego(window, opClicked, imgId) {
+                var mmsg = null;
                 var modalidad = new ModalidadJuego().getModalidad();
                 if (document.getElementById(window).style.display == "block") {
                     opc = mapFichas[opClicked];
@@ -141,18 +142,31 @@ and open the template in the editor.
                         datos.setEnumChosen1(opc);
                         datos.setIdImgPulsada1(imgId);
                         if (datos.getModalidadJuego().ordinal == modalidad[2].ordinal) {
+                            //DOS JUGADORES
                             datos.setNombreJ2($("#nameOfPlayer2").val());
                             turnoAzul();
                             datos.setTurno(false);
                             showToastBlue();
                         } else {
+                            
                             if (datos.getModalidadJuego().ordinal == modalidad[1].ordinal) {
-                                ////////////////////////////////////////////////////////////////////////////////
+                                //UN JUGADOR
                                 datos.setEnumChosen2(getEnumFromOrdinal());
                                 console.log(datos.getEnumChosen2());
                                 datos.setNombreJ2("CPU");
                                 datos.setIdImgPulsada2(gestionaPulsadoMaquina() + modo);
                                 comunEvaluacionGanador(false);
+                            }else{
+                                //ONLINE
+                                mmsg = new MetaMessage();
+                                mmsg.setTypeMessage(new TypeMessage().PARTIDA);
+                                var opcionJuego=new OpcionJuego();
+                                opcionJuego.setOpcion(datos.getEnumChosen1().ordinal);
+                                if(datos.getEnumChosen2()!=null){
+                                    $("#imgResultP2").attr("src", document.getElementById(datos.getIdImgPulsada2()).src);
+                                    comunEvaluacionGanador(false);
+                                }
+                                mmsg.setContent(opcionJuego);
                             }
                         }
                     } else {
@@ -376,26 +390,7 @@ and open the template in the editor.
                 $('.toast').text(datos.getNombreJ2() + "'s turn").css("background-color", "blue").fadeIn(400).delay(1200).fadeOut(400);
             }
 
-            function gestionDataBaseLocal() {
-                var sqlite3 = document.require('sqlite3').verbose();
-                var db = new sqlite3.Database(':memory:');
-
-                db.serialize(function () {
-                    db.run("CREATE TABLE lorem (info TEXT)");
-
-                    var stmt = db.prepare("INSERT INTO lorem VALUES (?)");
-                    for (var i = 0; i < 10; i++) {
-                        stmt.run("Ipsum " + i);
-                    }
-                    stmt.finalize();
-
-                    db.each("SELECT rowid AS id, info FROM lorem", function (err, row) {
-                        console.log(row.id + ": " + row.info);
-                    });
-                });
-
-                db.close();
-            }
+            
         </script>
     </head>
     <body class="bgBlue">
@@ -406,7 +401,6 @@ and open the template in the editor.
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('rules')">Rules of the game</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('graphicRules')">Rules of the game (graphically)</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('infoDev')">Info of developers</button>
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="gestionDataBaseLocal()">Testing DB</button><br>
         </div>
         <div class="atCenterOfScreen" id="playLocal" hidden="">
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('localGameMenu')">Play</button><br>
