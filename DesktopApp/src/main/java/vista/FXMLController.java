@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import static constantes.Constantes.*;
+import exceptions.WrongValueFieldException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -252,11 +253,16 @@ public class FXMLController implements Initializable {
                             datos.setRoundsLimit(5);
                             break;
                         case ID_RADIOBUTTON_ROUND_CUSTOMIZED:
-                            datos.setRoundsLimit(Integer.getInteger(((TextField) stage.getScene().lookup("#NumberRoundsCustom")).getText()));
+                            String roundsCustom = ((TextField) stage.getScene().lookup("#NumberRoundsCustom")).getText();
+                            if (roundsCustom != null && !roundsCustom.isEmpty()) {
+                                datos.setRoundsLimit(Integer.parseInt(roundsCustom));
+                            } else {
+                                everythingOk = false;
+                            }
                             break;
                     }
                     datos.setNombreJ1(((TextField) stage.getScene().lookup("#TxtFieldP1")).getText());
-                    if (getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Player_Normal")).getChildren())).equals("TxtFieldP2")) {
+                    if (getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Player_Normal")).getChildren())).equals(ID_RADIOBUTTON_2_PLAYERS)) {
                         String player2Name = ((TextField) stage.getScene().lookup("#TxtFieldP2")).getText();
                         if (!player2Name.isEmpty()) {
                             datos.setNombreJ2(player2Name);
@@ -282,11 +288,43 @@ public class FXMLController implements Initializable {
         if (everythingOk) {
             changeSceneRoot(event, loader, stage);
         } else {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Information Dialog");
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle(bundle.getString("EmptyFields"));
             alert.setHeaderText(null);
-            alert.setContentText("I have a great message for you!");
+            alert.setContentText(bundle.getString("PleaseFillFields"));
+            
+            ////////////////////////////////////////////////////////
+            
+            Exception ex = new WrongValueFieldException("Could not find file blabla.txt");
 
+            // Create expandable Exception.
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exceptionText = sw.toString();
+
+            Label label = new Label("The exception stacktrace was:");
+
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+
+            // Set expandable Exception into the dialog pane.
+            alert.getDialogPane().setExpandableContent(expContent);
+            
+            /////////////////////////////////
+            
+            
             alert.showAndWait();
         }
     }
