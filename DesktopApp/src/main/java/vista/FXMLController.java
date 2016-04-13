@@ -5,6 +5,7 @@
  */
 package vista;
 
+import com.mycompany.datapptgame.MetaMessage;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -12,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import static constantes.Constantes.*;
+import eu.hansolo.enzo.notification.Notification;
+import eu.hansolo.enzo.notification.Notification.Notifier;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.PrintWriter;
@@ -203,6 +206,13 @@ public class FXMLController implements Initializable {
                         datos.setRoundsLimit(5);
                         break;
                 }
+                String player1Name = ((TextField) stage.getScene().lookup("#TxtFieldP1Online")).getText();
+                if (!player1Name.isEmpty()) {
+                    datos.setNombreJ1(((TextField) stage.getScene().lookup("#TxtFieldP1Online")).getText());
+                } else {
+                    cargarPantalla = false;
+                    showAlertFields(bundle, bundle.getString("P1NoSetted"));
+                }
             }
         } else {
             if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
@@ -233,7 +243,6 @@ public class FXMLController implements Initializable {
         switch (((Node) event.getSource()).getId()) {
             case ID_BOTON_PLAY_OPCIONES_MENU_NORMAL:
                 String player1Name = ((TextField) stage.getScene().lookup("#TxtFieldP1")).getText();
-
                 switch (getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Games_Normal")).getChildren()))) {
                     case ID_RADIOBUTTON_GAME_OF_3:
                         loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame3.fxml"), bundle);
@@ -304,26 +313,7 @@ public class FXMLController implements Initializable {
         if (everythingOk) {
             changeSceneRoot(event, loader, stage);
         } else {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle(bundle.getString("Warning"));
-            alert.setHeaderText(null);
-            alert.setContentText(bundle.getString("HaveWrongFields"));
-            Label label = new Label(bundle.getString("TheWarningsAre"));
-            TextArea textArea = new TextArea(excepcion.toString());
-            textArea.setEditable(false);
-            textArea.setWrapText(true);
-            textArea.setMaxWidth(Double.MAX_VALUE);
-            textArea.setMaxHeight(Double.MAX_VALUE);
-            GridPane.setVgrow(textArea, Priority.ALWAYS);
-            GridPane.setHgrow(textArea, Priority.ALWAYS);
-            GridPane expContent = new GridPane();
-            expContent.setMaxWidth(Double.MAX_VALUE);
-            expContent.add(label, 0, 0);
-            expContent.add(textArea, 0, 1);
-            // Set expandable Exception into the dialog pane.
-            alert.getDialogPane().setExpandableContent(expContent);
-            /////////////////////////////////
-            alert.showAndWait();
+            showAlertFields(bundle, excepcion.toString());
         }
     }
 
@@ -378,9 +368,94 @@ public class FXMLController implements Initializable {
         ((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).setManaged(visibilityButton);
     }
 
+    private void showAlertFields(ResourceBundle bundle, String excepcion) {
+//        Alert alert = new Alert(AlertType.WARNING);
+//        alert.setTitle(bundle.getString("Warning"));
+//        alert.setHeaderText(null);
+//        alert.setContentText(bundle.getString("HaveWrongFields"));
+//        Label label = new Label(bundle.getString("TheWarningsAre"));
+//        TextArea textArea = new TextArea(excepcion);
+//        textArea.setEditable(false);
+//        textArea.setWrapText(true);
+//        textArea.setMaxWidth(Double.MAX_VALUE);
+//        textArea.setMaxHeight(Double.MAX_VALUE);
+//        GridPane.setVgrow(textArea, Priority.ALWAYS);
+//        GridPane.setHgrow(textArea, Priority.ALWAYS);
+//        GridPane expContent = new GridPane();
+//        expContent.setMaxWidth(Double.MAX_VALUE);
+//        expContent.add(label, 0, 0);
+//        expContent.add(textArea, 0, 1);
+//        // Set expandable Exception into the dialog pane.
+//        alert.getDialogPane().setExpandableContent(expContent);
+//        alert.showAndWait();
+
+        
+    }
+    
+    private void notificacionToast(){
+        ///////////////////////////////////////////
+        Notification info = new Notification("Title", "Info-Message");
+
+        // Show the custom notification
+        Notifier.INSTANCE.notify(info);
+
+        // Show a predefined Warning notification
+//        Notifier.INSTANCE.notifyWarning("Warning","This is a warning");
+    }
+
     @FXML
     private void gestionaJuego(MouseEvent event) {
-        System.out.println("ENTRAMOS EN GESTIONAJUEGO");
+        MetaMessage msg = null;
+        Enum chosen = datos.getMapFichas().get(v.getId());
+        if (datos.isTurno() && chosen != null) {
+            datos.setChosen1(chosen);
+            datos.setIdImagenPulsada1((int) v.getTag());
+            if (datos.getModalidadJuego() == ModalidadJuego.DOS.ordinal()) {
+                cambiaAzul(activity, datos);
+                datos.cambiaTurno();
+                //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
+                Toast t = Toast.makeText(activity.getApplicationContext(), datos.getNombreJ2() + activity.getResources().getString(R.string.turno), Toast.LENGTH_LONG);//SUSTITUIR POR EL METODO notificacionToast()
+                t.setGravity(Gravity.CENTER, 0, 0);
+                t.show();
+                android.util.Log.d("VERIFICA", "cambia jugador...");
+            } else {
+                //JUEGA MAQUINA
+                if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
+                    datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
+                    Log.d("PRUEBA", "datos es: " + datos);
+                    Log.d("PRUEBA", "setChosen2 es: " + datos.getChosen2() + " y el getEnum da: " + getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos) + " y el datos.algoritmo da: " + datos.getFactorAlgoritmo());
+                    comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, false);
+                    //datos.setJugando(false);
+                    datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
+                    ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
+                    android.util.Log.d("VERIFICA", "victorias J1 " + datos.getVictoriesP1() + " y victorias Maquina " + datos.getVictoriesP2());
+                } else {
+                    //JUEGO ONLINE
+                    msg = new MetaMessage();
+                    msg.setType(TypeMessage.PARTIDA);
+                    OpcionJuego oj = new OpcionJuego();
+                    oj.setOpcion(datos.getChosen1().ordinal());
+                    if (datos.getChosen2() != null) {
+                        ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
+                        comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, true);
+                    }
+                    msg.setContent(oj);
+
+                }
+            }
+        } else {
+            if (!datos.isTurno() && chosen != null) {
+                datos.setChosen2(chosen);
+                datos.setIdImagenPulsada2((int) v.getTag());
+                cambiaRojo(activity, datos);
+                //datos.setJugando(false);
+                ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
+                comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, false);
+                datos.cambiaTurno();
+                android.util.Log.d("VERIFICA", "victorias J1 " + datos.getVictoriesP1() + " y victorias J2 " + datos.getVictoriesP2());
+            }
+        }
+        return msg;
     }
 
 }
