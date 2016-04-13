@@ -57,7 +57,7 @@
                                         <Insets bottom="20.0" top="20.0" />
                                     </padding>
                                 </Label>
-                                <TextField alignment="CENTER" minWidth="490.0" prefWidth="490.0" promptText="%PlaceholderPutName" visible="false"/>
+                                <TextField alignment="CENTER" minWidth="490.0" prefWidth="490.0" promptText="%PlaceholderPutName" visible="false" fx:id="TxtFieldP1Online"/>
                                 <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="461.0" text="%ChooseNumberOfRounds" visible="false">
                                     <font>
                                         <Font size="24.0" />
