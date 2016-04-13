@@ -26,7 +26,7 @@ and open the template in the editor.
         <script src='js/sql.js'></script>
         <link href="styles.css" rel="stylesheet" type="text/css"/>
         <script>
-            var datos, mapFichas, mapFichasMaquina, opc, modo, online;
+            var datos, mapFichas, mapFichasMaquina, opc, modo, online, player;
 
             $(document).ready(function () {
                 datos = new DataContainer();
@@ -35,7 +35,7 @@ and open the template in the editor.
                 datos.setVictoriesP2(0);
                 mapFichas = datos.inicializaMapFichas();
                 mapFichasMaquina = datos.inicializaMapFichasMaquina();
-                localStorage.setItem("datos",datos);
+                localStorage.setItem("datos", datos);
             });
 
             function cambiaVista(divId) {
@@ -77,7 +77,7 @@ and open the template in the editor.
 
             function cambiaVistaJuego() {
                 datos.setNombreJ1($("#nameOfPlayer1").val());
-                localStorage.setItem("nombreJ1",datos.getNombreJ1());
+                localStorage.setItem("nombreJ1", datos.getNombreJ1());
                 document.getElementById('title').style.display = 'none';
                 cambiaVista('headerGame');
                 if (document.getElementById('game3').checked == true) {
@@ -109,28 +109,16 @@ and open the template in the editor.
             }
 
             function setLimiteRondas() {
-                if (!online) {
-                    if (document.getElementById('oneRound').checked) {
-                        datos.setRoundsLimit(1);
-                    } else {
-                        if (document.getElementById('threeRounds').checked) {
-                            datos.setRoundsLimit(3);
-                        } else {
-                            if (document.getElementById('fiveRounds').checked) {
-                                datos.setRoundsLimit(5);
-                            } else {
-                                datos.setRoundsLimit($("#customedRounds").val());
-                            }
-                        }
-                    }
+                if (document.getElementById('oneRound').checked) {
+                    datos.setRoundsLimit(1);
                 } else {
-                    if (document.getElementById('oneRoundOnl').checked) {
-                        datos.setRoundsLimit(1);
+                    if (document.getElementById('threeRounds').checked) {
+                        datos.setRoundsLimit(3);
                     } else {
-                        if (document.getElementById('threeRoundsOnl').checked) {
-                            datos.setRoundsLimit(3);
-                        } else {
+                        if (document.getElementById('fiveRounds').checked) {
                             datos.setRoundsLimit(5);
+                        } else {
+                            datos.setRoundsLimit($("#customedRounds").val());
                         }
                     }
                 }
@@ -151,7 +139,7 @@ and open the template in the editor.
                             datos.setTurno(false);
                             showToastBlue();
                         } else {
-                            
+
                             if (datos.getModalidadJuego().ordinal == modalidad[1].ordinal) {
                                 //UN JUGADOR
                                 datos.setEnumChosen2(getEnumFromOrdinal());
@@ -159,18 +147,19 @@ and open the template in the editor.
                                 datos.setNombreJ2("CPU");
                                 datos.setIdImgPulsada2(gestionaPulsadoMaquina() + modo);
                                 comunEvaluacionGanador(false);
-                            }else{
+                            } else {
                                 //ONLINE
                                 //datos.setNombreJ1($("#nameOfPlayerOnline").val());
                                 mmsg = new MetaMessage();
                                 mmsg.setTypeMessage(new TypeMessage().PARTIDA);
-                                var opcionJuego=new OpcionJuego();
+                                var opcionJuego = new OpcionJuego();
                                 opcionJuego.setOpcion(datos.getEnumChosen1().ordinal);
-                                if(datos.getEnumChosen2()!=null){
+                                if (datos.getEnumChosen2() != null) {
                                     $("#imgResultP2").attr("src", document.getElementById(datos.getIdImgPulsada2()).src);
                                     comunEvaluacionGanador(false);
                                 }
                                 mmsg.setContent(opcionJuego);
+                                websocket.send(mmsg);
                             }
                         }
                     } else {
@@ -183,6 +172,7 @@ and open the template in the editor.
                         }
                     }
                 }
+                return mmsg;
             }
 
             function comunEvaluacionGanador(recuperando) {
@@ -277,12 +267,18 @@ and open the template in the editor.
                 datos.setEnumChosen1(null);
                 datos.setEnumChosen2(null);
                 datos.setJugando(false);
+                document.getElementById('back').onclick = function (){
+                    if (datos.getModalidadJuego().getModalidad().ordinal == new ModalidadJuego().getModalidad()[3].ordinal && websocket != null) {
+                        websocket.close();
+                    }
+                };
+                    
             }
 
             function gestionaPulsadoMaquina() {
                 return mapFichasMaquina[datos.getEnumChosen2().name];
             }
-            
+
             function turnoAzul() {
                 $("#p1").attr("src", "imagesPPTGame/blank.png");
                 $("#p2").attr("src", "imagesPPTGame/helpsymbolazul.png");
@@ -328,7 +324,72 @@ and open the template in the editor.
                 $('.toast').text(datos.getNombreJ2() + "'s turn").css("background-color", "blue").fadeIn(400).delay(1200).fadeOut(400);
             }
 
-            
+            function cambiaVistaJuegoOnline() {
+                if ($("nameOfPlayerOnline").val() == "") {
+                    alert("Rellena todos los campos!");
+                } else {
+                    //if (id == "gameOnlineScreen") {
+                    
+                    //NECESARIO???----->datos.setNombreJ1($("#nameOfPlayerOnline").val());
+                    var metamsg = new MetaMessage();
+                    metamsg.setTypeMessage(new TypeMessage().CONEXION);
+                    player = new Player();
+                    player.setLogin(datos.getNombreJ1());
+                    player.setPlaying(false);
+                    datos.setJugando(true);
+                    if (document.getElementById('game3Onl').checked == true) {
+                        document.getElementById('gameOf3red').style.display = 'block';
+                        datos.setFactorAlgoritmo(1);
+                        player.setGameType(new GameType().getGameType().JUEGO3);
+                        modo = 3;
+                    } else {
+                        if (document.getElementById('game5Onl').checked == true) {
+                            document.getElementById('gameOf5red').style.display = 'block';
+                            datos.setFactorAlgoritmo(2);
+                            player.setGameType(new GameType().getGameType().JUEGO5);
+                            modo = 5;
+                        } else {
+                            document.getElementById('gameOf9red').style.display = 'block';
+                            datos.setFactorAlgoritmo(4);
+                            player.setGameType(new GameType().getGameType().JUEGO9);
+                            modo = 9;
+                        }
+                    }
+                    setLimiteRondasOnline();
+                    metamsg.setContent(player);
+                    websocket.send(metamsg);
+                }
+                
+                
+                //}
+            }
+
+            function setLimiteRondasOnline() {
+                if (document.getElementById('oneRoundOnl').checked) {
+                    datos.setRoundsLimit(1);
+                    player.setRoundsNumber(new RoundsNumber().getRoundsNumber().UNA);
+                } else {
+                    if (document.getElementById('threeRoundsOnl').checked) {
+                        datos.setRoundsLimit(3);
+                        player.setRoundsNumber(new RoundsNumber().getRoundsNumber().TRES);
+                    } else {
+                        datos.setRoundsLimit(5);
+                        player.setRoundsNumber(new RoundsNumber().getRoundsNumber().CINCO);
+                    }
+                }
+            }
+
+            function randomGame(){
+                    var metamsg=new MetaMessage();
+                    var p=new Player();
+                    p.setPlaying(false);
+                    p.setRoundsNumber(new RoundsNumber().getRoundsNumber().ANY);
+                    p.setGameType(new GameType().getGameType().ANY);
+                    p.setNumPartidas(datos.getNombreJ1());
+                    metamsg.setContent(p);
+                    metamsg.setTypeMessage(new TypeMessage().getTypeMessage().CONEXION);
+                    websocket.send(metamsg);
+                }
         </script>
     </head>
     <body class="bgBlue">
@@ -347,7 +408,7 @@ and open the template in the editor.
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
         </div>
         <div class="atCenterOfScreen" id="playOnline" hidden="">
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('onlineGameMenu')">Play customed</button><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('onlineGameMenu')">Play</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block">Scores</button><br><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
         </div>
@@ -451,9 +512,9 @@ and open the template in the editor.
             </div>
         </div>
         <div class="atCenterOfScreen" id="onlineGameMenu" hidden="">
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('customedOnline')">Play</button><br>
-            <button type="button" class="btn btn-primary btn-sm btn-block">Randomly</button><br><br>
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playOnline')">Back</button>
+            <button id="playCust" type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('customedOnline')">Play customed</button><br>
+            <button id="randomly" type="button" class="btn btn-primary btn-sm btn-block" onclick="randomGame()">Randomly</button><br><br>
+            <button id="backOnl" type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playOnline')">Back</button>
         </div>
         <div class="atCenterOfScreen" id="customedOnline" hidden>
             <h4>Choose option:</h4>
@@ -467,7 +528,7 @@ and open the template in the editor.
             <input type="radio" id="threeRoundsOnl" name="roundsOnl" onclick="invisibleElement('customedRounds')"/>Three rounds<br>
             <input type="radio" id="fiveRoundsOnl" name="roundsOnl" onclick="invisibleElement('customedRounds')"/>Five rounds<br>
             <div>
-                <button type="button" class="btn btn-primary btn-lg atLeft" onclick="cambiaVistaJuego()">Play</button>
+                <button id="gameOnlineScreen" type="button" class="btn btn-primary btn-lg atLeft" onclick="cambiaVistaJuegoOnline()">Play</button>
                 <button type="button" class="btn btn-primary btn-lg atRight" onclick="cambiaVista('onlineGameMenu')">Back</button>
             </div>
         </div>

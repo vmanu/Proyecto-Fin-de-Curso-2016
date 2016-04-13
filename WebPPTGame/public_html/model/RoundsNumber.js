@@ -5,11 +5,11 @@
  */
 RoundsNumber = function () {
     var roundsNumber = {
-        1: {name: "UNA", ordinal: 1},
-        2: {name: "TRES", ordinal: 2},
-        3: {name: "CINCO", ordinal: 3},
-        4: {name: "ANY", ordinal: 4},
-        5: {name: "NONE", ordinal: 5}
+        UNA: {name: "UNA", ordinal: 1},
+        TRES: {name: "TRES", ordinal: 2},
+        CINCO: {name: "CINCO", ordinal: 3},
+        ANY: {name: "ANY", ordinal: 4},
+        NONE: {name: "NONE", ordinal: 5}
     };
 
     this.getRoundsNumber = function () {

@@ -5,11 +5,11 @@
  */
 GameType = function () {
     var gameType = {
-        1: {name: "JUEGO3", ordinal: 1},
-        2: {name: "JUEGO5", ordinal: 2},
-        3: {name: "JUEGO9", ordinal: 3},
-        4: {name: "ANY", ordinal: 4},
-        5: {name: "NONE", ordinal: 5}
+        JUEGO3: {name: "JUEGO3", ordinal: 1},
+        JUEGO5: {name: "JUEGO5", ordinal: 2},
+        JUEGO9: {name: "JUEGO9", ordinal: 3},
+        ANY: {name: "ANY", ordinal: 4},
+        NONE: {name: "NONE", ordinal: 5}
     };
 
     this.getGameType = function () {

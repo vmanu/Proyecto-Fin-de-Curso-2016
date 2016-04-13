@@ -42,16 +42,16 @@ var wsUri = "ws://192.168.1.104:8080/ServerPPTGame/ppt?user=" + nameOfPlayerOnli
 console.log("Connecting to " + wsUri);
 var websocket = new WebSocket(wsUri);
 websocket.onopen = function (evt) {
-    onOpen(evt)
+    onOpen(evt);
 };
 websocket.onmessage = function (evt) {
-    onMessage(evt)
+    onMessage(evt);
 };
 websocket.onerror = function (evt) {
-    onError(evt)
+    onError(evt);
 };
 websocket.onclose = function (evt) {
-    onClose(evt)
+    onClose(evt);
 };
 var datos = localStorage.getItem("datos");
 var output = document.getElementById("output");
