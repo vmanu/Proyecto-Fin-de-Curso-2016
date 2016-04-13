@@ -6,6 +6,7 @@
 package vista;
 
 import com.mycompany.datapptgame.MetaMessage;
+import com.sun.webkit.Timer;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -392,21 +393,21 @@ public class FXMLController implements Initializable {
         
     }
     
-    private void notificacionToast(){
+    private void notificacionToast(String mensaje){
         ///////////////////////////////////////////
-        Notification info = new Notification("Title", "Info-Message");
-
+        Notification info = new Notification("", mensaje);
         // Show the custom notification
         Notifier.INSTANCE.notify(info);
-
         // Show a predefined Warning notification
 //        Notifier.INSTANCE.notifyWarning("Warning","This is a warning");
     }
 
     @FXML
     private void gestionaJuego(MouseEvent event) {
+        Node nodo=(Node)event.getSource();
+        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
         MetaMessage msg = null;
-        Enum chosen = datos.getMapFichas().get(v.getId());
+        Enum chosen = datos.getMapFichas().get(nodo.getId());
         if (datos.isTurno() && chosen != null) {
             datos.setChosen1(chosen);
             datos.setIdImagenPulsada1((int) v.getTag());
@@ -414,21 +415,18 @@ public class FXMLController implements Initializable {
                 cambiaAzul(activity, datos);
                 datos.cambiaTurno();
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
-                Toast t = Toast.makeText(activity.getApplicationContext(), datos.getNombreJ2() + activity.getResources().getString(R.string.turno), Toast.LENGTH_LONG);//SUSTITUIR POR EL METODO notificacionToast()
-                t.setGravity(Gravity.CENTER, 0, 0);
-                t.show();
-                android.util.Log.d("VERIFICA", "cambia jugador...");
+//                Toast t = Toast.makeText(activity.getApplicationContext(), datos.getNombreJ2() + activity.getResources().getString(R.string.turno), Toast.LENGTH_LONG);//SUSTITUIR POR EL METODO notificacionToast()
+//                t.setGravity(Gravity.CENTER, 0, 0);
+//                t.show();
+                notificacionToast(datos.getNombreJ2() + bundle.getString("Turno"));
             } else {
                 //JUEGA MAQUINA
                 if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
                     datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
-                    Log.d("PRUEBA", "datos es: " + datos);
-                    Log.d("PRUEBA", "setChosen2 es: " + datos.getChosen2() + " y el getEnum da: " + getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos) + " y el datos.algoritmo da: " + datos.getFactorAlgoritmo());
                     comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, false);
                     //datos.setJugando(false);
                     datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
-                    ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
-                    android.util.Log.d("VERIFICA", "victorias J1 " + datos.getVictoriesP1() + " y victorias Maquina " + datos.getVictoriesP2());
+                    ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());//Posiblemente para borrar, pasar al onload de la vista de RESULT
                 } else {
                     //JUEGO ONLINE
                     msg = new MetaMessage();
@@ -440,7 +438,6 @@ public class FXMLController implements Initializable {
                         comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, true);
                     }
                     msg.setContent(oj);
-
                 }
             }
         } else {
@@ -452,10 +449,8 @@ public class FXMLController implements Initializable {
                 ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
                 comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, false);
                 datos.cambiaTurno();
-                android.util.Log.d("VERIFICA", "victorias J1 " + datos.getVictoriesP1() + " y victorias J2 " + datos.getVictoriesP2());
             }
         }
-        return msg;
+//        return msg;
     }
-
 }
