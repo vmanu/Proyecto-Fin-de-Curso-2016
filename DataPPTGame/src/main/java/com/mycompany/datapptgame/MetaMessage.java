@@ -5,11 +5,14 @@
  */
 package com.mycompany.datapptgame;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author oscar
  */
 public class MetaMessage {
+    @JsonProperty("type")
     private TypeMessage type;
     private Object content;
 
