@@ -4,23 +4,13 @@
  * and open the template in the editor.
  */
 MetaMessage=function(){
-    var typeMessage=new TypeMessage().getTypeMessage();
-    var content;
-    
-    this.getTypeMessage=function(){
-        return typeMessage;
+    var metaMessage={
+        type:new TypeMessage(),
+        content:""
     };
     
-    this.getContent=function(){
-        return content;
-    };
-    
-    this.setTypeMessage=function(tm){
-        typeMessage=tm;
-    };
-    
-    this.setContent=function(c){
-        content=c;
+    this.getMetaMessage=function(){
+        return metaMessage;
     };
 };
 

@@ -23,7 +23,10 @@ and open the template in the editor.
         <script src="model/EnumFichas5.js" type="text/javascript"></script>
         <script src="model/DataContainer.js" type="text/javascript"></script>
         <script src="model/WebsocketClient.js" type="text/javascript"></script>
-        <script src='js/sql.js'></script>
+        <script src="model/MetaMessage.js" type="text/javascript"></script>
+        <script src="model/Result.js" type="text/javascript"></script>
+        <script src="model/TypeMessage.js" type="text/javascript"></script>
+        <script src="model/OpcionJuego.js" type="text/javascript"></script>
         <link href="styles.css" rel="stylesheet" type="text/css"/>
         <script>
             var datos, mapFichas, mapFichasMaquina, opc, modo, online, player;
@@ -96,10 +99,9 @@ and open the template in the editor.
                     }
                 }
                 if (document.getElementById('onePlayer').checked) {
-                    datos.setModalidadJuego(new ModalidadJuego().getModalidad()[1]);
+                    datos.setModalidadJuego(new ModalidadJuego().getModalidad().UNO);
                 } else {
-
-                    datos.setModalidadJuego(new ModalidadJuego().getModalidad()[2]);
+                    datos.setModalidadJuego(new ModalidadJuego().getModalidad().DOS);
                 }
                 setLimiteRondas();
                 datos.setTurno(true);
@@ -125,6 +127,7 @@ and open the template in the editor.
             }
 
             function gestionaJuego(window, opClicked, imgId) {
+                //alert(datos.getModalidadJuego().name);
                 var mmsg = null;
                 var modalidad = new ModalidadJuego().getModalidad();
                 if (document.getElementById(window).style.display == "block") {
@@ -132,26 +135,26 @@ and open the template in the editor.
                     if (datos.isTurno() == true && opc != null) {
                         datos.setEnumChosen1(opc);
                         datos.setIdImgPulsada1(imgId);
-                        if (datos.getModalidadJuego().ordinal == modalidad[2].ordinal) {
+                        if (datos.getModalidadJuego().ordinal == modalidad.DOS.ordinal) {
                             //DOS JUGADORES
                             datos.setNombreJ2($("#nameOfPlayer2").val());
                             turnoAzul();
                             datos.setTurno(false);
                             showToastBlue();
                         } else {
-
-                            if (datos.getModalidadJuego().ordinal == modalidad[1].ordinal) {
+                            if (datos.getModalidadJuego().ordinal == modalidad.UNO.ordinal) {
                                 //UN JUGADOR
                                 datos.setEnumChosen2(getEnumFromOrdinal());
-                                console.log(datos.getEnumChosen2());
+                                //console.log(datos.getEnumChosen2());
                                 datos.setNombreJ2("CPU");
                                 datos.setIdImgPulsada2(gestionaPulsadoMaquina() + modo);
                                 comunEvaluacionGanador(false);
                             } else {
                                 //ONLINE
                                 //datos.setNombreJ1($("#nameOfPlayerOnline").val());
+                                alert();
                                 mmsg = new MetaMessage();
-                                mmsg.setTypeMessage(new TypeMessage().PARTIDA);
+                                mmsg.setTypeMessage(new TypeMessage().getTypeMessage().PARTIDA);
                                 var opcionJuego = new OpcionJuego();
                                 opcionJuego.setOpcion(datos.getEnumChosen1().ordinal);
                                 if (datos.getEnumChosen2() != null) {
@@ -159,7 +162,8 @@ and open the template in the editor.
                                     comunEvaluacionGanador(false);
                                 }
                                 mmsg.setContent(opcionJuego);
-                                websocket.send(mmsg);
+                                var msgToSend=JSON.stringify(mmsg);
+                                websocket.send(msgToSend);
                             }
                         }
                     } else {
@@ -267,12 +271,12 @@ and open the template in the editor.
                 datos.setEnumChosen1(null);
                 datos.setEnumChosen2(null);
                 datos.setJugando(false);
-                document.getElementById('back').onclick = function (){
-                    if (datos.getModalidadJuego().getModalidad().ordinal == new ModalidadJuego().getModalidad()[3].ordinal && websocket != null) {
+                document.getElementById('back').onclick = function () {
+                    if (datos.getModalidadJuego().ordinal == new ModalidadJuego().getModalidad().ONLINE.ordinal && websocket != null) {
                         websocket.close();
                     }
                 };
-                    
+
             }
 
             function gestionaPulsadoMaquina() {
@@ -306,6 +310,7 @@ and open the template in the editor.
             }
 
             function backFromPlayScreen() {
+                alert();
                 $("#next").prop("disabled", false);
 
                 if (online) {
@@ -325,71 +330,81 @@ and open the template in the editor.
             }
 
             function cambiaVistaJuegoOnline() {
+                datos.setModalidadJuego(new ModalidadJuego().getModalidad().ONLINE);
+                document.getElementById('title').style.display = 'none';
+                cambiaVista('headerGame');
                 if ($("nameOfPlayerOnline").val() == "") {
                     alert("Rellena todos los campos!");
                 } else {
                     //if (id == "gameOnlineScreen") {
-                    
-                    //NECESARIO???----->datos.setNombreJ1($("#nameOfPlayerOnline").val());
-                    var metamsg = new MetaMessage();
-                    metamsg.setTypeMessage(new TypeMessage().CONEXION);
-                    player = new Player();
-                    player.setLogin(datos.getNombreJ1());
-                    player.setPlaying(false);
+                    datos.setNombreJ1($("#nameOfPlayerOnline").val());
+                    var metamsg = new MetaMessage().getMetaMessage();
+                    metamsg.type=(new TypeMessage().getTypeMessage().CONEXION);
+                    player = new Player().getPlayer();
+                    player.login=(datos.getNombreJ1());
+                    player.playing=(false);
+                    var playerJson=JSON.stringify(player);
+                    console.log(playerJson);
+                    //alert("PLAYER JSON "+playerJson);
                     datos.setJugando(true);
                     if (document.getElementById('game3Onl').checked == true) {
                         document.getElementById('gameOf3red').style.display = 'block';
                         datos.setFactorAlgoritmo(1);
-                        player.setGameType(new GameType().getGameType().JUEGO3);
+                        player.GameType=(new GameType().getGameType().JUEGO3);
                         modo = 3;
                     } else {
                         if (document.getElementById('game5Onl').checked == true) {
                             document.getElementById('gameOf5red').style.display = 'block';
                             datos.setFactorAlgoritmo(2);
-                            player.setGameType(new GameType().getGameType().JUEGO5);
+                            player.GameType=(new GameType().getGameType().JUEGO5);
                             modo = 5;
                         } else {
                             document.getElementById('gameOf9red').style.display = 'block';
                             datos.setFactorAlgoritmo(4);
-                            player.setGameType(new GameType().getGameType().JUEGO9);
+                            player.GameType=(new GameType().getGameType().JUEGO9);
                             modo = 9;
                         }
                     }
                     setLimiteRondasOnline();
-                    metamsg.setContent(player);
-                    websocket.send(metamsg);
+                    metamsg.content=(player);
+                    //alert(metamsg.toString());
+                    console.log(metamsg);
+                    var msgToSend=JSON.stringify(metamsg);
+                    alert(msgToSend);
+                    websocket.send(msgToSend);
                 }
-                
-                
+
+
                 //}
             }
 
             function setLimiteRondasOnline() {
                 if (document.getElementById('oneRoundOnl').checked) {
                     datos.setRoundsLimit(1);
-                    player.setRoundsNumber(new RoundsNumber().getRoundsNumber().UNA);
+                    player.RoundsNumber=(new RoundsNumber().getRoundsNumber().UNA);
                 } else {
                     if (document.getElementById('threeRoundsOnl').checked) {
                         datos.setRoundsLimit(3);
-                        player.setRoundsNumber(new RoundsNumber().getRoundsNumber().TRES);
+                        player.RoundsNumber=(new RoundsNumber().getRoundsNumber().TRES);
                     } else {
                         datos.setRoundsLimit(5);
-                        player.setRoundsNumber(new RoundsNumber().getRoundsNumber().CINCO);
+                        player.RoundsNumber=(new RoundsNumber().getRoundsNumber().CINCO);
                     }
                 }
+                alert(player.RoundsNumber.name);
             }
 
-            function randomGame(){
-                    var metamsg=new MetaMessage();
-                    var p=new Player();
-                    p.setPlaying(false);
-                    p.setRoundsNumber(new RoundsNumber().getRoundsNumber().ANY);
-                    p.setGameType(new GameType().getGameType().ANY);
-                    p.setNumPartidas(datos.getNombreJ1());
-                    metamsg.setContent(p);
-                    metamsg.setTypeMessage(new TypeMessage().getTypeMessage().CONEXION);
-                    websocket.send(metamsg);
-                }
+            function randomGame() {
+                var metamsg = new MetaMessage();
+                var p = new Player();
+                p.setPlaying(false);
+                p.setRoundsNumber(new RoundsNumber().getRoundsNumber().ANY);
+                p.setGameType(new GameType().getGameType().ANY);
+                p.setNumPartidas(datos.getNombreJ1());
+                metamsg.setContent(p);
+                metamsg.setTypeMessage(new TypeMessage().getTypeMessage().CONEXION);
+                websocket.send(metamsg);
+            }
         </script>
     </head>
     <body class="bgBlue">

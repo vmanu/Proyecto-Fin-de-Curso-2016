@@ -4,60 +4,72 @@
  * and open the template in the editor.
  */
 
-Player = function(){
-    var login;
-    var GameType;
-    var RoundsNumber;
-    var playing;
-    var numPartidas;
-    
-    this.player=function(nombre, gt, rn, jugando, num){
-        login=nombre;
-        GameType=gt;
-        RoundsNumber=rn;
-        playing=jugando;
-        numPartidas=num;
+Player = function () {
+    /*
+     var login;
+     var GameType;
+     var RoundsNumber;
+     var playing;
+     var numPartidas;
+     */
+    var player = {
+        login: "",
+        GameType: new GameType(),
+        RoundsNumber: new RoundsNumber(),
+        playing: "",
+        numPartidas: ""
+    };
+
+    this.playerConstructor = function (nombre, gt, rn, jugando, num) {
+        player = {
+            login: nombre,
+            GameType: gt,
+            RoundsNumber: rn,
+            playing: jugando,
+            numPartidas: num
+        };
     };
     
-    this.getLogin=function(){
-        return login;
+    this.getPlayer=function(){
+        return player;
     };
+    /*
     
-    this.getGameType=function(){
-        return GameType;
+    this.getGameType = function () {
+        return player.GameType;
     };
-    
-    this.getRoundsNumber=function(){
-        return RoundsNumber;
+
+    this.getRoundsNumber = function () {
+        return player.RoundsNumber;
     };
-    
-    this.isPlaying=function(){
-        return playing;
+
+    this.isPlaying = function () {
+        return player.playing;
     };
-    
-    this.getNumPartidas=function(){
-        return numPartidas;
+
+    this.getNumPartidas = function () {
+        return player.numPartidas;
     };
-    
-    this.setLogin=function(nombre){
-        login=nombre;
+
+    this.setLogin = function (nombre) {
+        player.login = nombre;
     };
-    
-    this.setGameType=function(gt){
-        GameType=gt;
+
+    this.setGameType = function (gt) {
+        player.GameType = gt;
     };
-    
-    this.setRoundsNumber=function(rn){
-        RoundsNumber=rn;
+
+    this.setRoundsNumber = function (rn) {
+        player.RoundsNumber = rn;
     };
-    
-    this.setPlaying=function(jugando){
-        playing=jugando;
+
+    this.setPlaying = function (jugando) {
+        player.playing = jugando;
     };
-    
-    this.setNumPartidas=function(num){
-        numPartidas=num;
+
+    this.setNumPartidas = function (num) {
+        player.numPartidas = num;
     };
-    
+    */
 };
 

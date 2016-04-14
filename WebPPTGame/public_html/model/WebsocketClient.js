@@ -38,7 +38,7 @@
  * holder.
  */
 
-var wsUri = "ws://192.168.1.104:8080/ServerPPTGame/ppt?user=" + nameOfPlayerOnline.value;
+var wsUri = "ws://localhost:8080/ServerPPTGame/ppt?user=" + $('nameOfPlayerOnline').val();
 console.log("Connecting to " + wsUri);
 var websocket = new WebSocket(wsUri);
 websocket.onopen = function (evt) {
@@ -54,13 +54,13 @@ websocket.onclose = function (evt) {
     onClose(evt);
 };
 var datos = localStorage.getItem("datos");
-var output = document.getElementById("output");
+//var output = document.getElementById("output");
 
 function sayHello() {
-    console.log("sayHello: " + nameOfPlayerOnline.value);
+    console.log("sayHello: " + $('nameOfPlayerOnline').val());
     //websocket.send(myField.value);
 }
-
+/*
 function echoBinary() {
 //                alert("Sending " + myField2.value.length + " bytes")
     var buffer = new ArrayBuffer(myField2.value.length);
@@ -72,7 +72,7 @@ function echoBinary() {
     websocket.send(buffer);
     //writeToScreen("SENT (binary): " + buffer.byteLength + " bytes");
 }
-
+*/
 function onOpen() {
     console.log("onOpen");
     //writeToScreen("CONNECTED");
@@ -83,12 +83,12 @@ function onClose() {
 }
 
 function onMessage(evt) {
-    var metamsg = new MetaMessage();
+    var metamsg = new MetaMessage().getMetaMessage();
     if (typeof evt.data == "string") {
         metamsg = JSON.parse(evt.data);
-        if (metamsg != null && metamsg.getTypeMessage() == new TypeMessage().RESPUESTA) {
-            var opcJuego = new OpcionJuego();
-            opcJuego = JSON.parse(JSON.stringify(metamsg.getContent()));
+        if (metamsg != null && metamsg.type == new TypeMessage().getTypeMessage().RESPUESTA) {
+            var opcJuego = new OpcionJuego().getOpcionJuego();
+            opcJuego = JSON.parse(JSON.stringify(metamsg.content));
             if (opcJuego != null) {
                 datos.setEnumChosen2(getEnumFromOrdinal(opcJuego.getOpcion()));
                 datos.setIdImgPulsada2(gestionaPulsadoMaquina());
@@ -97,12 +97,12 @@ function onMessage(evt) {
                 }
             }
         } else {
-            if (metamsg != null && metamsg.getTypeMessage() == new TypeMessage().DESCONEXION) {
+            if (metamsg != null && metamsg.type == new TypeMessage().getTypeMessage().DESCONEXION) {
                 alert("Ups! Something was wrong with connection!");
                 //websocket.onclose(evt);
                 websocket.close();
             } else {
-                datos.setNombreJ2(JSON.parse(JSON.stringify(metamsg.getContent())));
+                datos.setNombreJ2(JSON.parse(JSON.stringify(metamsg.content)));
             }
 
         }
@@ -111,12 +111,14 @@ function onMessage(evt) {
 }
 
 function onError(evt) {
-    writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+    console.log("ERROR");
+    //writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
 }
-
+/*
 function writeToScreen(message) {
     var pre = document.createElement("p");
     pre.style.wordWrap = "break-word";
     pre.innerHTML = message;
     output.appendChild(pre);
 }
+*/
