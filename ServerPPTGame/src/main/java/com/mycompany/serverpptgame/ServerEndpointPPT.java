@@ -85,9 +85,12 @@ public class ServerEndpointPPT {
 
     @OnMessage
     public void echoText(String msg, Session s) {
+        
+        System.out.println("MSG es"+msg);
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            
             MetaMessage meta = mapper.readValue(msg, new TypeReference<MetaMessage>() {
             });
             Player p = (Player) s.getUserProperties().get("player");
