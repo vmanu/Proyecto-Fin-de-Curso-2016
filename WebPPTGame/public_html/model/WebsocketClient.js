@@ -38,18 +38,19 @@
  * holder.
  */
 
-var wsUri = "ws://192.168.1.104:8080/ServerPPTGame/ppt?user=" + $('nameOfPlayerOnline').val();
-console.log("Connecting to " + wsUri);
+
 var websocket;
 
 function connect() {
+    var wsUri = "ws://192.168.1.104:8080/ServerPPTGame/ppt?user=" + $('nameOfPlayerOnline').val();
+    console.log("Connecting to " + wsUri);
     websocket = new WebSocket(wsUri);
     websocket.onopen = function (evt) {
         onOpen(evt);
     };
 }
 
-if (localStorage.getItem("online")==true) {
+if (localStorage.getItem("online") == true) {
     websocket.onmessage = function (evt) {
         onMessage(evt);
     };
