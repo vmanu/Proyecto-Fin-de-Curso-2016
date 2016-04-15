@@ -44,10 +44,7 @@ and open the template in the editor.
             function cambiaVista(divId) {
                 if (divId == "playLocal") {
                     online = false;
-                } else {
-                    if (divId == "playOnline") {
-                        online = true;
-                    }
+
                 }
                 document.getElementById('initialButtons').style.display = 'none';
                 document.getElementById('playLocal').style.display = 'none';
@@ -128,15 +125,20 @@ and open the template in the editor.
 
             function gestionaJuego(window, opClicked, imgId) {
                 //alert(datos.getModalidadJuego().name);
+                alert(datos.getModalidadJuego().ordinal);
                 var mmsg = null;
                 var modalidad = new ModalidadJuego().getModalidad();
                 if (document.getElementById(window).style.display == "block") {
+                    alert("WINDOW VISIBLE");
                     opc = mapFichas[opClicked];
+                    alert(datos.isTurno()+" - - - "+opc);
                     if (datos.isTurno() == true && opc != null) {
+                        alert("IS TURNO"+datos.isTurno());
                         datos.setEnumChosen1(opc);
                         datos.setIdImgPulsada1(imgId);
                         if (datos.getModalidadJuego().ordinal == modalidad.DOS.ordinal) {
                             //DOS JUGADORES
+                            alert("DOS JUGADORES");
                             datos.setNombreJ2($("#nameOfPlayer2").val());
                             turnoAzul();
                             datos.setTurno(false);
@@ -144,6 +146,7 @@ and open the template in the editor.
                         } else {
                             if (datos.getModalidadJuego().ordinal == modalidad.UNO.ordinal) {
                                 //UN JUGADOR
+                                alert("UN JUGADOR");
                                 datos.setEnumChosen2(getEnumFromOrdinal());
                                 //console.log(datos.getEnumChosen2());
                                 datos.setNombreJ2("CPU");
@@ -152,17 +155,17 @@ and open the template in the editor.
                             } else {
                                 //ONLINE
                                 //datos.setNombreJ1($("#nameOfPlayerOnline").val());
-                                alert();
+                                alert("ONLINE");
                                 mmsg = new MetaMessage();
-                                mmsg.setTypeMessage(new TypeMessage().getTypeMessage().PARTIDA);
+                                mmsg.type=(new TypeMessage().getTypeMessage().PARTIDA.name);
                                 var opcionJuego = new OpcionJuego();
-                                opcionJuego.setOpcion(datos.getEnumChosen1().ordinal);
+                                opcionJuego.opcion=(datos.getEnumChosen1().ordinal);
                                 if (datos.getEnumChosen2() != null) {
                                     $("#imgResultP2").attr("src", document.getElementById(datos.getIdImgPulsada2()).src);
                                     comunEvaluacionGanador(false);
                                 }
-                                mmsg.setContent(opcionJuego);
-                                var msgToSend=JSON.stringify(mmsg);
+                                mmsg.content=(opcionJuego);
+                                var msgToSend = JSON.stringify(mmsg);
                                 websocket.send(msgToSend);
                             }
                         }
@@ -330,6 +333,10 @@ and open the template in the editor.
             }
 
             function cambiaVistaJuegoOnline() {
+                datos.setTurno(true);
+                online = true;
+                localStorage.setItem("onlne", online);
+                connect();
                 datos.setModalidadJuego(new ModalidadJuego().getModalidad().ONLINE);
                 document.getElementById('title').style.display = 'none';
                 cambiaVista('headerGame');
@@ -339,38 +346,35 @@ and open the template in the editor.
                     //if (id == "gameOnlineScreen") {
                     datos.setNombreJ1($("#nameOfPlayerOnline").val());
                     var metamsg = new MetaMessage().getMetaMessage();
-                    metamsg.type=(new TypeMessage().getTypeMessage().CONEXION.name);
+                    metamsg.type = (new TypeMessage().getTypeMessage().CONEXION.name);
                     player = new Player().getPlayer();
-                    player.namePlayer=(datos.getNombreJ1());
-                    player.playing=(false);
-                    var playerJson=JSON.stringify(player);
-                    console.log(playerJson);
+                    player.namePlayer = (datos.getNombreJ1());
+                    player.playing = (false);
                     //alert("PLAYER JSON "+playerJson);
                     datos.setJugando(true);
                     if (document.getElementById('game3Onl').checked == true) {
                         document.getElementById('gameOf3red').style.display = 'block';
                         datos.setFactorAlgoritmo(1);
-                        player.tipoJuego=(new GameType().getGameType().JUEGO3.name);
+                        player.tipoJuego = (new GameType().getGameType().JUEGO3.name);
                         modo = 3;
                     } else {
                         if (document.getElementById('game5Onl').checked == true) {
                             document.getElementById('gameOf5red').style.display = 'block';
                             datos.setFactorAlgoritmo(2);
-                            player.tipoJuego=(new GameType().getGameType().JUEGO5.name);
+                            player.tipoJuego = (new GameType().getGameType().JUEGO5.name);
                             modo = 5;
                         } else {
                             document.getElementById('gameOf9red').style.display = 'block';
                             datos.setFactorAlgoritmo(4);
-                            player.tipoJuego=(new GameType().getGameType().JUEGO9.name);
+                            player.tipoJuego = (new GameType().getGameType().JUEGO9.name);
                             modo = 9;
                         }
                     }
                     setLimiteRondasOnline();
-                    metamsg.content=(player);
-                    //alert(metamsg.toString());
+                    metamsg.content = (player);
                     console.log(metamsg);
-                    var msgToSend=JSON.stringify(metamsg);
-                    alert(msgToSend);
+                    var msgToSend = JSON.stringify(metamsg);
+                    //alert(msgToSend);
                     websocket.send(msgToSend);
                 }
 
@@ -381,14 +385,14 @@ and open the template in the editor.
             function setLimiteRondasOnline() {
                 if (document.getElementById('oneRoundOnl').checked) {
                     datos.setRoundsLimit(1);
-                    player.numberOfRounds=(new RoundsNumber().getRoundsNumber().UNA.name);
+                    player.numberOfRounds = (new RoundsNumber().getRoundsNumber().UNA.name);
                 } else {
                     if (document.getElementById('threeRoundsOnl').checked) {
                         datos.setRoundsLimit(3);
-                        player.numberOfRounds=(new RoundsNumber().getRoundsNumber().TRES.name);
+                        player.numberOfRounds = (new RoundsNumber().getRoundsNumber().TRES.name);
                     } else {
                         datos.setRoundsLimit(5);
-                        player.numberOfRounds=(new RoundsNumber().getRoundsNumber().CINCO.name);
+                        player.numberOfRounds = (new RoundsNumber().getRoundsNumber().CINCO.name);
                     }
                 }
                 alert(player.numberOfRounds.name);
