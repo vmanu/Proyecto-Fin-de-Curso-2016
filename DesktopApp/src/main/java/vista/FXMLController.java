@@ -410,7 +410,7 @@ public class FXMLController implements Initializable {
         Enum chosen = datos.getMapFichas().get(nodo.getId());
         if (datos.isTurno() && chosen != null) {
             datos.setChosen1(chosen);
-            datos.setIdImagenPulsada1((int) v.getTag());
+            /*datos.setIdImagenPulsada1((int) v.getTag());
             if (datos.getModalidadJuego() == ModalidadJuego.DOS.ordinal()) {
                 cambiaAzul(activity, datos);
                 datos.cambiaTurno();
@@ -439,8 +439,8 @@ public class FXMLController implements Initializable {
                     }
                     msg.setContent(oj);
                 }
-            }
-        } else {
+            }*/
+        }/* else {
             if (!datos.isTurno() && chosen != null) {
                 datos.setChosen2(chosen);
                 datos.setIdImagenPulsada2((int) v.getTag());
@@ -450,7 +450,7 @@ public class FXMLController implements Initializable {
                 comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, false);
                 datos.cambiaTurno();
             }
-        }
+        }*/
 //        return msg;
     }
 }
