@@ -40,9 +40,9 @@
 
 
 var websocket;
-
+var datos = localStorage.getItem("datos");
 function connect() {
-    var wsUri = "ws://192.168.1.104:8080/ServerPPTGame/ppt?user=" + $('nameOfPlayerOnline').val();
+    var wsUri = "ws://192.168.1.104:8080/ServerPPTGame/ppt?user=" + datos.getNombreJ1();
     console.log("Connecting to " + wsUri);
     websocket = new WebSocket(wsUri);
     websocket.onopen = function (evt) {
@@ -62,7 +62,7 @@ if (localStorage.getItem("online") == true) {
     };
 }
 
-var datos = localStorage.getItem("datos");
+
 //var output = document.getElementById("output");
 
 function sayHello() {
@@ -95,6 +95,7 @@ function onMessage(evt) {
     var metamsg = new MetaMessage().getMetaMessage();
     if (typeof evt.data == "string") {
         metamsg = JSON.parse(evt.data);
+        alert("DATA: "+evt.data);
         if (metamsg != null && metamsg.type == new TypeMessage().getTypeMessage().RESPUESTA) {
             var opcJuego = new OpcionJuego().getOpcionJuego();
             opcJuego = JSON.parse(JSON.stringify(metamsg.content));
@@ -115,7 +116,6 @@ function onMessage(evt) {
             }
 
         }
-
     }
 }
 

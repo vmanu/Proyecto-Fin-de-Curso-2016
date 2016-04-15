@@ -77,7 +77,7 @@ and open the template in the editor.
 
             function cambiaVistaJuego() {
                 datos.setNombreJ1($("#nameOfPlayer1").val());
-                localStorage.setItem("nombreJ1", datos.getNombreJ1());
+                //localStorage.setItem("nombreJ1", datos.getNombreJ1());
                 document.getElementById('title').style.display = 'none';
                 cambiaVista('headerGame');
                 if (document.getElementById('game3').checked == true) {
@@ -125,20 +125,20 @@ and open the template in the editor.
 
             function gestionaJuego(window, opClicked, imgId) {
                 //alert(datos.getModalidadJuego().name);
-                alert(datos.getModalidadJuego().ordinal);
+                //alert(datos.getModalidadJuego().ordinal);
                 var mmsg = null;
                 var modalidad = new ModalidadJuego().getModalidad();
                 if (document.getElementById(window).style.display == "block") {
-                    alert("WINDOW VISIBLE");
+                    //alert("WINDOW VISIBLE");
                     opc = mapFichas[opClicked];
-                    alert(datos.isTurno()+" - - - "+opc);
+                    //alert(datos.isTurno()+" - - - "+opc);
                     if (datos.isTurno() == true && opc != null) {
-                        alert("IS TURNO"+datos.isTurno());
+                        //alert("IS TURNO"+datos.isTurno());
                         datos.setEnumChosen1(opc);
                         datos.setIdImgPulsada1(imgId);
                         if (datos.getModalidadJuego().ordinal == modalidad.DOS.ordinal) {
                             //DOS JUGADORES
-                            alert("DOS JUGADORES");
+                            //alert("DOS JUGADORES");
                             datos.setNombreJ2($("#nameOfPlayer2").val());
                             turnoAzul();
                             datos.setTurno(false);
@@ -146,7 +146,7 @@ and open the template in the editor.
                         } else {
                             if (datos.getModalidadJuego().ordinal == modalidad.UNO.ordinal) {
                                 //UN JUGADOR
-                                alert("UN JUGADOR");
+                                //alert("UN JUGADOR");
                                 datos.setEnumChosen2(getEnumFromOrdinal());
                                 //console.log(datos.getEnumChosen2());
                                 datos.setNombreJ2("CPU");
@@ -155,11 +155,12 @@ and open the template in the editor.
                             } else {
                                 //ONLINE
                                 //datos.setNombreJ1($("#nameOfPlayerOnline").val());
-                                alert("ONLINE");
+                                //alert("ONLINE");
                                 mmsg = new MetaMessage();
                                 mmsg.type=(new TypeMessage().getTypeMessage().PARTIDA.name);
                                 var opcionJuego = new OpcionJuego();
                                 opcionJuego.opcion=(datos.getEnumChosen1().ordinal);
+                                //alert(datos.getEnumChosen2());
                                 if (datos.getEnumChosen2() != null) {
                                     $("#imgResultP2").attr("src", document.getElementById(datos.getIdImgPulsada2()).src);
                                     comunEvaluacionGanador(false);
@@ -183,6 +184,7 @@ and open the template in the editor.
             }
 
             function comunEvaluacionGanador(recuperando) {
+                alert("EVALUACION GANADOR");
                 $("#imgResultP1").attr("src", document.getElementById(datos.getIdImgPulsada1()).src);
                 $("#imgResultP2").attr("src", document.getElementById(datos.getIdImgPulsada2()).src);
                 switch (logicaJuego()) {
@@ -274,11 +276,11 @@ and open the template in the editor.
                 datos.setEnumChosen1(null);
                 datos.setEnumChosen2(null);
                 datos.setJugando(false);
-                document.getElementById('back').onclick = function () {
+                //document.getElementById('back').onclick = function () {
                     if (datos.getModalidadJuego().ordinal == new ModalidadJuego().getModalidad().ONLINE.ordinal && websocket != null) {
                         websocket.close();
                     }
-                };
+                //};
 
             }
 
@@ -336,7 +338,7 @@ and open the template in the editor.
                 datos.setTurno(true);
                 online = true;
                 localStorage.setItem("onlne", online);
-                connect();
+                
                 datos.setModalidadJuego(new ModalidadJuego().getModalidad().ONLINE);
                 document.getElementById('title').style.display = 'none';
                 cambiaVista('headerGame');
@@ -345,6 +347,7 @@ and open the template in the editor.
                 } else {
                     //if (id == "gameOnlineScreen") {
                     datos.setNombreJ1($("#nameOfPlayerOnline").val());
+                    connect();
                     var metamsg = new MetaMessage().getMetaMessage();
                     metamsg.type = (new TypeMessage().getTypeMessage().CONEXION.name);
                     player = new Player().getPlayer();
@@ -395,7 +398,7 @@ and open the template in the editor.
                         player.numberOfRounds = (new RoundsNumber().getRoundsNumber().CINCO.name);
                     }
                 }
-                alert(player.numberOfRounds.name);
+                //alert(player.numberOfRounds.name);
             }
 
             function randomGame() {
