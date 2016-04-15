@@ -38,21 +38,29 @@
  * holder.
  */
 
-var wsUri = "ws://localhost:8080/ServerPPTGame/ppt?user=" + $('nameOfPlayerOnline').val();
+var wsUri = "ws://192.168.1.104:8080/ServerPPTGame/ppt?user=" + $('nameOfPlayerOnline').val();
 console.log("Connecting to " + wsUri);
-var websocket = new WebSocket(wsUri);
-websocket.onopen = function (evt) {
-    onOpen(evt);
-};
-websocket.onmessage = function (evt) {
-    onMessage(evt);
-};
-websocket.onerror = function (evt) {
-    onError(evt);
-};
-websocket.onclose = function (evt) {
-    onClose(evt);
-};
+var websocket;
+
+function connect() {
+    websocket = new WebSocket(wsUri);
+    websocket.onopen = function (evt) {
+        onOpen(evt);
+    };
+}
+
+if (localStorage.getItem("online")==true) {
+    websocket.onmessage = function (evt) {
+        onMessage(evt);
+    };
+    websocket.onerror = function (evt) {
+        onError(evt);
+    };
+    websocket.onclose = function (evt) {
+        onClose(evt);
+    };
+}
+
 var datos = localStorage.getItem("datos");
 //var output = document.getElementById("output");
 
@@ -61,18 +69,18 @@ function sayHello() {
     //websocket.send(myField.value);
 }
 /*
-function echoBinary() {
-//                alert("Sending " + myField2.value.length + " bytes")
-    var buffer = new ArrayBuffer(myField2.value.length);
-    var bytes = new Uint8Array(buffer);
-    for (var i = 0; i < bytes.length; i++) {
-        bytes[i] = i;
-    }
-//                alert(buffer);
-    websocket.send(buffer);
-    //writeToScreen("SENT (binary): " + buffer.byteLength + " bytes");
-}
-*/
+ function echoBinary() {
+ //                alert("Sending " + myField2.value.length + " bytes")
+ var buffer = new ArrayBuffer(myField2.value.length);
+ var bytes = new Uint8Array(buffer);
+ for (var i = 0; i < bytes.length; i++) {
+ bytes[i] = i;
+ }
+ //                alert(buffer);
+ websocket.send(buffer);
+ //writeToScreen("SENT (binary): " + buffer.byteLength + " bytes");
+ }
+ */
 function onOpen() {
     console.log("onOpen");
     //writeToScreen("CONNECTED");
@@ -106,7 +114,7 @@ function onMessage(evt) {
             }
 
         }
-        
+
     }
 }
 
@@ -115,10 +123,10 @@ function onError(evt) {
     //writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
 }
 /*
-function writeToScreen(message) {
-    var pre = document.createElement("p");
-    pre.style.wordWrap = "break-word";
-    pre.innerHTML = message;
-    output.appendChild(pre);
-}
-*/
+ function writeToScreen(message) {
+ var pre = document.createElement("p");
+ pre.style.wordWrap = "break-word";
+ pre.innerHTML = message;
+ output.appendChild(pre);
+ }
+ */
