@@ -13,18 +13,18 @@ Player = function () {
      var numPartidas;
      */
     var player = {
-        login: "",
-        GameType: new GameType(),
-        RoundsNumber: new RoundsNumber(),
+        namePlayer: "",
+        tipoJuego: new GameType(),
+        numberOfRounds: new RoundsNumber(),
         playing: "",
         numPartidas: ""
     };
 
     this.playerConstructor = function (nombre, gt, rn, jugando, num) {
         player = {
-            login: nombre,
-            GameType: gt,
-            RoundsNumber: rn,
+            namePlayer: nombre,
+            tipoJuego: gt,
+            numberOfRounds: rn,
             playing: jugando,
             numPartidas: num
         };

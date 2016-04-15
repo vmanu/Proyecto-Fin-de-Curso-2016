@@ -5,11 +5,11 @@
  */
 TypeMessage=function(){
     var TypeMessage={
-        CONEXION: {name: "CONEXION", ordinal: 1},
-        PARTIDA: {name: "PARTIDA", ordinal: 2},
-        RESPUESTA: {name: "RESPUESTA", ordinal: 3},
-        DESCONEXION: {name: "DESCONEXION", ordinal: 4},
-        NOMBRE: {name: "NOMBRE", ordinal: 5}
+        CONEXION: {name: "CONEXION", ordinal: 0},
+        PARTIDA: {name: "PARTIDA", ordinal: 1},
+        RESPUESTA: {name: "RESPUESTA", ordinal: 2},
+        DESCONEXION: {name: "DESCONEXION", ordinal: 3},
+        NOMBRE: {name: "NOMBRE", ordinal: 4}
     };
     
     this.getTypeMessage=function(){

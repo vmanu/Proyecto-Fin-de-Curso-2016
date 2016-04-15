@@ -5,9 +5,9 @@
  */
 Result=function(){
     var Result={
-        GANA:{name:"GANA",ordinal:1}, 
-        PIERDE:{name:"PIERDE",ordinal:2}, 
-        EMPATA:{name:"EMPATA",ordinal:3}
+        GANA:{name:"GANA",ordinal:0}, 
+        PIERDE:{name:"PIERDE",ordinal:1}, 
+        EMPATA:{name:"EMPATA",ordinal:2}
     };
     
     this.getResult=function(){

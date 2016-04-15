@@ -5,9 +5,9 @@
  */
 ModalidadJuego = function () {
     var modalidad = {
-        UNO: {name: "UNO", ordinal: 1},
-        DOS: {name: "DOS", ordinal: 2},
-        ONLINE: {name: "ONLINE", ordinal: 3}
+        UNO: {name: "UNO", ordinal: 0},
+        DOS: {name: "DOS", ordinal: 1},
+        ONLINE: {name: "ONLINE", ordinal: 2}
     };
 
     this.getModalidad = function () {

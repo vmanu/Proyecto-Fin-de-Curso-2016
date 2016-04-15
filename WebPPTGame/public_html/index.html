@@ -339,9 +339,9 @@ and open the template in the editor.
                     //if (id == "gameOnlineScreen") {
                     datos.setNombreJ1($("#nameOfPlayerOnline").val());
                     var metamsg = new MetaMessage().getMetaMessage();
-                    metamsg.type=(new TypeMessage().getTypeMessage().CONEXION);
+                    metamsg.type=(new TypeMessage().getTypeMessage().CONEXION.name);
                     player = new Player().getPlayer();
-                    player.login=(datos.getNombreJ1());
+                    player.namePlayer=(datos.getNombreJ1());
                     player.playing=(false);
                     var playerJson=JSON.stringify(player);
                     console.log(playerJson);
@@ -350,18 +350,18 @@ and open the template in the editor.
                     if (document.getElementById('game3Onl').checked == true) {
                         document.getElementById('gameOf3red').style.display = 'block';
                         datos.setFactorAlgoritmo(1);
-                        player.GameType=(new GameType().getGameType().JUEGO3);
+                        player.tipoJuego=(new GameType().getGameType().JUEGO3.name);
                         modo = 3;
                     } else {
                         if (document.getElementById('game5Onl').checked == true) {
                             document.getElementById('gameOf5red').style.display = 'block';
                             datos.setFactorAlgoritmo(2);
-                            player.GameType=(new GameType().getGameType().JUEGO5);
+                            player.tipoJuego=(new GameType().getGameType().JUEGO5.name);
                             modo = 5;
                         } else {
                             document.getElementById('gameOf9red').style.display = 'block';
                             datos.setFactorAlgoritmo(4);
-                            player.GameType=(new GameType().getGameType().JUEGO9);
+                            player.tipoJuego=(new GameType().getGameType().JUEGO9.name);
                             modo = 9;
                         }
                     }
@@ -381,17 +381,17 @@ and open the template in the editor.
             function setLimiteRondasOnline() {
                 if (document.getElementById('oneRoundOnl').checked) {
                     datos.setRoundsLimit(1);
-                    player.RoundsNumber=(new RoundsNumber().getRoundsNumber().UNA);
+                    player.numberOfRounds=(new RoundsNumber().getRoundsNumber().UNA.name);
                 } else {
                     if (document.getElementById('threeRoundsOnl').checked) {
                         datos.setRoundsLimit(3);
-                        player.RoundsNumber=(new RoundsNumber().getRoundsNumber().TRES);
+                        player.numberOfRounds=(new RoundsNumber().getRoundsNumber().TRES.name);
                     } else {
                         datos.setRoundsLimit(5);
-                        player.RoundsNumber=(new RoundsNumber().getRoundsNumber().CINCO);
+                        player.numberOfRounds=(new RoundsNumber().getRoundsNumber().CINCO.name);
                     }
                 }
-                alert(player.RoundsNumber.name);
+                alert(player.numberOfRounds.name);
             }
 
             function randomGame() {
