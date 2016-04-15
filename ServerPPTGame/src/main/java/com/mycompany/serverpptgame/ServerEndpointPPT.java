@@ -92,14 +92,8 @@ public class ServerEndpointPPT {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            
             MetaMessage meta = mapper.readValue(msg, new TypeReference<MetaMessage>() {
             });
-            System.out.println("Meta: "+meta);
-            Player pprueba=mapper.readValue(mapper.writeValueAsString(meta.getContent()), new TypeReference<Player>() {
-            });
-            System.out.println("ORDINAL: "+pprueba);
-            System.out.println("numero ordinal: "+pprueba.getNumberOfRounds().ordinal());
             Player p = (Player) s.getUserProperties().get("player");
             switch (meta.getType()) {
                 case CONEXION:
