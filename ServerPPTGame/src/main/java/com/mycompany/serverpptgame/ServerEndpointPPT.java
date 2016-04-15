@@ -101,11 +101,17 @@ public class ServerEndpointPPT {
                     });
                     p.setNumberOfRounds(recogida.getNumberOfRounds());
                     p.setTipoJuego(recogida.getTipoJuego());
+                    String user=(String)s.getUserProperties().get("user");
+                    if(user==null||(user!=null&&!user.equals(recogida.getNamePlayer()))){
+                        System.out.println("Se mete porque nombre no coincide");
+                        s.getUserProperties().put("user", recogida.getNamePlayer());
+                    }
                     search(s, p, mapper);
                     break;
                 case PARTIDA:
                     OpcionJuego opcion = mapper.readValue(mapper.writeValueAsString(meta.getContent()), new TypeReference<OpcionJuego>() {
                     });
+                    System.out.println("opcionJuego: "+opcion.getOpcion()+" de: "+p.getNamePlayer());
                     if(opcion.getResult()!=null&&opcion.getResult()!=Result.EMPATA){
                         HttpSession httpSession = (HttpSession) config.getUserProperties().get("httpSession");
                         if(opcion.getResult()!=Result.GANA){
