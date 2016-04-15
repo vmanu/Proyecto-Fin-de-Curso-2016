@@ -35,8 +35,8 @@ public class MetaMessage {
         this.content = content;
     }
 
-    
-    
-    
-    
+    @Override
+    public String toString() {
+        return "MetaMessage{" + "type=" + type + ", content=" + content + '}';
+    }
 }
