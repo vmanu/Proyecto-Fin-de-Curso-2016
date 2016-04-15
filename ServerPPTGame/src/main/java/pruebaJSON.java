@@ -2,7 +2,10 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mycompany.datapptgame.GameType;
 import com.mycompany.datapptgame.MetaMessage;
+import com.mycompany.datapptgame.Player;
+import com.mycompany.datapptgame.RoundsNumber;
 import com.mycompany.datapptgame.TypeMessage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +28,8 @@ public class pruebaJSON {
     public static void main(String[] args) {
         try {
             MetaMessage mm=new MetaMessage();
-            mm.setContent(3);
+            Player p=new Player("jfjbj", GameType.JUEGO3, RoundsNumber.TRES, true, 2);
+            mm.setContent(p);
             mm.setType(TypeMessage.NOMBRE);
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

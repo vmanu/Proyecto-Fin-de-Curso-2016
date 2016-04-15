@@ -63,6 +63,8 @@ public class ServerEndpointPPT {
         p.setNamePlayer(s.getRequestParameterMap().get("user").get(0));
         s.getUserProperties().put("player", p);
         s.getUserProperties().put("escogido", false);
+        System.out.println("OnOpen");
+        System.out.println("player: "+p);
     }
 
     @OnClose
@@ -93,6 +95,11 @@ public class ServerEndpointPPT {
             
             MetaMessage meta = mapper.readValue(msg, new TypeReference<MetaMessage>() {
             });
+            System.out.println("Meta: "+meta);
+            Player pprueba=mapper.readValue(mapper.writeValueAsString(meta.getContent()), new TypeReference<Player>() {
+            });
+            System.out.println("ORDINAL: "+pprueba);
+            System.out.println("numero ordinal: "+pprueba.getNumberOfRounds().ordinal());
             Player p = (Player) s.getUserProperties().get("player");
             switch (meta.getType()) {
                 case CONEXION:
