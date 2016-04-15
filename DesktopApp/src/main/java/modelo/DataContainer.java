@@ -15,8 +15,8 @@ public class DataContainer {
     private Enum chosen1;
     private Enum chosen2;
     private int factorAlgoritmo;
-    private int idImagenPulsada1;
-    private int idImagenPulsada2;
+    private String idImagenPulsada1;//En realidad no es el id, sino la ruta, solo se mantiene asi para ver la semejanza con la variable android
+    private String idImagenPulsada2;
     private String nombreJ1;
     private String nombreJ2;
     private boolean jugando;
@@ -101,19 +101,19 @@ public class DataContainer {
         this.factorAlgoritmo = factorAlgoritmo;
     }
 
-    public int getIdImagenPulsada1() {
+    public String getIdImagenPulsada1() {
         return idImagenPulsada1;
     }
 
-    public void setIdImagenPulsada1(int idImagenPulsada1) {
+    public void setIdImagenPulsada1(String idImagenPulsada1) {
         this.idImagenPulsada1 = idImagenPulsada1;
     }
 
-    public int getIdImagenPulsada2() {
+    public String getIdImagenPulsada2() {
         return idImagenPulsada2;
     }
 
-    public void setIdImagenPulsada2(int idImagenPulsada2) {
+    public void setIdImagenPulsada2(String idImagenPulsada2) {
         this.idImagenPulsada2 = idImagenPulsada2;
     }
 

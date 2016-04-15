@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import static constantes.Constantes.*;
 import eu.hansolo.enzo.notification.Notification;
 import eu.hansolo.enzo.notification.Notification.Notifier;
+import eu.hansolo.enzo.notification.NotificationEvent;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.PrintWriter;
@@ -25,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -35,13 +37,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import modelo.DataContainer;
+import modelo.Fichas3;
+import modelo.Fichas5;
+import modelo.Fichas9;
 import modelo.ModalidadJuego;
 import static modelo.ModalidadJuego.*;
 
@@ -293,15 +301,16 @@ public class FXMLController implements Initializable {
                     String player2Name = ((TextField) stage.getScene().lookup("#TxtFieldP2")).getText();
                     if (!player2Name.isEmpty()) {
                         datos.setNombreJ2(player2Name);
+                        datos.setModalidadJuego(ModalidadJuego.DOS.ordinal());
                     } else {
                         everythingOk = false;
                         excepcion.append(bundle.getString("P2NoSetted"));
                     }
                 } else {
                     datos.setNombreJ2("CPU");
+                    datos.setModalidadJuego(ModalidadJuego.DOS.ordinal());
                 }
                 System.out.println("nombreJ1: " + datos.getNombreJ1() + ", nombreJ2: " + datos.getNombreJ2() + ", roundLim: " + datos.getRoundsLimit() + ", gameType: " + datos.getModalidadJuego());
-
                 break;
             case ID_BOTON_BACK_OPCIONES_MENU_NORMAL:
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoNormal.fxml"), bundle);
@@ -313,6 +322,9 @@ public class FXMLController implements Initializable {
         }
         if (everythingOk) {
             changeSceneRoot(event, loader, stage);
+            if(((Node) event.getSource()).getId()==ID_BOTON_PLAY_OPCIONES_MENU_NORMAL){
+                datos.setTurno(true);
+            }
         } else {
             showAlertFields(bundle, excepcion.toString());
         }
@@ -397,6 +409,15 @@ public class FXMLController implements Initializable {
         ///////////////////////////////////////////
         Notification info = new Notification("", mensaje);
         // Show the custom notification
+        EventHandler<NotificationEvent> handler=new EventHandler<NotificationEvent>() {
+
+            @Override
+            public void handle(NotificationEvent event) {
+                ((Notifier)event.getSource()).INSTANCE.stop();
+            }
+        };
+        Notifier.INSTANCE.setOnHideNotification(handler);
+        Notifier.INSTANCE.setPopupLifetime(Duration.seconds(2));
         Notifier.INSTANCE.notify(info);
         // Show a predefined Warning notification
 //        Notifier.INSTANCE.notifyWarning("Warning","This is a warning");
@@ -409,12 +430,17 @@ public class FXMLController implements Initializable {
                 //SET IMAGENES PARA 3 y cambiar visibilidad de los Opciones
                 ((Node) stage.getScene().lookup("#ImagenJ1ChoosedG3")).setVisible(true);
                 ((Node) stage.getScene().lookup("#ImagenJ2ChoosedG3")).setVisible(false);
+                ((ImageView) stage.getScene().lookup("#piedra3")).setImage(new Image("imagenes/piedraazul.png"));
                 break;
             case 2:
                 //SET IMAGENES PARA 5 y cambiar visibilidad de los Opciones
+                ((Node) stage.getScene().lookup("#ImagenJ1ChoosedG5")).setVisible(true);
+                ((Node) stage.getScene().lookup("#ImagenJ2ChoosedG5")).setVisible(false);
                 break;
             case 4:
                 //SET IMAGENES PARA 9 y cambiar visibilidad de los Opciones
+                ((Node) stage.getScene().lookup("#ImagenJ1ChoosedG9")).setVisible(true);
+                ((Node) stage.getScene().lookup("#ImagenJ2ChoosedG9")).setVisible(false);
                 break;
         }
         /*activity.findViewById(R.id.player1).setVisibility(View.VISIBLE);
@@ -447,6 +473,37 @@ public class FXMLController implements Initializable {
                 break;
         }*/
     }
+    
+    public Enum getEnumFromOrdinal(int ordinal,DataContainer datos){
+        Enum res=null;
+        boolean sal=false;
+        switch (datos.getFactorAlgoritmo()){
+            case 1:
+                for(int i=0;i< Fichas3.values().length&&!sal;i++){
+                    if(i==ordinal){
+                        res= Fichas3.values()[i];
+                        sal=true;
+                    }
+                }
+            case 2:
+                for(int i=0;i< Fichas5.values().length&&!sal;i++){
+                    if(i==ordinal){
+                        res= Fichas5.values()[i];
+                        sal=true;
+                    }
+                }
+                break;
+            case 4:
+                for(int i=0;i< Fichas9.values().length&&!sal;i++){
+                    if(i==ordinal){
+                        res=Fichas9.values()[i];
+                        sal=true;
+                    }
+                }
+                break;
+        }
+        return res;
+    }
 
     @FXML
     private void gestionaJuego(MouseEvent event) {
@@ -454,19 +511,21 @@ public class FXMLController implements Initializable {
         ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
         MetaMessage msg = null;
         Enum chosen = datos.getMapFichas().get(nodo.getId());
-        cambiaAzul(event);
-        /*if (datos.isTurno() && chosen != null) {
+        System.out.println("turno: "+datos.isTurno());
+        if (datos.isTurno() && chosen != null) {
             datos.setChosen1(chosen);
-            datos.setIdImagenPulsada1((int) v.getTag());
+            datos.setIdImagenPulsada1(((Image)((ImageView)nodo).getImage()).impl_getUrl());
+            System.out.println("imagen: "+datos.getIdImagenPulsada1());
             if (datos.getModalidadJuego() == ModalidadJuego.DOS.ordinal()) {
-                cambiaAzul(activity, datos);
+                cambiaAzul(event);
+                System.out.println("DESPUES DE CAMBIO A AZUL");
                 datos.cambiaTurno();
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
 //                Toast t = Toast.makeText(activity.getApplicationContext(), datos.getNombreJ2() + activity.getResources().getString(R.string.turno), Toast.LENGTH_LONG);//SUSTITUIR POR EL METODO notificacionToast()
 //                t.setGravity(Gravity.CENTER, 0, 0);
 //                t.show();
                 notificacionToast(datos.getNombreJ2() + bundle.getString("Turno"));
-            } else {
+            } /*else {
                 //JUEGA MAQUINA
                 if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
                     datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
@@ -474,7 +533,7 @@ public class FXMLController implements Initializable {
                     //datos.setJugando(false);
                     datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
                     ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());//Posiblemente para borrar, pasar al onload de la vista de RESULT
-                } else {
+                }/* else {
                     //JUEGO ONLINE
                     msg = new MetaMessage();
                     msg.setType(TypeMessage.PARTIDA);
@@ -485,9 +544,9 @@ public class FXMLController implements Initializable {
                         comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, true);
                     }
                     msg.setContent(oj);
-                }
-            }
-        } else {
+                }*/
+            //}
+        } /*else {
             if (!datos.isTurno() && chosen != null) {
                 datos.setChosen2(chosen);
                 datos.setIdImagenPulsada2((int) v.getTag());
@@ -497,7 +556,7 @@ public class FXMLController implements Initializable {
                 comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, false);
                 datos.cambiaTurno();
             }
-        }*/
 //        return msg;
+        }*/
     }
 }
