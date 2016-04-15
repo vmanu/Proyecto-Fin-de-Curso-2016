@@ -401,6 +401,52 @@ public class FXMLController implements Initializable {
         // Show a predefined Warning notification
 //        Notifier.INSTANCE.notifyWarning("Warning","This is a warning");
     }
+    
+    private void cambiaAzul(MouseEvent event){
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        switch(datos.getFactorAlgoritmo()){
+            case 1:
+                //SET IMAGENES PARA 3 y cambiar visibilidad de los Opciones
+                ((Node) stage.getScene().lookup("#ImagenJ1ChoosedG3")).setVisible(true);
+                ((Node) stage.getScene().lookup("#ImagenJ2ChoosedG3")).setVisible(false);
+                break;
+            case 2:
+                //SET IMAGENES PARA 5 y cambiar visibilidad de los Opciones
+                break;
+            case 4:
+                //SET IMAGENES PARA 9 y cambiar visibilidad de los Opciones
+                break;
+        }
+        /*activity.findViewById(R.id.player1).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.player2).setVisibility(View.INVISIBLE);
+        setTagsImagesViewAzul(datos, activity);
+        int idOpciones=dameIdOpcionesCambiaColor(activity);
+        switch (idOpciones){
+            case R.id.rBOpcion3:
+                ((ImageView)activity.findViewById(R.id.paper3)).setImageResource(R.drawable.papelazul);
+                ((ImageView)activity.findViewById(R.id.scissors3)).setImageResource(R.drawable.tijerasazul);
+                ((ImageView)activity.findViewById(R.id.rock3)).setImageResource(R.drawable.piedraazul);
+                break;
+            case R.id.rBOpcion5:
+                ((ImageView)activity.findViewById(R.id.paper5)).setImageResource(R.drawable.papelazul);
+                ((ImageView)activity.findViewById(R.id.spock5)).setImageResource(R.drawable.spockazul);
+                ((ImageView)activity.findViewById(R.id.rock5)).setImageResource(R.drawable.piedraazul);
+                ((ImageView)activity.findViewById(R.id.scissors5)).setImageResource(R.drawable.tijerasazul);
+                ((ImageView)activity.findViewById(R.id.lizard5)).setImageResource(R.drawable.lizardazul);
+                break;
+            case R.id.rBOpcion9:
+                ((ImageView)activity.findViewById(R.id.paper9)).setImageResource(R.drawable.papelazul);
+                ((ImageView)activity.findViewById(R.id.wind9)).setImageResource(R.drawable.windazul);
+                ((ImageView)activity.findViewById(R.id.water)).setImageResource(R.drawable.waterazul);
+                ((ImageView)activity.findViewById(R.id.gun)).setImageResource(R.drawable.gunazul);
+                ((ImageView)activity.findViewById(R.id.rock9)).setImageResource(R.drawable.piedraazul);
+                ((ImageView)activity.findViewById(R.id.fire)).setImageResource(R.drawable.fireazul);
+                ((ImageView)activity.findViewById(R.id.scissors9)).setImageResource(R.drawable.tijerasazul);
+                ((ImageView)activity.findViewById(R.id.human)).setImageResource(R.drawable.humanazul);
+                ((ImageView)activity.findViewById(R.id.sponge)).setImageResource(R.drawable.spongeazul);
+                break;
+        }*/
+    }
 
     @FXML
     private void gestionaJuego(MouseEvent event) {
@@ -408,9 +454,10 @@ public class FXMLController implements Initializable {
         ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
         MetaMessage msg = null;
         Enum chosen = datos.getMapFichas().get(nodo.getId());
-        if (datos.isTurno() && chosen != null) {
+        cambiaAzul(event);
+        /*if (datos.isTurno() && chosen != null) {
             datos.setChosen1(chosen);
-            /*datos.setIdImagenPulsada1((int) v.getTag());
+            datos.setIdImagenPulsada1((int) v.getTag());
             if (datos.getModalidadJuego() == ModalidadJuego.DOS.ordinal()) {
                 cambiaAzul(activity, datos);
                 datos.cambiaTurno();
@@ -439,8 +486,8 @@ public class FXMLController implements Initializable {
                     }
                     msg.setContent(oj);
                 }
-            }*/
-        }/* else {
+            }
+        } else {
             if (!datos.isTurno() && chosen != null) {
                 datos.setChosen2(chosen);
                 datos.setIdImagenPulsada2((int) v.getTag());
