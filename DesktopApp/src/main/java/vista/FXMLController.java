@@ -428,19 +428,38 @@ public class FXMLController implements Initializable {
         switch(datos.getFactorAlgoritmo()){
             case 1:
                 //SET IMAGENES PARA 3 y cambiar visibilidad de los Opciones
+                System.out.println("ENTRA EN OPCION 3");
                 ((Node) stage.getScene().lookup("#ImagenJ1ChoosedG3")).setVisible(true);
                 ((Node) stage.getScene().lookup("#ImagenJ2ChoosedG3")).setVisible(false);
                 ((ImageView) stage.getScene().lookup("#piedra3")).setImage(new Image("imagenes/piedraazul.png"));
+                ((ImageView) stage.getScene().lookup("#papel3")).setImage(new Image("imagenes/papelazul.png"));
+                ((ImageView) stage.getScene().lookup("#tijera3")).setImage(new Image("imagenes/tijerasazul.png"));
                 break;
             case 2:
                 //SET IMAGENES PARA 5 y cambiar visibilidad de los Opciones
+                System.out.println("ENTRA EN OPCION 5");
                 ((Node) stage.getScene().lookup("#ImagenJ1ChoosedG5")).setVisible(true);
                 ((Node) stage.getScene().lookup("#ImagenJ2ChoosedG5")).setVisible(false);
+                ((ImageView) stage.getScene().lookup("#piedra5")).setImage(new Image("imagenes/piedraazul.png"));
+                ((ImageView) stage.getScene().lookup("#papel5")).setImage(new Image("imagenes/papelazul.png"));
+                ((ImageView) stage.getScene().lookup("#tijera5")).setImage(new Image("imagenes/tijerasazul.png"));
+                ((ImageView) stage.getScene().lookup("#spock5")).setImage(new Image("imagenes/spockazul.png"));
+                ((ImageView) stage.getScene().lookup("#lagarto5")).setImage(new Image("imagenes/lizardazul.png"));
                 break;
             case 4:
                 //SET IMAGENES PARA 9 y cambiar visibilidad de los Opciones
+                System.out.println("ENTRA EN OPCION 9");
                 ((Node) stage.getScene().lookup("#ImagenJ1ChoosedG9")).setVisible(true);
                 ((Node) stage.getScene().lookup("#ImagenJ2ChoosedG9")).setVisible(false);
+                ((ImageView) stage.getScene().lookup("#piedra9")).setImage(new Image("imagenes/piedraazul.png"));
+                ((ImageView) stage.getScene().lookup("#papel9")).setImage(new Image("imagenes/papelazul.png"));
+                ((ImageView) stage.getScene().lookup("#tijera9")).setImage(new Image("imagenes/tijerasazul.png"));
+                ((ImageView) stage.getScene().lookup("#agua9")).setImage(new Image("imagenes/waterazul.png"));
+                ((ImageView) stage.getScene().lookup("#aire9")).setImage(new Image("imagenes/windazul.png"));
+                ((ImageView) stage.getScene().lookup("#pistola9")).setImage(new Image("imagenes/gunazul.png"));
+                ((ImageView) stage.getScene().lookup("#humano9")).setImage(new Image("imagenes/humanazul.png"));
+                ((ImageView) stage.getScene().lookup("#esponja9")).setImage(new Image("imagenes/spongeazul.png"));
+                ((ImageView) stage.getScene().lookup("#fuego9")).setImage(new Image("imagenes/fireazul.png"));
                 break;
         }
         /*activity.findViewById(R.id.player1).setVisibility(View.VISIBLE);
