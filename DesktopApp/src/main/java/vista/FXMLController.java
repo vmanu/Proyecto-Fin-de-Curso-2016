@@ -324,6 +324,7 @@ public class FXMLController implements Initializable {
             changeSceneRoot(event, loader, stage);
             if(((Node) event.getSource()).getId()==ID_BOTON_PLAY_OPCIONES_MENU_NORMAL){
                 datos.setTurno(true);
+                notificacionToast(datos.getNombreJ1() + bundle.getString("Turno"));
             }
         } else {
             showAlertFields(bundle, excepcion.toString());
