@@ -35,11 +35,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.websocket.EndpointConfig;
+import javax.websocket.HandshakeResponse;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.HandshakeRequest;
 import javax.websocket.server.ServerEndpoint;
+import javax.ws.rs.core.Request;
 import services.ServicesPlayers;
 
 /**
@@ -51,6 +54,7 @@ public class ServerEndpointPPT {
 
     private static final long TIEMPO_ESPERA_MILLIS = 30000;
     private EndpointConfig config;
+    private static final Logger log = Logger.getGlobal();//LoggerFactory.getLogger(ServerEndpointPPT.class);
 
     //<editor-fold defaultstate="collapsed" desc="METODOS WEBSOCKET">
     @OnOpen
@@ -65,6 +69,16 @@ public class ServerEndpointPPT {
         s.getUserProperties().put("escogido", false);
         System.out.println("OnOpen");
         System.out.println("player: "+p);
+        HttpServletRequest request=(HttpServletRequest)s.getUserProperties().get("request");
+        HttpServletResponse response=(HttpServletResponse)s.getUserProperties().get("response");
+        try {
+            request.getRequestDispatcher("/index.html").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     @OnClose
