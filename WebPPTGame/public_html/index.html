@@ -276,6 +276,8 @@ and open the template in the editor.
                 datos.setEnumChosen1(null);
                 datos.setEnumChosen2(null);
                 datos.setJugando(false);
+                datos.setVictoriesP1(0);
+                datos.setVictoriesP2(0);
                 //document.getElementById('back').onclick = function () {
                     if (datos.getModalidadJuego().ordinal == new ModalidadJuego().getModalidad().ONLINE.ordinal && websocket != null) {
                         websocket.close();
