@@ -47,11 +47,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import modelo.DataContainer;
-import modelo.Fichas3;
-import modelo.Fichas5;
-import modelo.Fichas9;
-import modelo.ModalidadJuego;
-import static modelo.ModalidadJuego.*;
+import com.example.victor.piedrapapelytijera.modelo.Fichas3;
+import com.example.victor.piedrapapelytijera.modelo.Fichas5;
+import com.example.victor.piedrapapelytijera.modelo.Fichas9;
+import com.example.victor.piedrapapelytijera.modelo.ModalidadJuego;
 
 /**
  *
