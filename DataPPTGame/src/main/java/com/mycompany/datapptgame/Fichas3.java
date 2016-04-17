@@ -1,4 +1,4 @@
-package com.example.victor.piedrapapelytijera.modelo;
+package com.mycompany.datapptgame;
 
 /**
  * Created by Victor on 13/12/2015.
