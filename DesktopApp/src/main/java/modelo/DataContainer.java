@@ -1,8 +1,8 @@
 package modelo;
 
-import com.example.victor.piedrapapelytijera.modelo.Fichas3;
-import com.example.victor.piedrapapelytijera.modelo.Fichas5;
-import com.example.victor.piedrapapelytijera.modelo.Fichas9;
+import com.mycompany.datapptgame.Fichas3;
+import com.mycompany.datapptgame.Fichas5;
+import com.mycompany.datapptgame.Fichas9;
 import java.util.HashMap;
 
 /**
