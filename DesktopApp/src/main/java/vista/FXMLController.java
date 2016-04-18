@@ -222,19 +222,15 @@ public class FXMLController implements Initializable {
                     showAlertFields(bundle, bundle.getString("P1NoSetted"));
                 }
             }
+        } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
+            //MAKE RANDOMLY THE SETTING OF THE GAME
+        } else //BACK
+        if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
+            setVisibilitiesStateMenuOpcionesOnline(stage, true);
+            cargarPantalla = false;
         } else {
-            if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
-                //MAKE RANDOMLY THE SETTING OF THE GAME
-            } else {
-                //BACK
-                if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
-                    setVisibilitiesStateMenuOpcionesOnline(stage, true);
-                    cargarPantalla = false;
-                } else {
-                    loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
-                    datos = null;
-                }
-            }
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
+            datos = null;
         }
         if (cargarPantalla) {
             changeSceneRoot(event, loader, stage);
@@ -321,7 +317,7 @@ public class FXMLController implements Initializable {
         }
         if (everythingOk) {
             changeSceneRoot(event, loader, stage);
-            if(((Node) event.getSource()).getId()==ID_BOTON_PLAY_OPCIONES_MENU_NORMAL){
+            if (((Node) event.getSource()).getId() == ID_BOTON_PLAY_OPCIONES_MENU_NORMAL) {
                 datos.setTurno(true);
                 notificacionToast(datos.getNombreJ1() + bundle.getString("Turno"));
             }
@@ -402,18 +398,17 @@ public class FXMLController implements Initializable {
         alert.getDialogPane().setExpandableContent(expContent);
         alert.showAndWait();
 
-        
     }
-    
-    private void notificacionToast(String mensaje){
+
+    private void notificacionToast(String mensaje) {
         ///////////////////////////////////////////
         Notification info = new Notification("", mensaje);
         // Show the custom notification
-        EventHandler<NotificationEvent> handler=new EventHandler<NotificationEvent>() {
+        EventHandler<NotificationEvent> handler = new EventHandler<NotificationEvent>() {
 
             @Override
             public void handle(NotificationEvent event) {
-                ((Notifier)event.getSource()).INSTANCE.stop();
+                ((Notifier) event.getSource()).INSTANCE.stop();
             }
         };
         Notifier.INSTANCE.setOnHideNotification(handler);
@@ -422,10 +417,10 @@ public class FXMLController implements Initializable {
         // Show a predefined Warning notification
 //        Notifier.INSTANCE.notifyWarning("Warning","This is a warning");
     }
-    
-    private void cambiaAzul(MouseEvent event){
+
+    private void cambiaAzul(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        switch(datos.getFactorAlgoritmo()){
+        switch (datos.getFactorAlgoritmo()) {
             case 1:
                 //SET IMAGENES PARA 3 y cambiar visibilidad de los Opciones
                 System.out.println("ENTRA EN OPCION 3");
@@ -462,61 +457,32 @@ public class FXMLController implements Initializable {
                 ((ImageView) stage.getScene().lookup("#fuego9")).setImage(new Image("imagenes/fireazul.png"));
                 break;
         }
-        /*activity.findViewById(R.id.player1).setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.player2).setVisibility(View.INVISIBLE);
-        setTagsImagesViewAzul(datos, activity);
-        int idOpciones=dameIdOpcionesCambiaColor(activity);
-        switch (idOpciones){
-            case R.id.rBOpcion3:
-                ((ImageView)activity.findViewById(R.id.paper3)).setImageResource(R.drawable.papelazul);
-                ((ImageView)activity.findViewById(R.id.scissors3)).setImageResource(R.drawable.tijerasazul);
-                ((ImageView)activity.findViewById(R.id.rock3)).setImageResource(R.drawable.piedraazul);
-                break;
-            case R.id.rBOpcion5:
-                ((ImageView)activity.findViewById(R.id.paper5)).setImageResource(R.drawable.papelazul);
-                ((ImageView)activity.findViewById(R.id.spock5)).setImageResource(R.drawable.spockazul);
-                ((ImageView)activity.findViewById(R.id.rock5)).setImageResource(R.drawable.piedraazul);
-                ((ImageView)activity.findViewById(R.id.scissors5)).setImageResource(R.drawable.tijerasazul);
-                ((ImageView)activity.findViewById(R.id.lizard5)).setImageResource(R.drawable.lizardazul);
-                break;
-            case R.id.rBOpcion9:
-                ((ImageView)activity.findViewById(R.id.paper9)).setImageResource(R.drawable.papelazul);
-                ((ImageView)activity.findViewById(R.id.wind9)).setImageResource(R.drawable.windazul);
-                ((ImageView)activity.findViewById(R.id.water)).setImageResource(R.drawable.waterazul);
-                ((ImageView)activity.findViewById(R.id.gun)).setImageResource(R.drawable.gunazul);
-                ((ImageView)activity.findViewById(R.id.rock9)).setImageResource(R.drawable.piedraazul);
-                ((ImageView)activity.findViewById(R.id.fire)).setImageResource(R.drawable.fireazul);
-                ((ImageView)activity.findViewById(R.id.scissors9)).setImageResource(R.drawable.tijerasazul);
-                ((ImageView)activity.findViewById(R.id.human)).setImageResource(R.drawable.humanazul);
-                ((ImageView)activity.findViewById(R.id.sponge)).setImageResource(R.drawable.spongeazul);
-                break;
-        }*/
     }
-    
-    public Enum getEnumFromOrdinal(int ordinal,DataContainer datos){
-        Enum res=null;
-        boolean sal=false;
-        switch (datos.getFactorAlgoritmo()){
+
+    private Enum getEnumFromOrdinal(int ordinal, DataContainer datos) {
+        Enum res = null;
+        boolean sal = false;
+        switch (datos.getFactorAlgoritmo()) {
             case 1:
-                for(int i=0;i< Fichas3.values().length&&!sal;i++){
-                    if(i==ordinal){
-                        res= Fichas3.values()[i];
-                        sal=true;
+                for (int i = 0; i < Fichas3.values().length && !sal; i++) {
+                    if (i == ordinal) {
+                        res = Fichas3.values()[i];
+                        sal = true;
                     }
                 }
             case 2:
-                for(int i=0;i< Fichas5.values().length&&!sal;i++){
-                    if(i==ordinal){
-                        res= Fichas5.values()[i];
-                        sal=true;
+                for (int i = 0; i < Fichas5.values().length && !sal; i++) {
+                    if (i == ordinal) {
+                        res = Fichas5.values()[i];
+                        sal = true;
                     }
                 }
                 break;
             case 4:
-                for(int i=0;i< Fichas9.values().length&&!sal;i++){
-                    if(i==ordinal){
-                        res=Fichas9.values()[i];
-                        sal=true;
+                for (int i = 0; i < Fichas9.values().length && !sal; i++) {
+                    if (i == ordinal) {
+                        res = Fichas9.values()[i];
+                        sal = true;
                     }
                 }
                 break;
@@ -524,48 +490,92 @@ public class FXMLController implements Initializable {
         return res;
     }
 
+    private void comunEvaluacionGanador(Enum chosen, AppCompatActivity activity, DataContainer datos, boolean online) {
+        //TODO
+        //((ImageView) activity.findViewById(R.id.player1Muestra)).setImageResource(datos.getIdImagenPulsada1());
+        switch (logicaJuego(chosen.ordinal(), activity, datos)) {
+            case 0:
+                //empata
+                ((TextView) activity.findViewById(R.id.textViewWinner)).setText(activity.getResources().getString(R.string.draw));
+                break;
+            case 1:
+                //gana chosen1 (Gana Jugador 1)
+                ((TextView) activity.findViewById(R.id.textViewWinner)).setText(datos.getNombreJ1().toUpperCase() + activity.getResources().getString(R.string.win));
+                datos.sumaVictoriasP1();
+                break;
+            case 2:
+                //gana chosen (Gana Jugador 2)
+                ((TextView) activity.findViewById(R.id.textViewWinner)).setText(datos.getNombreJ2().toUpperCase() + activity.getResources().getString(R.string.win));
+                datos.sumaVictoriasP2();
+                break;
+        }
+        cambiarVistaAResult(activity, datos, online);
+    }
+    
+    private int logicaJuego(int chosen, AppCompatActivity activity,DataContainer datos){
+        int res=0;
+        if(chosen==datos.getOrdinalChosen1()){
+            //EMPATA
+            res=0;
+        }else {
+            boolean ganaChosen=false;
+            datos.avanzaRonda();
+            //TODO
+            if(datos.rondasFinalizadas()){
+                activity.findViewById(R.id.buttonNextResult).setEnabled(false);
+            }
+            for(int j=((chosen+1)%((datos.getFactorAlgoritmo()*2)+1)),i=0;i<(datos.getFactorAlgoritmo())&&!ganaChosen;i++,j=((j+1)%((datos.getFactorAlgoritmo()*2)+1))){
+                if(datos.getOrdinalChosen1()==j){
+                    //CHOSEN GANA
+                    ganaChosen=true;
+                    res=2;
+                }
+            }
+            if(!ganaChosen){
+                //GANA CHOSEN1
+                res=1;
+            }
+        }
+        return res;
+    }
+
     @FXML
     private void gestionaJuego(MouseEvent event) {
-        Node nodo=(Node)event.getSource();
+        Node nodo = (Node) event.getSource();
         ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
         MetaMessage msg = null;
         Enum chosen = datos.getMapFichas().get(nodo.getId());
-        System.out.println("turno: "+datos.isTurno());
+        System.out.println("turno: " + datos.isTurno());
         if (datos.isTurno() && chosen != null) {
             datos.setChosen1(chosen);
-            datos.setIdImagenPulsada1(((Image)((ImageView)nodo).getImage()).impl_getUrl());
-            System.out.println("imagen: "+datos.getIdImagenPulsada1());
+            datos.setIdImagenPulsada1(((Image) ((ImageView) nodo).getImage()).impl_getUrl());
+            System.out.println("imagen: " + datos.getIdImagenPulsada1());
             if (datos.getModalidadJuego() == ModalidadJuego.DOS.ordinal()) {
                 cambiaAzul(event);
-                System.out.println("DESPUES DE CAMBIO A AZUL");
                 datos.cambiaTurno();
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
-//                Toast t = Toast.makeText(activity.getApplicationContext(), datos.getNombreJ2() + activity.getResources().getString(R.string.turno), Toast.LENGTH_LONG);//SUSTITUIR POR EL METODO notificacionToast()
-//                t.setGravity(Gravity.CENTER, 0, 0);
-//                t.show();
                 notificacionToast(datos.getNombreJ2() + bundle.getString("Turno"));
-            } /*else {
-                //JUEGA MAQUINA
-                if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
-                    datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
-                    comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, false);
-                    //datos.setJugando(false);
-                    datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
-                    ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());//Posiblemente para borrar, pasar al onload de la vista de RESULT
-                }/* else {
-                    //JUEGO ONLINE
-                    msg = new MetaMessage();
-                    msg.setType(TypeMessage.PARTIDA);
-                    OpcionJuego oj = new OpcionJuego();
-                    oj.setOpcion(datos.getChosen1().ordinal());
-                    if (datos.getChosen2() != null) {
-                        ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
-                        comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, true);
-                    }
-                    msg.setContent(oj);
-                }*/
-            //}
-        } /*else {
+            } else //JUEGA MAQUINA
+            if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
+                datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
+                comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, false);
+                //datos.setJugando(false);
+                datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
+                ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());//Posiblemente para borrar, pasar al onload de la vista de RESULT
+            } else {
+                //JUEGO ONLINE
+                msg = new MetaMessage();
+                msg.setType(TypeMessage.PARTIDA);
+                OpcionJuego oj = new OpcionJuego();
+                oj.setOpcion(datos.getChosen1().ordinal());
+                if (datos.getChosen2() != null) {
+                    ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
+                    comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, true);
+                }
+                msg.setContent(oj);
+            }
+        }
+        /*else {
             if (!datos.isTurno() && chosen != null) {
                 datos.setChosen2(chosen);
                 datos.setIdImagenPulsada2((int) v.getTag());
