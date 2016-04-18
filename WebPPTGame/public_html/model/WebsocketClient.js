@@ -42,7 +42,8 @@
 var websocket;
 var datos = localStorage.getItem("datos");
 function connect() {
-    var wsUri = "ws://192.168.1.104:8080/ServerPPTGame/ppt?user=" + datos.getNombreJ1();
+    //var wsUri = "ws://192.168.1.104:8080/ServerPPTGame/ppt?user=" + datos.getNombreJ1();
+    var wsUri = "ws://localhost:8080/ServerPPTGame/ppt?user=" + datos.getNombreJ1();
     console.log("Connecting to " + wsUri);
     websocket = new WebSocket(wsUri);
     websocket.onopen = function (evt) {
@@ -95,7 +96,7 @@ function onMessage(evt) {
     var metamsg = new MetaMessage().getMetaMessage();
     if (typeof evt.data == "string") {
         metamsg = JSON.parse(evt.data);
-        alert("DATA: "+evt.data);
+        alert("DATA: " + evt.data);
         if (metamsg != null && metamsg.type == new TypeMessage().getTypeMessage().RESPUESTA) {
             var opcJuego = new OpcionJuego().getOpcionJuego();
             opcJuego = JSON.parse(JSON.stringify(metamsg.content));
@@ -122,6 +123,23 @@ function onMessage(evt) {
 function onError(evt) {
     console.log("ERROR");
     //writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+}
+
+function waitForSocketConnection(socket, callback) {
+    setTimeout(function () {
+        if (socket.readyState === 1) {
+            console.log("Connection is made");
+            if (callback != null) {
+                callback();
+            }
+            return;
+
+        } else {
+            console.log("wait for connection...");
+            waitForSocketConnection(socket, callback);
+        }
+
+    }, 5); // wait 5 milisecond for the connection...
 }
 /*
  function writeToScreen(message) {

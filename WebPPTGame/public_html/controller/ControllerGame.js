@@ -314,7 +314,7 @@ function cambiaVistaJuegoOnline() {
     datos.setTurno(true);
     online = true;
     localStorage.setItem("onlne", online);
-
+    
     datos.setModalidadJuego(new ModalidadJuego().getModalidad().ONLINE);
     document.getElementById('title').style.display = 'none';
     cambiaVista('headerGame');
@@ -354,7 +354,10 @@ function cambiaVistaJuegoOnline() {
         console.log(metamsg);
         var msgToSend = JSON.stringify(metamsg);
         //alert(msgToSend);
-        websocket.send(msgToSend);
+        waitForSocketConnection(websocket, function () {
+            websocket.send(msgToSend);
+        });
+
     }
 
 

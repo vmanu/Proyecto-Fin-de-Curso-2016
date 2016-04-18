@@ -22,15 +22,18 @@ html,body{
 }
 
 .atRight{
-    width: 195px;
     position: relative;
-    right: 18%
+    left:35%;
+    bottom: 10%;
+    float: left
 }
 
 .atLeft{
-    width: 195px;
     position: relative;
-    left: 18%
+    right: 35%;
+    bottom: 10%;
+    float: right
+        
 }
 
 .floatLeft{
