@@ -14,9 +14,16 @@
     <content>
         <VBox alignment="CENTER" minHeight="300.0" minWidth="500.0" prefHeight="608.0" prefWidth="1080.0">
             <children>
+            <HBox alignment="BOTTOM_CENTER" minHeight="50.0" prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" text="Label" />
+                  <Label alignment="CENTER" minWidth="120.0" prefWidth="120.0" text="                    " />
+                  <Label alignment="CENTER" text="Label" />
+               </children>
+            </HBox>
                 <HBox alignment="CENTER">
                     <children>
-                        <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" visible="false" fx:id="ImagenJ1ChoosedG3">
+                        <ImageView fx:id="ImagenJ1ChoosedG3" fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" visible="false">
                             <image>
                                 <Image url="@../imagenes/helpsymbolazul.png" />
                             </image>
@@ -29,38 +36,28 @@
                                 <Insets bottom="20.0" />
                             </padding>
                         </Label>
-                        <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="ImagenJ2ChoosedG3">
+                        <ImageView fx:id="ImagenJ2ChoosedG3" fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../imagenes/helpsymbolrojo.png" />
                             </image>
                         </ImageView>
                     </children>
                 </HBox>
-                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                    <children>
-                        <ImageView fx:id="piedra3" fitHeight="113.0" fitWidth="96.0" onMouseClicked="#gestionaJuego" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../imagenes/piedraroja.png" />
-                            </image>
-                            <HBox.margin>
-                                <Insets right="20.0" />
-                            </HBox.margin>
-                        </ImageView>
-                        <ImageView fx:id="papel3" fitHeight="113.0" fitWidth="96.0" onMouseClicked="#gestionaJuego" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../imagenes/papelrojo.png" />
-                            </image>
-                        </ImageView>
-                        <ImageView fx:id="tijera3" fitHeight="113.0" fitWidth="96.0" onMouseClicked="#gestionaJuego" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../imagenes/tijerasrojo.png" />
-                            </image>
-                            <HBox.margin>
-                                <Insets left="20.0" />
-                            </HBox.margin>
-                        </ImageView>
-                    </children>
-                </HBox>
+                <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+            <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="20.0" minHeight="45.0" minWidth="200.0" prefHeight="45.0" prefWidth="1080.0">
+               <children>
+                  <Button alignment="CENTER" mnemonicParsing="false" text="Button">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="CENTER" mnemonicParsing="false" text="Button">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+               </children>
+            </FlowPane>
             </children>
         </VBox>
     </content>

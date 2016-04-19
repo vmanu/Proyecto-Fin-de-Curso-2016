@@ -344,7 +344,9 @@ public class FXMLController implements Initializable {
             cbox.setValue(list.get(0));
         }
         //TODO: PONER UN IF CONDICIONANDO LA VISTA DEL RESULT A EL NUMERO DE PARTIDAS JUGADAS Y TAMBIEN MOSTRANDO LAS IMAGENES CORRECTAS
-        if(url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLScores.fxml")))
+        if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLResult.fxml")) {
+            
+        }
     }
 
     private String getSelectedRadioButtonID(ObservableList<Node> lista) {
@@ -495,7 +497,7 @@ public class FXMLController implements Initializable {
     private void comunEvaluacionGanador(Enum chosen, DataContainer datos, boolean online) {
         //TODO
         //((ImageView) activity.findViewById(R.id.player1Muestra)).setImageResource(datos.getIdImagenPulsada1());
-        switch (logicaJuego(chosen.ordinal(), activity, datos)) {
+        /*switch (logicaJuego(chosen.ordinal(), activity, datos)) {
             case 0:
                 //empata
                 ((TextView) activity.findViewById(R.id.textViewWinner)).setText(activity.getResources().getString(R.string.draw));
@@ -511,31 +513,31 @@ public class FXMLController implements Initializable {
                 datos.sumaVictoriasP2();
                 break;
         }
-        cambiarVistaAResult(activity, datos, online);
+        cambiarVistaAResult(activity, datos, online);*/
     }
-    
-    private int logicaJuego(int chosen, DataContainer datos){
-        int res=0;
-        if(chosen==datos.getOrdinalChosen1()){
+
+    private int logicaJuego(int chosen, DataContainer datos) {
+        int res = 0;
+        if (chosen == datos.getOrdinalChosen1()) {
             //EMPATA
-            res=0;
-        }else {
-            boolean ganaChosen=false;
+            res = 0;
+        } else {
+            boolean ganaChosen = false;
             datos.avanzaRonda();
             //TODO
-            if(datos.rondasFinalizadas()){
-                activity.findViewById(R.id.buttonNextResult).setEnabled(false);
+            if (datos.rondasFinalizadas()) {
+                //activity.findViewById(R.id.buttonNextResult).setEnabled(false);
             }
-            for(int j=((chosen+1)%((datos.getFactorAlgoritmo()*2)+1)),i=0;i<(datos.getFactorAlgoritmo())&&!ganaChosen;i++,j=((j+1)%((datos.getFactorAlgoritmo()*2)+1))){
-                if(datos.getOrdinalChosen1()==j){
+            for (int j = ((chosen + 1) % ((datos.getFactorAlgoritmo() * 2) + 1)), i = 0; i < (datos.getFactorAlgoritmo()) && !ganaChosen; i++, j = ((j + 1) % ((datos.getFactorAlgoritmo() * 2) + 1))) {
+                if (datos.getOrdinalChosen1() == j) {
                     //CHOSEN GANA
-                    ganaChosen=true;
-                    res=2;
+                    ganaChosen = true;
+                    res = 2;
                 }
             }
-            if(!ganaChosen){
+            if (!ganaChosen) {
                 //GANA CHOSEN1
-                res=1;
+                res = 1;
             }
         }
         return res;
@@ -557,37 +559,38 @@ public class FXMLController implements Initializable {
                 datos.cambiaTurno();
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
                 notificacionToast(datos.getNombreJ2() + bundle.getString("Turno"));
-            } else //JUEGA MAQUINA
-            if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
-                datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
-                comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, false);
-                //datos.setJugando(false);
-                datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
-                ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());//Posiblemente para borrar, pasar al onload de la vista de RESULT
-            } else {
-                //JUEGO ONLINE
-                msg = new MetaMessage();
-                msg.setType(TypeMessage.PARTIDA);
-                OpcionJuego oj = new OpcionJuego();
-                oj.setOpcion(datos.getChosen1().ordinal());
-                if (datos.getChosen2() != null) {
-                    ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
-                    comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, true);
-                }
-                msg.setContent(oj);
+            } else {//JUEGA MAQUINA
+                /*if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
+                    datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
+                    comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, false);
+                    //datos.setJugando(false);
+                    datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
+                    ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());//Posiblemente para borrar, pasar al onload de la vista de RESULT
+                } else {
+                    //JUEGO ONLINE
+                    msg = new MetaMessage();
+                    msg.setType(TypeMessage.PARTIDA);
+                    OpcionJuego oj = new OpcionJuego();
+                    oj.setOpcion(datos.getChosen1().ordinal());
+                    if (datos.getChosen2() != null) {
+                        ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
+                        comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, true);
+                    }
+                    msg.setContent(oj);
+                }*/
             }
         }
         /*else {
-            if (!datos.isTurno() && chosen != null) {
-                datos.setChosen2(chosen);
-                datos.setIdImagenPulsada2((int) v.getTag());
-                cambiaRojo(activity, datos);
-                //datos.setJugando(false);
-                ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
-                comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, false);
-                datos.cambiaTurno();
-            }
-//        return msg;
-        }*/
+         if (!datos.isTurno() && chosen != null) {
+         datos.setChosen2(chosen);
+         datos.setIdImagenPulsada2((int) v.getTag());
+         cambiaRojo(activity, datos);
+         //datos.setJugando(false);
+         ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
+         comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, false);
+         datos.cambiaTurno();
+         }
+         //        return msg;
+         }*/
     }
 }
