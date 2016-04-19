@@ -343,6 +343,8 @@ public class FXMLController implements Initializable {
             cbox.setItems(obList);
             cbox.setValue(list.get(0));
         }
+        //TODO: PONER UN IF CONDICIONANDO LA VISTA DEL RESULT A EL NUMERO DE PARTIDAS JUGADAS Y TAMBIEN MOSTRANDO LAS IMAGENES CORRECTAS
+        if(url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLScores.fxml")))
     }
 
     private String getSelectedRadioButtonID(ObservableList<Node> lista) {
@@ -490,7 +492,7 @@ public class FXMLController implements Initializable {
         return res;
     }
 
-    private void comunEvaluacionGanador(Enum chosen, AppCompatActivity activity, DataContainer datos, boolean online) {
+    private void comunEvaluacionGanador(Enum chosen, DataContainer datos, boolean online) {
         //TODO
         //((ImageView) activity.findViewById(R.id.player1Muestra)).setImageResource(datos.getIdImagenPulsada1());
         switch (logicaJuego(chosen.ordinal(), activity, datos)) {
@@ -512,7 +514,7 @@ public class FXMLController implements Initializable {
         cambiarVistaAResult(activity, datos, online);
     }
     
-    private int logicaJuego(int chosen, AppCompatActivity activity,DataContainer datos){
+    private int logicaJuego(int chosen, DataContainer datos){
         int res=0;
         if(chosen==datos.getOrdinalChosen1()){
             //EMPATA
