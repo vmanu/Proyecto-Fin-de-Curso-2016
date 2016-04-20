@@ -60,9 +60,22 @@ public class FXMLController implements Initializable {
 
     private Parent root;
     private static DataContainer datos;
+    private final String RUTA_IMAGENES="imagenes";
 
     @FXML
     private ComboBox cbox;
+    @FXML
+    private Label resultJ1;
+    @FXML
+    private Label resultJ2;
+    @FXML
+    private Label winnerLabel;
+    @FXML
+    private ImageView resultImagenJ1Choosed;
+    @FXML
+    private ImageView resultImagenJ2Choosed;
+    @FXML
+    private Button buttonContinueResult;
 
     @FXML
     private void handleButtonsMenuPrincipalAction(ActionEvent event) {
@@ -89,7 +102,7 @@ public class FXMLController implements Initializable {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
                 break;
         }
-        changeSceneRoot(event, loader, stage);
+        changeSceneRoot(loader, stage);
     }
 
     @FXML
@@ -97,7 +110,7 @@ public class FXMLController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
-        changeSceneRoot(event, loader, stage);
+        changeSceneRoot(loader, stage);
     }
 
     @FXML
@@ -122,7 +135,7 @@ public class FXMLController implements Initializable {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoNormal.fxml"), bundle);
                 break;
         }
-        changeSceneRoot(event, loader, stage);
+        changeSceneRoot(loader, stage);
     }
 
     @FXML
@@ -144,7 +157,7 @@ public class FXMLController implements Initializable {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
                 break;
         }
-        changeSceneRoot(event, loader, stage);
+        changeSceneRoot(loader, stage);
     }
 
     @FXML
@@ -233,7 +246,7 @@ public class FXMLController implements Initializable {
             datos = null;
         }
         if (cargarPantalla) {
-            changeSceneRoot(event, loader, stage);
+            changeSceneRoot(loader, stage);
         }
     }
 
@@ -303,7 +316,7 @@ public class FXMLController implements Initializable {
                     }
                 } else {
                     datos.setNombreJ2("CPU");
-                    datos.setModalidadJuego(ModalidadJuego.DOS.ordinal());
+                    datos.setModalidadJuego(ModalidadJuego.UNO.ordinal());
                 }
                 System.out.println("nombreJ1: " + datos.getNombreJ1() + ", nombreJ2: " + datos.getNombreJ2() + ", roundLim: " + datos.getRoundsLimit() + ", gameType: " + datos.getModalidadJuego());
                 break;
@@ -316,7 +329,7 @@ public class FXMLController implements Initializable {
                 break;
         }
         if (everythingOk) {
-            changeSceneRoot(event, loader, stage);
+            changeSceneRoot(loader, stage);
             if (((Node) event.getSource()).getId() == ID_BOTON_PLAY_OPCIONES_MENU_NORMAL) {
                 datos.setTurno(true);
                 notificacionToast(datos.getNombreJ1() + bundle.getString("Turno"));
@@ -345,7 +358,11 @@ public class FXMLController implements Initializable {
         }
         //TODO: PONER UN IF CONDICIONANDO LA VISTA DEL RESULT A EL NUMERO DE PARTIDAS JUGADAS Y TAMBIEN MOSTRANDO LAS IMAGENES CORRECTAS
         if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLResult.fxml")) {
-            
+            comunEvaluacionGanador(datos.getChosen2(), datos, false);
+            resultImagenJ1Choosed.setImage(new Image(datos.getIdImagenPulsada1()));
+            if(datos.rondasFinalizadas()){
+                buttonContinueResult.setDisable(true);
+            }
         }
     }
 
@@ -361,7 +378,7 @@ public class FXMLController implements Initializable {
         return devuelve;
     }
 
-    private void changeSceneRoot(ActionEvent event, FXMLLoader loader, Stage stage) {
+    private void changeSceneRoot(FXMLLoader loader, Stage stage) {
         try {
             root = loader.load();
         } catch (IOException ex) {
@@ -497,23 +514,24 @@ public class FXMLController implements Initializable {
     private void comunEvaluacionGanador(Enum chosen, DataContainer datos, boolean online) {
         //TODO
         //((ImageView) activity.findViewById(R.id.player1Muestra)).setImageResource(datos.getIdImagenPulsada1());
-        /*switch (logicaJuego(chosen.ordinal(), activity, datos)) {
+        switch (logicaJuego(chosen.ordinal(), datos)) {
             case 0:
                 //empata
-                ((TextView) activity.findViewById(R.id.textViewWinner)).setText(activity.getResources().getString(R.string.draw));
+                //((TextView) activity.findViewById(R.id.textViewWinner)).setText(activity.getResources().getString(R.string.draw));
+                
                 break;
             case 1:
                 //gana chosen1 (Gana Jugador 1)
-                ((TextView) activity.findViewById(R.id.textViewWinner)).setText(datos.getNombreJ1().toUpperCase() + activity.getResources().getString(R.string.win));
+                //((TextView) activity.findViewById(R.id.textViewWinner)).setText(datos.getNombreJ1().toUpperCase() + activity.getResources().getString(R.string.win));
                 datos.sumaVictoriasP1();
                 break;
             case 2:
                 //gana chosen (Gana Jugador 2)
-                ((TextView) activity.findViewById(R.id.textViewWinner)).setText(datos.getNombreJ2().toUpperCase() + activity.getResources().getString(R.string.win));
+                //((TextView) activity.findViewById(R.id.textViewWinner)).setText(datos.getNombreJ2().toUpperCase() + activity.getResources().getString(R.string.win));
                 datos.sumaVictoriasP2();
                 break;
         }
-        cambiarVistaAResult(activity, datos, online);*/
+        //cambiarVistaAResult(activity, datos, online);
     }
 
     private int logicaJuego(int chosen, DataContainer datos) {
@@ -546,13 +564,15 @@ public class FXMLController implements Initializable {
     @FXML
     private void gestionaJuego(MouseEvent event) {
         Node nodo = (Node) event.getSource();
+        System.out.println("EN LA GESTION JUEGO: "+datos.getModalidadJuego()+" ");
         ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
         MetaMessage msg = null;
         Enum chosen = datos.getMapFichas().get(nodo.getId());
         System.out.println("turno: " + datos.isTurno());
         if (datos.isTurno() && chosen != null) {
             datos.setChosen1(chosen);
-            datos.setIdImagenPulsada1(((Image) ((ImageView) nodo).getImage()).impl_getUrl());
+            String fullURL=((Image) ((ImageView) nodo).getImage()).impl_getUrl();
+            datos.setIdImagenPulsada1(RUTA_IMAGENES.concat(fullURL.substring(fullURL.lastIndexOf("/"))));
             System.out.println("imagen: " + datos.getIdImagenPulsada1());
             if (datos.getModalidadJuego() == ModalidadJuego.DOS.ordinal()) {
                 cambiaAzul(event);
@@ -560,13 +580,26 @@ public class FXMLController implements Initializable {
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
                 notificacionToast(datos.getNombreJ2() + bundle.getString("Turno"));
             } else {//JUEGA MAQUINA
-                /*if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
+                if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
+                    System.out.println("ENTRA EN EVALUACION 1 JUGADOR");
                     datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
-                    comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, false);
+                    
+                    
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
+
+                    changeSceneRoot(loader, stage);
+                    
+                    
+                    
+                    
+                    
+                    
+                    //comunEvaluacionGanador(datos.getChosen2(), datos, false);
                     //datos.setJugando(false);
-                    datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
-                    ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());//Posiblemente para borrar, pasar al onload de la vista de RESULT
-                } else {
+                    //datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
+                    /*((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());//Posiblemente para borrar, pasar al onload de la vista de RESULT*/
+                } /*else {
                     //JUEGO ONLINE
                     msg = new MetaMessage();
                     msg.setType(TypeMessage.PARTIDA);
@@ -579,18 +612,17 @@ public class FXMLController implements Initializable {
                     msg.setContent(oj);
                 }*/
             }
-        }
-        /*else {
+        }else {
          if (!datos.isTurno() && chosen != null) {
          datos.setChosen2(chosen);
-         datos.setIdImagenPulsada2((int) v.getTag());
-         cambiaRojo(activity, datos);
+         //datos.setIdImagenPulsada2((int) v.getTag());
+         //cambiaRojo(activity, datos);
          //datos.setJugando(false);
-         ((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
-         comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, false);
+         //((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
+         comunEvaluacionGanador(datos.getChosen2(), datos, false);
          datos.cambiaTurno();
          }
          //        return msg;
-         }*/
+         }
     }
 }
