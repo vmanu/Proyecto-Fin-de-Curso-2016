@@ -7,6 +7,8 @@ package vista;
 
 import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,6 +29,7 @@ public class DesktopApp extends Application {
         stage.setScene(scene);
         stage.setTitle(bundle.getString("AppName"));
         stage.show();
+        
     }
 
     /**

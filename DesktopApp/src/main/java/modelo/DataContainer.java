@@ -282,6 +282,10 @@ public class DataContainer {
         roundsCounter=0;
         victoriesP1=0;
         victoriesP2=0;
+        chosen1=null;
+        chosen2=null;
+        idImagenPulsada1="";
+        idImagenPulsada2="";
     }
 
     /*public void asignarTagsRojos(AppCompatActivity activity){
