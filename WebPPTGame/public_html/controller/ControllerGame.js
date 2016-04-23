@@ -13,6 +13,7 @@ $(document).ready(function () {
     mapFichas = datos.inicializaMapFichas();
     mapFichasMaquina = datos.inicializaMapFichasMaquina();
     localStorage.setItem("datos", datos);
+    $("#p2").attr("src", "imagesPPTGame/blank.png");
 });
 
 function cambiaVista(divId) {
@@ -20,7 +21,7 @@ function cambiaVista(divId) {
         online = false;
     }
     document.getElementById('initialButtons').style.display = 'none';
-    document.getElementById('playLocal').style.display = 'none';
+    //document.getElementById('playLocal').style.display = 'none';
     document.getElementById('playOnline').style.display = 'none';
     document.getElementById('rules').style.display = 'none';
     document.getElementById('graphicRules').style.display = 'none';
@@ -51,7 +52,7 @@ function invisibleElement(element) {
 function cambiaVistaJuego() {
     datos.setNombreJ1($("#nameOfPlayer1").val());
     //localStorage.setItem("nombreJ1", datos.getNombreJ1());
-    document.getElementById('title').style.display = 'none';
+    //document.getElementById('title').style.display = 'none';
     cambiaVista('headerGame');
     if (document.getElementById('game3').checked == true) {
         document.getElementById('gameOf3red').style.display = 'block';
@@ -68,7 +69,6 @@ function cambiaVistaJuego() {
             modo = 9;
         }
     }
-    
     if (document.getElementById('onePlayer').checked) {
         datos.setModalidadJuego(new ModalidadJuego().getModalidad().UNO);
     } else {
@@ -77,7 +77,6 @@ function cambiaVistaJuego() {
     setLimiteRondas();
     datos.setTurno(true);
     $("#p1").attr("src", "imagesPPTGame/helpsymbolrojo.png");
-    $("#p2").attr("src", "imagesPPTGame/blank.png");
     showToastRed();
 }
 
@@ -124,7 +123,7 @@ function gestionaJuego(window, opClicked, imgId) {
                     datos.setEnumChosen2(getEnumFromOrdinal(Math.floor((Math.random() * ((datos.getFactorAlgoritmo() * 2) + 1)))));
                     //console.log(datos.getEnumChosen2());
                     datos.setNombreJ2("CPU");
-                    datos.setIdImgPulsada2(gestionaPulsadoMaquina() + modo);
+                    datos.setIdImgPulsada2(gestionaPulsadoMaquina());
                     comunEvaluacionGanador(false);
                 } else {
                     //ONLINE
@@ -299,12 +298,8 @@ function backFromPlayScreen() {
     //alert();
     $("#next").prop("disabled", false);
 
-    if (online) {
-        cambiaVista('playOnline');
-    } else {
-        cambiaVista('playLocal');
-    }
-    document.getElementById('title').style.display = 'block';
+    cambiaVista('initialButtons');
+    //document.getElementById('title').style.display = 'block';
 }
 
 function showToastRed() {

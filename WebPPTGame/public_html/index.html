@@ -31,26 +31,29 @@ and open the template in the editor.
         <script src="controller/ControllerGame.js" type="text/javascript"></script>
     </head>
     <body class="bgBlue">
-        <h1 id="title">Piedra, Papel o Tijera</h1><br>
-        <div class="atCenterOfScreen" id="initialButtons">
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playLocal')">Play</button><br>
+        
+        <div class="atCenterTopOfScreen" id="initialButtons">
+            <h2 class="title" style="margin-top: 40px">Rock, scissors, paper</h2><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('localGameMenu')">Play</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playOnline')">Online mode</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('rules')">Rules of the game</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('graphicRules')">Rules of the game (graphically)</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('infoDev')">Info of developers</button>
         </div>
-        <div class="atCenterOfScreen" id="playLocal" hidden="">
+        <!--
+        <div class="atCenterTopOfScreen" id="playLocal" hidden="">
+            <h2 style="margin-top: 40px">Local mode</h2><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('localGameMenu')">Play</button><br>
-            <button type="button" class="btn btn-primary btn-sm btn-block">Scores</button><br>
-            <button type="button" class="btn btn-primary btn-sm btn-block">Backup</button><br><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
         </div>
-        <div class="atCenterOfScreen" id="playOnline" hidden="">
+        -->
+        <div class="atCenterTopOfScreen" id="playOnline" hidden="">
+            <h2 class="title" style="margin-top: 40px">Online mode</h2><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('onlineGameMenu')">Play</button><br>
             <button type="button" class="btn btn-primary btn-sm btn-block">Scores</button><br><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
         </div>
-        <div class="atCenterOfScreen" id="rules" hidden="">
+        <div class="atCenterTopOfScreen" id="rules" hidden="">
             <h3>Rules of the game</h3>
             <pre class="bgBlue">
             Los jugadores seleccionan una de las opciones.
@@ -111,14 +114,14 @@ and open the template in the editor.
             </pre>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
         </div>
-        <div class="atCenterOfScreen" id="graphicRules" hidden="">
+        <div class="atCenterTopOfScreen" id="graphicRules" hidden="">
             <h3>Rules of the game (Graphically)</h3>
             <img src="resources/threegame.png" alt=""/><br>
             <img src="resources/fivegame.png" alt=""/><br><br>
             <img src="resources/ninegame.png" alt=""/><br><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
         </div>
-        <div class="atCenterOfScreen" id="infoDev" hidden="">
+        <div class="atCenterTopOfScreen" id="infoDev" hidden="">
             <h3>Info of developers</h3>
             Created proudly by:<br>
             - Iván Pellissó Redondo<br>
@@ -128,7 +131,8 @@ and open the template in the editor.
             -Gema: for giving us Christmas homework<br><br>
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
         </div>
-        <div class="atCenterOfScreen" id="localGameMenu" hidden>
+        <div class="atCenterTopOfScreen" id="localGameMenu" hidden>
+            <h2 class="title" style="margin-top: 40px">Local mode</h2><br>
             <h4>Choose option:</h4>
             <input type="radio" value="game3" id="game3" name="game" checked=""/>Game of 3<br>
             <input type="radio" id="game5" value="game5" name="game"/>Game of 5<br>
@@ -145,18 +149,18 @@ and open the template in the editor.
             <input type="radio" id="moreRounds" name="rounds" onclick="visibleElement('customedRounds')"/>Customed rounds<br>
             <input type="text" class="containsPlaceholder" id="customedRounds" name="customedRounds" placeholder="Number of Rounds" hidden/><br><br>
             <div>
-                <button type="button" class="btn btn-primary btn-lg atLeft" onclick="cambiaVistaJuego()">Play</button>
-            </div>
-            <div>
-                <button type="button" class="btn btn-primary btn-lg atRight" onclick="cambiaVista('playLocal')">Back</button>
+                <button type="button" class="btn btn-primary btn-lg " onclick="cambiaVista('playLocal')">Back</button>
+                <button type="button" class="btn btn-primary btn-lg " onclick="cambiaVistaJuego()">Play</button>
+                
             </div>
         </div>
-        <div class="atCenterOfScreen" id="onlineGameMenu" hidden="">
+        <div class="atCenterTopOfScreen" id="onlineGameMenu" hidden="">
+            <h2 class="title" style="margin-top: 40px">Online mode</h2><br>
             <button id="playCust" type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('customedOnline')">Play customed</button><br>
             <button id="randomly" type="button" class="btn btn-primary btn-sm btn-block" onclick="randomGame()">Randomly</button><br><br>
             <button id="backOnl" type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playOnline')">Back</button>
         </div>
-        <div class="atCenterOfScreen" id="customedOnline" hidden>
+        <div class="atCenterTopOfScreen" id="customedOnline" hidden>
             <h4>Choose option:</h4>
             <input type="radio" id="game3Onl" value="game3Onl" name="gameOnl" checked/>Game of 3<br>
             <input type="radio" id="game5Onl" value="game5Onl" name="gameOnl"/>Game of 5<br>
@@ -168,10 +172,8 @@ and open the template in the editor.
             <input type="radio" id="threeRoundsOnl" name="roundsOnl" onclick="invisibleElement('customedRounds')"/>Three rounds<br>
             <input type="radio" id="fiveRoundsOnl" name="roundsOnl" onclick="invisibleElement('customedRounds')"/>Five rounds<br>
             <div>
-                <button id="gameOnlineScreen" type="button" class="btn btn-primary btn-lg atLeft" onclick="cambiaVistaJuegoOnline()">Play</button>
-            </div>
-            <div>
-                <button type="button" class="btn btn-primary btn-lg atRight" onclick="cambiaVista('onlineGameMenu')">Back</button>
+                <button type="button" class="btn btn-primary btn-lg " onclick="cambiaVista('onlineGameMenu')">Back</button>
+                <button id="gameOnlineScreen" type="button" class="btn btn-primary btn-lg " onclick="cambiaVistaJuegoOnline()">Play</button>
             </div>
         </div>
         <div id="headerGame" class="atCenterTopOfScreen" hidden="">
@@ -228,13 +230,26 @@ and open the template in the editor.
         <div id="toastJS" class="toast" style="display: none">
         </div>
         <div id="vistaResult" class="atCenterTopOfScreen" hidden="">
-            <img class="sizeAdjust atRight" id="imgResultP1" src="" alt=""/><img class="sizeAdjust atLeft" id="imgResultP2" src="" alt=""/><br>
-            <div id="wonCountP2" class="" style="float: right; position: relative; right: 36%"></div>
-            <div id="wonCountP1" class="" style="float: left; position: relative; left: 36%"></div><br><br>
+            
+            <div id="img1" class="">
+                
+                <img class="sizeAdjust" id="imgResultP1" src="" alt=""/>
+            </div>
+            <img class="sizeAdjust" src="imagesPPTGame/separator.png" alt=""/>
+            
+            <div id="img2" class="">
+                
+                <img class="sizeAdjust" id="imgResultP2" src="" alt=""/>
+                
+            </div><br>
+            <div id="wonCountP2" class="atLeftMargin" style=""></div>
+            <div id="wonCountP1" class="atRightMargin" style=""></div>
             <div id="resultGame">
             </div>
-            <input type="button" class="btn btn-primary btn-lg atLeft" id="next" value="Next" onclick="cambiaVistaJuego()"/>
-            <input type="button" class="btn btn-primary btn-lg atRight" id="back" value="Back" onclick="backFromPlayScreen()"/>
+            <div>
+                <input type="button" class="btn btn-primary btn-lg" id="back" value="Back" onclick="backFromPlayScreen()"/>
+                <input type="button" class="btn btn-primary btn-lg" id="next" value="Continue" onclick="cambiaVistaJuego()"/>
+            </div>
         </div>
     </body>
 </html>
