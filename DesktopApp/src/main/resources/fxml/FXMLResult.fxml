@@ -45,16 +45,19 @@
                 </HBox>
                 <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Label fx:id="winnerLabel" text="Label" />
+                  <Label fx:id="winnerLabel" text="Label">
+                     <font>
+                        <Font size="40.0" />
+                     </font></Label>
                </children></HBox>
             <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="20.0" minHeight="45.0" minWidth="200.0" prefHeight="45.0" prefWidth="1080.0">
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Button">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleButtonsMenuNormalAction" text="%Back">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" text="Button2" fx:id="buttonContinueResult">
+                  <Button fx:id="buttonContinueResult" alignment="CENTER" mnemonicParsing="false" onAction="#handleButtonsMenuNormalAction" text="%Continue">
                      <font>
                         <Font size="20.0" />
                      </font>

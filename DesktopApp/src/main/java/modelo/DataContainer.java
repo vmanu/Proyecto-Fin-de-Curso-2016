@@ -191,60 +191,60 @@ public class DataContainer {
 
     private void inicializaMapFichasMaquina() {//Se usa para el setImagenPulsada en caso de jugar contra la maquina, con el .name del enum que sea elegido
         mapFichasMaquina=new HashMap();
-        mapFichasMaquina.put("PAPEL","@../imagenes/papelazul.png");
-        mapFichasMaquina.put("SPOCK","@../imagenes/spockazul.png");
-        mapFichasMaquina.put("PIEDRA","@../imagenes/piedraazul.png");
-        mapFichasMaquina.put("TIJERA","@../imagenes/tijerasazul.png");
-        mapFichasMaquina.put("LAGARTO","@../imagenes/lizardazul.png");
-        mapFichasMaquina.put("AIRE","@../imagenes/windazul.png");
-        mapFichasMaquina.put("AGUA","@../imagenes/waterazul.png");
-        mapFichasMaquina.put("PISTOLA","@../imagenes/gunazul.png");
-        mapFichasMaquina.put("FUEGO","@../imagenes/fireazul.png");
-        mapFichasMaquina.put("HUMANO","@../imagenes/humanazul.png");
-        mapFichasMaquina.put("ESPONJA","@../imagenes/spongeazul.png");
+        mapFichasMaquina.put("PAPEL","imagenes/papelazul.png");
+        mapFichasMaquina.put("SPOCK","imagenes/spockazul.png");
+        mapFichasMaquina.put("PIEDRA","imagenes/piedraazul.png");
+        mapFichasMaquina.put("TIJERA","imagenes/tijerasazul.png");
+        mapFichasMaquina.put("LAGARTO","imagenes/lizardazul.png");
+        mapFichasMaquina.put("AIRE","imagenes/windazul.png");
+        mapFichasMaquina.put("AGUA","imagenes/waterazul.png");
+        mapFichasMaquina.put("PISTOLA","imagenes/gunazul.png");
+        mapFichasMaquina.put("FUEGO","imagenes/fireazul.png");
+        mapFichasMaquina.put("HUMANO","imagenes/humanazul.png");
+        mapFichasMaquina.put("ESPONJA","imagenes/spongeazul.png");
     }
 
     private HashMap <String,String> inicializaMapImageTagsRojo() {
         HashMap <String,String> mapImageTagsRojo=new HashMap();
-        mapImageTagsRojo.put("papel5","@../imagenes/papelrojo.png");
-        mapImageTagsRojo.put("spock5","@../imagenes/spockrojo.png");
-        mapImageTagsRojo.put("piedra5","@../imagenes/piedraroja.png");
-        mapImageTagsRojo.put("tijera5","@../imagenes/tijerasrojo.png");
-        mapImageTagsRojo.put("lagarto5","@../imagenes/lizardrojo.png");
-        mapImageTagsRojo.put("papel9","@../imagenes/papelrojo.png");
-        mapImageTagsRojo.put("aire9","@../imagenes/windrojo.png");
-        mapImageTagsRojo.put("agua9","@../imagenes/waterrojo.png");
-        mapImageTagsRojo.put("pistola9","@../imagenes/gunrojo.png");
-        mapImageTagsRojo.put("piedra9","@../imagenes/piedraroja.png");
-        mapImageTagsRojo.put("fuego9","@../imagenes/firerojo.png");
-        mapImageTagsRojo.put("tijera9","@../imagenes/tijerasrojo.png");
-        mapImageTagsRojo.put("humano9","@../imagenes/humanrojo.png");
-        mapImageTagsRojo.put("esponja9","@../imagenes/spongerojo.png");
-        mapImageTagsRojo.put("piedra3","@../imagenes/piedraroja.png");
-        mapImageTagsRojo.put("papel3","@../imagenes/papelrojo.png");
-        mapImageTagsRojo.put("tijera3","@../imagenes/tijerasrojo.png");
+        mapImageTagsRojo.put("papel5","imagenes/papelrojo.png");
+        mapImageTagsRojo.put("spock5","imagenes/spockrojo.png");
+        mapImageTagsRojo.put("piedra5","imagenes/piedraroja.png");
+        mapImageTagsRojo.put("tijera5","imagenes/tijerasrojo.png");
+        mapImageTagsRojo.put("lagarto5","imagenes/lizardrojo.png");
+        mapImageTagsRojo.put("papel9","imagenes/papelrojo.png");
+        mapImageTagsRojo.put("aire9","imagenes/windrojo.png");
+        mapImageTagsRojo.put("agua9","imagenes/waterrojo.png");
+        mapImageTagsRojo.put("pistola9","imagenes/gunrojo.png");
+        mapImageTagsRojo.put("piedra9","imagenes/piedraroja.png");
+        mapImageTagsRojo.put("fuego9","imagenes/firerojo.png");
+        mapImageTagsRojo.put("tijera9","imagenes/tijerasrojo.png");
+        mapImageTagsRojo.put("humano9","imagenes/humanrojo.png");
+        mapImageTagsRojo.put("esponja9","imagenes/spongerojo.png");
+        mapImageTagsRojo.put("piedra3","imagenes/piedraroja.png");
+        mapImageTagsRojo.put("papel3","imagenes/papelrojo.png");
+        mapImageTagsRojo.put("tijera3","imagenes/tijerasrojo.png");
         return  mapImageTagsRojo;
     }
 
     private HashMap <String,String> inicializaMapImageTagsAzul() {
         HashMap <String,String> mapImageTagsAzul=new HashMap();
-        mapImageTagsAzul.put("papel5","@../imagenes/papelazul.png");
-        mapImageTagsAzul.put("spock5","@../imagenes/spockazul.png");
-        mapImageTagsAzul.put("piedra5","@../imagenes/piedraazul.png");
-        mapImageTagsAzul.put("tijera5","@../imagenes/tijerasazul.png");
-        mapImageTagsAzul.put("lagarto5","@../imagenes/lizardazul.png");
-        mapImageTagsAzul.put("papel9","@../imagenes/papelazul.png");
-        mapImageTagsAzul.put("aire9","@../imagenes/windazul.png");
-        mapImageTagsAzul.put("agua9","@../imagenes/waterazul.png");
-        mapImageTagsAzul.put("pistola9","@../imagenes/gunazul.png");
-        mapImageTagsAzul.put("piedra9","@../imagenes/piedraazul.png");
-        mapImageTagsAzul.put("fuego9","@../imagenes/fireazul.png");
-        mapImageTagsAzul.put("tijera9","@../imagenes/tijerasazul.png");
-        mapImageTagsAzul.put("humano9","@../imagenes/humanazul.png");
-        mapImageTagsAzul.put("esponja9","@../imagenes/spongeazul.png");
-        mapImageTagsAzul.put("piedra3","@../imagenes/piedraazul.png");
-        mapImageTagsAzul.put("papel3","@../imagenes/papelazul.png");
-        mapImageTagsAzul.put("tijera3","@../imagenes/tijerasazul.png");
+        mapImageTagsAzul.put("papel5","imagenes/papelazul.png");
+        mapImageTagsAzul.put("spock5","imagenes/spockazul.png");
+        mapImageTagsAzul.put("piedra5","imagenes/piedraazul.png");
+        mapImageTagsAzul.put("tijera5","imagenes/tijerasazul.png");
+        mapImageTagsAzul.put("lagarto5","imagenes/lizardazul.png");
+        mapImageTagsAzul.put("papel9","imagenes/papelazul.png");
+        mapImageTagsAzul.put("aire9","imagenes/windazul.png");
+        mapImageTagsAzul.put("agua9","imagenes/waterazul.png");
+        mapImageTagsAzul.put("pistola9","imagenes/gunazul.png");
+        mapImageTagsAzul.put("piedra9","imagenes/piedraazul.png");
+        mapImageTagsAzul.put("fuego9","imagenes/fireazul.png");
+        mapImageTagsAzul.put("tijera9","imagenes/tijerasazul.png");
+        mapImageTagsAzul.put("humano9","imagenes/humanazul.png");
+        mapImageTagsAzul.put("esponja9","imagenes/spongeazul.png");
+        mapImageTagsAzul.put("piedra3","imagenes/piedraazul.png");
+        mapImageTagsAzul.put("papel3","imagenes/papelazul.png");
+        mapImageTagsAzul.put("tijera3","imagenes/tijerasazul.png");
         return mapImageTagsAzul;
     }
     //</editor-fold>
