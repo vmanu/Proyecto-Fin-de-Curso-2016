@@ -69,15 +69,15 @@ public class ServerEndpointPPT {
         s.getUserProperties().put("escogido", false);
         System.out.println("OnOpen");
         System.out.println("player: "+p);
-        HttpServletRequest request=(HttpServletRequest)s.getUserProperties().get("request");
-        HttpServletResponse response=(HttpServletResponse)s.getUserProperties().get("response");
-        try {
-            request.getRequestDispatcher("/index.html").forward(request, response);
-        } catch (ServletException ex) {
-            Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        HttpServletRequest request=(HttpServletRequest)s.getUserProperties().get("request");
+//        HttpServletResponse response=(HttpServletResponse)s.getUserProperties().get("response");
+//        try {
+//            request.getRequestDispatcher("/index.html").forward(request, response);
+//        } catch (ServletException ex) {
+//            Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(ServerEndpointPPT.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
     }
 
