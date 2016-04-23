@@ -18,7 +18,6 @@ $(document).ready(function () {
 function cambiaVista(divId) {
     if (divId == "playLocal") {
         online = false;
-
     }
     document.getElementById('initialButtons').style.display = 'none';
     document.getElementById('playLocal').style.display = 'none';
@@ -121,7 +120,7 @@ function gestionaJuego(window, opClicked, imgId) {
                 if (datos.getModalidadJuego().ordinal == modalidad.UNO.ordinal) {
                     //UN JUGADOR
                     //alert("UN JUGADOR");
-                    datos.setEnumChosen2(getEnumFromOrdinal());
+                    datos.setEnumChosen2(getEnumFromOrdinal(Math.floor((Math.random() * ((datos.getFactorAlgoritmo() * 2) + 1)))));
                     //console.log(datos.getEnumChosen2());
                     datos.setNombreJ2("CPU");
                     datos.setIdImgPulsada2(gestionaPulsadoMaquina() + modo);
@@ -136,7 +135,8 @@ function gestionaJuego(window, opClicked, imgId) {
                     opcionJuego.opcion = (datos.getEnumChosen1().ordinal);
                     //alert(datos.getEnumChosen2());
                     if (datos.getEnumChosen2() != null) {
-                        $("#imgResultP2").attr("src", document.getElementById(datos.getIdImgPulsada2()).src);
+                        //$("#imgResultP2").attr("src", document.getElementById(datos.getIdImgPulsada2()).src);
+                        $("#imgResultP2").attr("src", $("#"+datos.getIdImgPulsada2()).src);
                         comunEvaluacionGanador(false);
                     }
                     mmsg.content = (opcionJuego);
@@ -159,8 +159,10 @@ function gestionaJuego(window, opClicked, imgId) {
 
 function comunEvaluacionGanador(recuperando) {
     alert("EVALUACION GANADOR");
-    $("#imgResultP1").attr("src", document.getElementById(datos.getIdImgPulsada1()).src);
-    $("#imgResultP2").attr("src", document.getElementById(datos.getIdImgPulsada2()).src);
+//    $("#imgResultP1").attr("src", document.getElementById(datos.getIdImgPulsada1()).src);
+//    $("#imgResultP2").attr("src", document.getElementById(datos.getIdImgPulsada2()).src);
+    $("#imgResultP1").attr("src", $("#"+datos.getIdImgPulsada1()).src);
+    $("#imgResultP2").attr("src", $("#"+datos.getIdImgPulsada2()).src);
     switch (logicaJuego()) {
         case 0:
             //empata
@@ -209,11 +211,11 @@ function logicaJuego() {
     return resultado;
 }
 
-function getEnumFromOrdinal() {
+function getEnumFromOrdinal(ordinal) {
     var res = null;
     var sal = false;
     var factor = datos.getFactorAlgoritmo();
-    var ordinal = Math.floor((Math.random() * ((factor * 2) + 1)));
+    //var ordinal = Math.floor((Math.random() * ((factor * 2) + 1)));
     switch (factor) {
         case 1:
             for (var i = 0; i < 3 && !sal; i++) {
