@@ -68,6 +68,7 @@ function cambiaVistaJuego() {
             modo = 9;
         }
     }
+    
     if (document.getElementById('onePlayer').checked) {
         datos.setModalidadJuego(new ModalidadJuego().getModalidad().UNO);
     } else {
@@ -136,7 +137,7 @@ function gestionaJuego(window, opClicked, imgId) {
                     //alert(datos.getEnumChosen2());
                     if (datos.getEnumChosen2() != null) {
                         //$("#imgResultP2").attr("src", document.getElementById(datos.getIdImgPulsada2()).src);
-                        $("#imgResultP2").attr("src", $("#"+datos.getIdImgPulsada2()).src);
+                        $("#imgResultP2").attr("src", $("#"+datos.getIdImgPulsada2()).attr("src"));
                         comunEvaluacionGanador(false);
                     }
                     mmsg.content = (opcionJuego);
@@ -158,11 +159,13 @@ function gestionaJuego(window, opClicked, imgId) {
 }
 
 function comunEvaluacionGanador(recuperando) {
-    alert("EVALUACION GANADOR");
+    //alert("EVALUACION GANADOR");
 //    $("#imgResultP1").attr("src", document.getElementById(datos.getIdImgPulsada1()).src);
 //    $("#imgResultP2").attr("src", document.getElementById(datos.getIdImgPulsada2()).src);
-    $("#imgResultP1").attr("src", $("#"+datos.getIdImgPulsada1()).src);
-    $("#imgResultP2").attr("src", $("#"+datos.getIdImgPulsada2()).src);
+    alert("id 1: "+datos.getIdImgPulsada1()+" --- id 2: "+datos.getIdImgPulsada2());
+    //alert("ruta 1: "+$("#"+datos.getIdImgPulsada1()).attr("src")+" --- ruta 2: "+$("#"+datos.getIdImgPulsada2()).attr("src"));
+    $("#imgResultP1").attr("src", $("#"+datos.getIdImgPulsada1()).attr("src"));
+    $("#imgResultP2").attr("src", $("#"+datos.getIdImgPulsada2()+modo).attr("src"));
     switch (logicaJuego()) {
         case 0:
             //empata
@@ -293,7 +296,7 @@ function opcionJuegoEscogida() {
 }
 
 function backFromPlayScreen() {
-    alert();
+    //alert();
     $("#next").prop("disabled", false);
 
     if (online) {
@@ -351,6 +354,7 @@ function cambiaVistaJuegoOnline() {
                 modo = 9;
             }
         }
+        localStorage.setItem("modo",modo);
         setLimiteRondasOnline();
         metamsg.content = (player);
         console.log(metamsg);

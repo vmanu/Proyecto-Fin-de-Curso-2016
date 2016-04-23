@@ -70,17 +70,17 @@ function onMessage(evt) {
 //    if (typeof evt.data == "string") {
         metamsg = JSON.parse(evt.data);
         console.debug("metamsg",metamsg.type);
-        alert("COMPROBACION SOSPECHOSA: "+(metamsg.type == new TypeMessage().getTypeMessage().RESPUESTA.name));
+        ////alert("COMPROBACION SOSPECHOSA: "+(metamsg.type == new TypeMessage().getTypeMessage().RESPUESTA.name));
         if (metamsg != null && metamsg.type == new TypeMessage().getTypeMessage().RESPUESTA.name) {
             var opcJuego = new OpcionJuego().getOpcionJuego();
             opcJuego = JSON.parse(JSON.stringify(metamsg.content));
             console.debug("opc jueego: ",opcJuego);
             if (opcJuego != null) {
                 datos.setEnumChosen2(getEnumFromOrdinal(opcJuego.opcion));
-                datos.setIdImgPulsada2(gestionaPulsadoMaquina());
+                datos.setIdImgPulsada2(gestionaPulsadoMaquina()+localStorage.getItem("modo"));
                 console.log("chosen1; "+datos.getEnumChosen1());
                 if (datos.getEnumChosen1() != null) {
-                    $("#imgResultP2").attr("src", $("#"+datos.getIdImgPulsada2()).src);
+                    $("#imgResultP2").attr("src", $("#"+datos.getIdImgPulsada2()).attr("src"));
                     comunEvaluacionGanador(false);
                 }
                 
@@ -111,12 +111,10 @@ function waitForSocketConnection(socket, callback) {
                 callback();
             }
             return;
-
         } else {
             console.log("wait for connection...");
             waitForSocketConnection(socket, callback);
         }
-
     }, 5); // wait 5 milisecond for the connection...
 }
 /*
