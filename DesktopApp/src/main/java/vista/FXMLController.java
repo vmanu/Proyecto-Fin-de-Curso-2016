@@ -631,4 +631,24 @@ public class FXMLController implements Initializable {
          //        return msg;
          }
     }
+    
+    @FXML
+    private void gestionaResultButtons(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = null;
+        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+        if(((Button)event.getSource()).getText().equals(ResourceBundle.getBundle("strings.UIResources").getString("Continue"))){
+            switch(datos.getFactorAlgoritmo()){
+                case 1:
+                    loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame3.fxml"), bundle);
+                    break;
+                case 2:
+                    loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame5.fxml"), bundle);
+                    break;
+                case 4:
+                    loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame9.fxml"), bundle);
+                    break;
+            }
+        }
+    }
 }
