@@ -29,16 +29,43 @@ and open the template in the editor.
         <script src="model/OpcionJuego.js" type="text/javascript"></script>
         <link href="styles.css" rel="stylesheet" type="text/css"/>
         <script src="controller/ControllerGame.js" type="text/javascript"></script>
+        <script src="multilanguage/Language.js" type="text/javascript"></script>
+        <script>
+            var userLang = navigator.language || navigator.userLanguage;
+            if(userLang!="es"){
+                userLang="en";
+            }
+            var language = new Language().getLang();
+            /*
+            var play = (userLang == "es" ? language["es"].play : language["en"].play);
+            var onlineMode = (userLang == "es" ? language["es"].onlineMode : language["en"].onlineMode);
+            var rulesGame = (userLang == "es" ? language["es"].rulesOption : language["en"].rulesOption);
+            var rulesGraph = (userLang == "es" ? language["es"].rulesGraph : language["en"].rulesGraph);
+            var infoDevelopers = (userLang == "es" ? language["es"].infoDev : language["en"].infoDev);
+            var scores = (userLang == "es" ? language["es"].scores : language["en"].scores);
+            //$("#playLocalTxt").text(playLocal);
+            */
+        </script>
     </head>
     <body class="bgBlue">
-        
+
         <div class="atCenterTopOfScreen" id="initialButtons">
-            <h2 class="title" style="margin-top: 40px">Rock, scissors, paper</h2><br>
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('localGameMenu')">Play</button><br>
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playOnline')">Online mode</button><br>
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('rules')">Rules of the game</button><br>
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('graphicRules')">Rules of the game (graphically)</button><br>
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('infoDev')">Info of developers</button>
+            <h2 class="title" style="margin-top: 40px"><script>document.write(language[userLang].titleGame)</script></h2><br>
+            <button id="localModeBtn" type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('localGameMenu')">
+                <script>document.write(language[userLang].play)</script>
+            </button><br>
+            <button id="onlineModeBtn" type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playOnline')">
+                <script>document.write(language[userLang].onlineMode);</script>
+            </button><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('rules')">
+                <script>document.write(language[userLang].rulesOption);</script>
+            </button><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('graphicRules')">
+                <script>document.write(language[userLang].rulesGraph);</script>
+            </button><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('infoDev')">
+                <script>document.write(language[userLang].infoDev);</script>
+            </button>
         </div>
         <!--
         <div class="atCenterTopOfScreen" id="playLocal" hidden="">
@@ -48,13 +75,19 @@ and open the template in the editor.
         </div>
         -->
         <div class="atCenterTopOfScreen" id="playOnline" hidden="">
-            <h2 class="title" style="margin-top: 40px">Online mode</h2><br>
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('onlineGameMenu')">Play</button><br>
-            <button type="button" class="btn btn-primary btn-sm btn-block">Scores</button><br><br>
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
+            <h2 class="title" style="margin-top: 40px"><script>document.write(language[userLang].onlineMode);</script></h2><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('onlineGameMenu')">
+                <script>document.write(language[userLang].play);</script>
+            </button><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block">
+                <script>document.write(language[userLang].scores);</script>
+            </button><br><br>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">
+                <script>document.write(language[userLang].back);</script>
+            </button>
         </div>
         <div class="atCenterTopOfScreen" id="rules" hidden="">
-            <h3>Rules of the game</h3>
+            <h3><script>document.write(language[userLang].rulesOption);</script></h3>
             <pre class="bgBlue">
             Los jugadores seleccionan una de las opciones.
             El objetivo es vencer al oponente.
@@ -115,65 +148,79 @@ and open the template in the editor.
             <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
         </div>
         <div class="atCenterTopOfScreen" id="graphicRules" hidden="">
-            <h3>Rules of the game (Graphically)</h3>
+            <h3><script>document.write(language[userLang].rulesGraph);</script></h3>
             <img src="resources/threegame.png" alt=""/><br>
             <img src="resources/fivegame.png" alt=""/><br><br>
             <img src="resources/ninegame.png" alt=""/><br><br>
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">
+                <script>document.write(language[userLang].back);</script>
+            </button>
         </div>
         <div class="atCenterTopOfScreen" id="infoDev" hidden="">
-            <h3>Info of developers</h3>
+            <h3><script>document.write(language[userLang].infoDev);</script></h3>
             Created proudly by:<br>
             - Iván Pellissó Redondo<br>
             - Víctor Manuel Oviedo Huertas<br>
             As a project for 2 DAMat PMDM subject.<br>
             Thanks:<br>
             -Gema: for giving us Christmas homework<br><br>
-            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">Back</button>
+            <button type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('initialButtons')">
+                <script>document.write(language[userLang].back);</script>
+            </button>
         </div>
         <div class="atCenterTopOfScreen" id="localGameMenu" hidden>
-            <h2 class="title" style="margin-top: 40px">Local mode</h2><br>
-            <h4>Choose option:</h4>
-            <input type="radio" value="game3" id="game3" name="game" checked=""/>Game of 3<br>
-            <input type="radio" id="game5" value="game5" name="game"/>Game of 5<br>
-            <input type="radio" id="game9" value="game9" name="game"/>Game of 9<br>
-            <h4>Choose number of players:</h4>
-            <input checked="" type="radio" id="onePlayer" name="players" onclick="invisibleElement('nameOfPlayer2')" />One player<br>
-            <input type="radio" id="twoPlayers" name="players" onclick="visibleElement('nameOfPlayer2')"/>Two players<br>
+            <h2 class="title" style="margin-top: 40px"><script>document.write(language[userLang].localMode);</script></h2><br>
+            <h4><script>document.write(language[userLang].chooseOption);</script></h4>
+            <input type="radio" value="game3" id="game3" name="game" checked=""/><script>document.write(language[userLang].game3);</script><br>
+            <input type="radio" id="game5" value="game5" name="game"/><script>document.write(language[userLang].game5);</script><br>
+            <input type="radio" id="game9" value="game9" name="game"/><script>document.write(language[userLang].game9);</script><br>
+            <h4><script>document.write(language[userLang].chooseNumPlayers);</script></h4>
+            <input checked="" type="radio" id="onePlayer" name="players" onclick="invisibleElement('nameOfPlayer2')" /><script>document.write(language[userLang].onePlayer);</script><br>
+            <input type="radio" id="twoPlayers" name="players" onclick="visibleElement('nameOfPlayer2')"/><script>document.write(language[userLang].twoPlayers);</script><br>
             <input type="text" class="containsPlaceholder" id="nameOfPlayer1" name="nameOfPlayer1" placeholder="Player 1" required=""/>
             <input type="text" class="containsPlaceholder" id="nameOfPlayer2" name="nameOfPlayer2" placeholder="Player 2" hidden/>
-            <h4>Choose number of rounds:</h4>
-            <input checked="" id="oneRound" type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/>One round<br>
-            <input type="radio" id="threeRounds" name="rounds" onclick="invisibleElement('customedRounds')"/>Three rounds<br>
-            <input type="radio" id="fiveRounds" name="rounds" onclick="invisibleElement('customedRounds')"/>Five rounds<br>
-            <input type="radio" id="moreRounds" name="rounds" onclick="visibleElement('customedRounds')"/>Customed rounds<br>
+            <h4><script>document.write(language[userLang].chooseRounds);</script></h4>
+            <input checked="" id="oneRound" type="radio" name="rounds" onclick="invisibleElement('customedRounds')"/><script>document.write(language[userLang].oneRound);</script><br>
+            <input type="radio" id="threeRounds" name="rounds" onclick="invisibleElement('customedRounds')"/><script>document.write(language[userLang].threeRounds);</script><br>
+            <input type="radio" id="fiveRounds" name="rounds" onclick="invisibleElement('customedRounds')"/><script>document.write(language[userLang].fiveRounds);</script><br>
+            <input type="radio" id="moreRounds" name="rounds" onclick="visibleElement('customedRounds')"/><script>document.write(language[userLang].customedRounds);</script><br>
             <input type="text" class="containsPlaceholder" id="customedRounds" name="customedRounds" placeholder="Number of Rounds" hidden/><br><br>
             <div>
-                <button type="button" class="btn btn-primary btn-lg " onclick="cambiaVista('playLocal')">Back</button>
-                <button type="button" class="btn btn-primary btn-lg " onclick="cambiaVistaJuego()">Play</button>
-                
+                <button type="button" class="btn btn-primary btn-lg " onclick="cambiaVista('initialButtons')">
+                    <script>document.write(language[userLang].back);</script>
+                </button>
+                <button type="button" class="btn btn-primary btn-lg " onclick="cambiaVistaJuego()">
+                    <script>document.write(language[userLang].play);</script>
+                </button>
+
             </div>
         </div>
         <div class="atCenterTopOfScreen" id="onlineGameMenu" hidden="">
-            <h2 class="title" style="margin-top: 40px">Online mode</h2><br>
+            <h2 class="title" style="margin-top: 40px"><script>document.write(language[userLang].onlineMode);</script></h2><br>
             <button id="playCust" type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('customedOnline')">Play customed</button><br>
             <button id="randomly" type="button" class="btn btn-primary btn-sm btn-block" onclick="randomGame()">Randomly</button><br><br>
-            <button id="backOnl" type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playOnline')">Back</button>
+            <button id="backOnl" type="button" class="btn btn-primary btn-sm btn-block" onclick="cambiaVista('playOnline')">
+                <script>document.write(language[userLang].back);</script>
+            </button>
         </div>
         <div class="atCenterTopOfScreen" id="customedOnline" hidden>
-            <h4>Choose option:</h4>
-            <input type="radio" id="game3Onl" value="game3Onl" name="gameOnl" checked/>Game of 3<br>
-            <input type="radio" id="game5Onl" value="game5Onl" name="gameOnl"/>Game of 5<br>
-            <input type="radio" id="game9Onl" value="game9Onl" name="gameOnl"/>Game of 9<br>
+            <h4><script>document.write(language[userLang].chooseOption);</script></h4>
+            <input type="radio" id="game3Onl" value="game3Onl" name="gameOnl" checked/><script>document.write(language[userLang].game3);</script><br>
+            <input type="radio" id="game5Onl" value="game5Onl" name="gameOnl"/><script>document.write(language[userLang].game5);</script><br>
+            <input type="radio" id="game9Onl" value="game9Onl" name="gameOnl"/><script>document.write(language[userLang].game9);</script>9<br>
             <h4>Put your name:</h4>
             <input type="text" class="containsPlaceholder" id="nameOfPlayerOnline" name="nameOfPlayer1" placeholder="Your name HERE"/>
-            <h4>Choose number of rounds:</h4>
-            <input type="radio" id="oneRoundOnl" name="roundsOnl" onclick="invisibleElement('customedRounds')" checked/>One round<br>
-            <input type="radio" id="threeRoundsOnl" name="roundsOnl" onclick="invisibleElement('customedRounds')"/>Three rounds<br>
-            <input type="radio" id="fiveRoundsOnl" name="roundsOnl" onclick="invisibleElement('customedRounds')"/>Five rounds<br>
+            <h4><script>document.write(language[userLang].chooseRounds);</script></h4>
+            <input type="radio" id="oneRoundOnl" name="roundsOnl" onclick="invisibleElement('customedRounds')" checked/><script>document.write(language[userLang].oneRound);</script><br>
+            <input type="radio" id="threeRoundsOnl" name="roundsOnl" onclick="invisibleElement('customedRounds')"/><script>document.write(language[userLang].threeRounds);</script><br>
+            <input type="radio" id="fiveRoundsOnl" name="roundsOnl" onclick="invisibleElement('customedRounds')"/><script>document.write(language[userLang].fiveRounds);</script><br>
             <div>
-                <button type="button" class="btn btn-primary btn-lg " onclick="cambiaVista('onlineGameMenu')">Back</button>
-                <button id="gameOnlineScreen" type="button" class="btn btn-primary btn-lg " onclick="cambiaVistaJuegoOnline()">Play</button>
+                <button type="button" class="btn btn-primary btn-lg " onclick="cambiaVista('onlineGameMenu')">
+                    <script>document.write(language[userLang].back);</script>
+                </button>
+                <button id="gameOnlineScreen" type="button" class="btn btn-primary btn-lg " onclick="cambiaVistaJuegoOnline()">
+                    <script>document.write(language[userLang].play);</script>
+                </button>
             </div>
         </div>
         <div id="headerGame" class="atCenterTopOfScreen" hidden="">
@@ -230,17 +277,17 @@ and open the template in the editor.
         <div id="toastJS" class="toast" style="display: none">
         </div>
         <div id="vistaResult" class="atCenterTopOfScreen" hidden="">
-            
+
             <div id="img1" class="">
-                
+
                 <img class="sizeAdjust" id="imgResultP1" src="" alt=""/>
             </div>
             <img class="sizeAdjust" src="imagesPPTGame/separator.png" alt=""/>
-            
+
             <div id="img2" class="">
-                
+
                 <img class="sizeAdjust" id="imgResultP2" src="" alt=""/>
-                
+
             </div><br>
             <div id="wonCountP2" class="atLeftMargin" style=""></div>
             <div id="wonCountP1" class="atRightMargin" style=""></div>

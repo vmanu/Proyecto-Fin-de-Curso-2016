@@ -6,6 +6,7 @@
 var datos, mapFichas, mapFichasMaquina, opc, modo, online, player;
 
 $(document).ready(function () {
+    
     datos = new DataContainer();
     datos.setRoundsCounter(0);
     datos.setVictoriesP1(0);
@@ -97,7 +98,7 @@ function setLimiteRondas() {
 }
 
 function gestionaJuego(window, opClicked, imgId) {
-    //alert(datos.getModalidadJuego().name);
+    ////alert(datos.getModalidadJuego().name);
     //alert(datos.getModalidadJuego().ordinal);
     var mmsg = null;
     var modalidad = new ModalidadJuego().getModalidad();
