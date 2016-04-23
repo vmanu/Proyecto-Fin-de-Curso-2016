@@ -358,7 +358,7 @@ public class FXMLController implements Initializable {
         }
         //TODO: PONER UN IF CONDICIONANDO LA VISTA DEL RESULT A EL NUMERO DE PARTIDAS JUGADAS Y TAMBIEN MOSTRANDO LAS IMAGENES CORRECTAS
         if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLResult.fxml")) {
-            comunEvaluacionGanador(datos.getChosen2(), datos, false,rb);
+            comunEvaluacionGanador(datos, false,rb);
             resultImagenJ1Choosed.setImage(new Image(datos.getIdImagenPulsada1()));
             resultImagenJ2Choosed.setImage(new Image(datos.getIdImagenPulsada2()));
             resultJ1.setText(datos.getNombreJ1()+rb.getString("won")+datos.getVictoriesP1());
@@ -514,10 +514,10 @@ public class FXMLController implements Initializable {
         return res;
     }
 
-    private void comunEvaluacionGanador(Enum chosen, DataContainer datos, boolean online, ResourceBundle rb) {
+    private void comunEvaluacionGanador(DataContainer datos, boolean online, ResourceBundle rb) {
         //TODO
         //((ImageView) activity.findViewById(R.id.player1Muestra)).setImageResource(datos.getIdImagenPulsada1());
-        switch (logicaJuego(chosen.ordinal(), datos)) {
+        switch (logicaJuego(datos.getChosen2().ordinal(), datos)) {
             case 0:
                 //empata
                 winnerLabel.setText(rb.getString("Draw"));
