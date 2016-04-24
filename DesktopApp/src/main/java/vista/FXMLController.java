@@ -83,6 +83,17 @@ public class FXMLController implements Initializable {
     private Button buttonContinueResult;
     @FXML
     private VBox RadioGroup_Player_Normal;
+    @FXML
+    private VBox RadioGroup_Games_Normal;
+    @FXML
+    private VBox RadioGroup_Rounds_Normal;
+    @FXML
+    private TextField TxtFieldP1;
+    @FXML
+    private TextField TxtFieldP2;
+    @FXML
+    private TextField NumberRoundsCustom;
+    
 
     @FXML
     private void handleButtonsMenuPrincipalAction(ActionEvent event) {
@@ -381,19 +392,7 @@ public class FXMLController implements Initializable {
             }
         }
         if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLMenuOpcionesNormal.fxml")) {
-            ObservableList<Node> nodos=RadioGroup_Player_Normal.getChildren();
-            String text=((RadioButton)nodos.get(0)).getText();
-            System.out.println("ENTRA AQUI MARICONAZO");
-            System.out.println("texto es: "+text);
-            //System.out.println("scroll " + scrollMenuOpciones);
-
-            /*Stage stage = null;
-            Scene pruebaScene = stage.getScene();
-            Node nodo = pruebaScene.lookup("#RadioGroup_Player_Normal");
-            System.out.println("EL LOOKING UP" + (VBox) stage.getScene().lookup("#RadioGroup_Rounds_Normal"));
-            System.out.println("lookup: " + ((VBox) stage.getScene().lookup("#RadioGroup_Rounds_Normal")).getChildren());
-            PreferencesManager.getPreferencesNormal(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Rounds_Normal")).getChildren()), ((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Player_Normal")).getChildren()), ((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Games_Normal")).getChildren()), (TextField) stage.getScene().lookup("#TxtFieldP1"), (TextField) stage.getScene().lookup("#TxtFieldP2"), (TextField) stage.getScene().lookup("#NumberRoundsCustom"));*/
-
+            PreferencesManager.getPreferencesNormal(RadioGroup_Rounds_Normal.getChildren(), RadioGroup_Player_Normal.getChildren(), RadioGroup_Games_Normal.getChildren(), TxtFieldP1, TxtFieldP2, NumberRoundsCustom);
         }
     }
 
