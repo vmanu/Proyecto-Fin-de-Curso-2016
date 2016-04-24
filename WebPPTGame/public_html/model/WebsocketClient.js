@@ -87,7 +87,7 @@ function onMessage(evt) {
             }
         } else {
             if (metamsg != null && metamsg.type == new TypeMessage().getTypeMessage().DESCONEXION.name) {
-                alert("Ups! Something was wrong with connection!");
+                alert(language[userLang].failConnection);
                 backFromPlayScreen();
                 //websocket.onclose(evt);
                 websocket.close();
